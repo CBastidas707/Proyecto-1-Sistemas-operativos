@@ -8,6 +8,9 @@ public class PrimerProyectoOperativos {
     
     
     public static void main(String[] args) {
+
+        System.out.println("¡La clase PCB y la clase Process están hechas en estructura! Pero aún hay que meterles lógica de funcionamiento.");
+        // Échales un ojo y avísame si les falta parámetros o algo.
         
        /* Esto es una prueba para crear listas y verificar que sirve
        List lista = new List("Prueba");
@@ -29,7 +32,6 @@ public class PrimerProyectoOperativos {
         lista.insert(proceso45,lista.find("Proceso5"));
         
         System.out.println(lista.travel());   */
-        
         
     }
     
