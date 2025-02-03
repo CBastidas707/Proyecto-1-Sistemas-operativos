@@ -3,7 +3,7 @@ import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
 import Logica.java.Process;
 
-public class PrimerProyectoOperativos {
+public class Main {
 
     
     
