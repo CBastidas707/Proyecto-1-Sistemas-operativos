@@ -39,6 +39,8 @@ public class Pantalla extends javax.swing.JFrame {
         txtCiclo3 = new javax.swing.JLabel();
         txtCiclo4 = new javax.swing.JLabel();
         fieldCiclos2 = new javax.swing.JTextField();
+        opcion1 = new javax.swing.JButton();
+        opcion2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -88,17 +90,35 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
 
+        opcion1.setText("CPU Bound");
+        opcion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcion1ActionPerformed(evt);
+            }
+        });
+
+        opcion2.setText("I/O Bound");
+        opcion2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcion2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(opcion1)
+                    .addComponent(opcion2))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(294, 294, 294)
+                        .addGap(174, 174, 174)
                         .addComponent(txtCrearProceso))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
+                        .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,14 +137,14 @@ public class Pantalla extends javax.swing.JFrame {
                                     .addComponent(txtCiclo3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fieldCiclos2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txtCrearProceso)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre)
                     .addComponent(fieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -140,7 +160,7 @@ public class Pantalla extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtCiclo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCiclo2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(txtCiclo2, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                         .addGap(28, 28, 28)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -151,6 +171,12 @@ public class Pantalla extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCiclo4)))
                 .addGap(41, 41, 41))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(opcion1)
+                .addGap(18, 18, 18)
+                .addComponent(opcion2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Crear proceso", jPanel1);
@@ -159,7 +185,7 @@ public class Pantalla extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 971, Short.MAX_VALUE)
+            .addGap(0, 955, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,6 +224,28 @@ public class Pantalla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldCiclos2ActionPerformed
 
+    private void opcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion1ActionPerformed
+        txtNombre.setVisible(true);
+        txtDuracion.setVisible(true);
+        txtCiclo1.setVisible(false);
+        txtCiclo2.setVisible(false);
+        txtCiclo3.setVisible(false);
+        txtCiclo4.setVisible(false);
+        fieldCiclos.setVisible(false);
+        fieldCiclos2.setVisible(false);
+    }//GEN-LAST:event_opcion1ActionPerformed
+
+    private void opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion2ActionPerformed
+        txtNombre.setVisible(true);
+        txtDuracion.setVisible(true);
+        txtCiclo1.setVisible(true);
+        txtCiclo2.setVisible(true);
+        txtCiclo3.setVisible(true);
+        txtCiclo4.setVisible(true);
+        fieldCiclos.setVisible(true);
+        fieldCiclos2.setVisible(true);
+    }//GEN-LAST:event_opcion2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField fieldCiclos;
@@ -207,6 +255,8 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton opcion1;
+    private javax.swing.JButton opcion2;
     private javax.swing.JLabel txtCiclo1;
     private javax.swing.JLabel txtCiclo2;
     private javax.swing.JLabel txtCiclo3;

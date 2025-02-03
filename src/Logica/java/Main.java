@@ -1,4 +1,5 @@
 package Logica.java;
+import GUI.Pantalla;
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
 import Logica.java.Process;
@@ -31,6 +32,9 @@ public class Main {
         
         System.out.println(lista.travel());
         
+        Pantalla pantalla = new Pantalla();
+        pantalla.setVisible(true);
+
     }
     
 }
