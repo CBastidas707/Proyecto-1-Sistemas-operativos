@@ -1,14 +1,14 @@
 package Logica.java;
 
 public class PCB {
-    private int PCB_ID;
+    private int Process_ID;
     private String status;
     private String name;
     private String PC_Status;
     private String MAR_Status;
 
-    public PCB(int PCB_ID, String status, String name, String PC_Status, String MAR_Status) {
-        this.PCB_ID = PCB_ID;
+    public PCB(int Process_ID, String status, String name, String PC_Status, String MAR_Status) {
+        this.Process_ID = Process_ID;
         this.status = status;
         this.name = name;
         this.PC_Status = PC_Status;
@@ -16,12 +16,12 @@ public class PCB {
     }
 
     // ID del proceso
-    public int getPCB_ID() {
-        return PCB_ID;
+    public int getProcess_ID() {
+        return Process_ID;
     }
 
-    public void setPCB_ID(int PCB_ID) {
-        this.PCB_ID = PCB_ID;
+    public void setProcess_ID(int Process_ID) {
+        this.Process_ID = Process_ID;
     }
 
     // Estado del proceso

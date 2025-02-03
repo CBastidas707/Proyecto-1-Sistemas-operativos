@@ -9,22 +9,23 @@ public class Process {
     public int exceptionRequirement = 0;     // ¿Cuántos ciclos se requieren para generar una excepción?
     public int exceptionCoverage = 0;        // ¿Cuántos ciclos se requieren para satisfacer una excepción?
 
-    // Constructor
-    public Process(String process_name, int process_length, String consumption_category) {
+    // Constructor proceso CPU Bound
+    public Process(String process_name, int process_length) {
         this.process_name = process_name;
         this.process_length = process_length;
-        this.consumption_category = consumption_category;
-        
-        // Si es I/O Bound
-        if (this.consumption_category == "I/O Bound") {
-            
-            int maxExecutionCycles = 0;        // Ciclos de ejecución. Este valor es temporal mientras cuadramos cómo vamos a meter el input.
-            this.setExceptionRequirement(maxExecutionCycles);
-            
-            int satisfactionCycles = 0;     // Ciclos de ejecución para satisfacer la excepción. Este valor también es temporal.
-            this.setExceptionCoverage(satisfactionCycles);
-        }  
+        this.consumption_category = "CPU Bound";
     }
+    
+    // Constructor proceso I/O Bound
+    
+        public Process(String process_name, int process_length, int exceptionRequirement, int exceptionCoverage) {
+        this.process_name = process_name;
+        this.process_length = process_length;
+        this.consumption_category = "I/O Bound";
+        this.exceptionRequirement = exceptionRequirement;
+        this.exceptionCoverage = exceptionCoverage;
+    }
+    
 
     // Nombre del Proceso
     public String getProcess_name() {
