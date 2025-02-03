@@ -1,7 +1,7 @@
 package Logica.java;
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
-import Logica.java.Estructuras.Proceso;
+import Logica.java.Process;
 
 public class PrimerProyectoOperativos {
 
@@ -9,18 +9,16 @@ public class PrimerProyectoOperativos {
     
     public static void main(String[] args) {
 
-        System.out.println("¡La clase PCB y la clase Process están hechas en estructura! Pero aún hay que meterles lógica de funcionamiento.");
-        // Échales un ojo y avísame si les falta parámetros o algo.
-        
-       /* Esto es una prueba para crear listas y verificar que sirve
+
+       /* Esto es una prueba para crear listas y verificar que sirve   */
        List lista = new List("Prueba");
        
-        Proceso proceso1 = new Proceso("Proceso1", 5);
-        Proceso proceso2 = new Proceso("Proceso2", 4);
-        Proceso proceso3 = new Proceso("Proceso3", 3);
-        Proceso proceso4 = new Proceso("Proceso4", 2);
-        Proceso proceso5 = new Proceso("Proceso5", 1);
-        Proceso proceso45 = new Proceso("Proceso4,5", 0);
+        Process proceso1 = new Process("Proceso1", 5);
+        Process proceso2 = new Process("Proceso2", 4);
+        Process proceso3 = new Process("Proceso3", 3);
+        Process proceso4 = new Process("Proceso4", 2);
+        Process proceso5 = new Process("Proceso5", 1, 6, 5);
+        Process proceso45 = new Process("Proceso4,5", 0, 6, 7);
         
         
         lista.insertFirst(proceso1);
@@ -31,7 +29,7 @@ public class PrimerProyectoOperativos {
         
         lista.insert(proceso45,lista.find("Proceso5"));
         
-        System.out.println(lista.travel());   */
+        System.out.println(lista.travel());
         
     }
     

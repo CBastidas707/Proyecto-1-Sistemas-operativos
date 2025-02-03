@@ -1,4 +1,5 @@
 package Logica.java.Estructuras;
+import Logica.java.Process;
 
 
     public class List {
@@ -37,9 +38,9 @@ package Logica.java.Estructuras;
 
     public Object read(Nodo pValor) {
         
-        if (pValor.getData() instanceof Proceso){
-           Proceso proceso = (Proceso) pValor.getData();
-           return proceso.getNombre();
+        if (pValor.getData() instanceof Process){
+           Process proceso = (Process) pValor.getData();
+           return proceso.getProcess_name();
                    }
         return pValor.getData();
     }
@@ -110,9 +111,9 @@ package Logica.java.Estructuras;
         Nodo current = pFirst;
         while (current != null) {
             Object data = current.getData();
-            if (data instanceof Proceso) { // Verifica si el objeto es de la clase Proceso
-                Proceso proceso = (Proceso) data; // Castea el objeto a Proceso
-                if (proceso.getNombre() != null && proceso.getNombre().equals(targetNombre)) {
+            if (data instanceof Process) { // Verifica si el objeto es de la clase Proceso
+                Process proceso = (Process) data; // Castea el objeto a Proceso
+                if (proceso.getProcess_name() != null && proceso.getProcess_name().equals(targetNombre)) {
                     return current; // Se encontró el nodo con el Proceso buscado
                 }
             }
