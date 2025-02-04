@@ -38,8 +38,8 @@ public class Main {
         
         
         
-        /* Pantalla pantalla = new Pantalla();
-        pantalla.setVisible(true); */
+         Pantalla pantalla = new Pantalla();
+        pantalla.setVisible(true); 
 
     }
     
