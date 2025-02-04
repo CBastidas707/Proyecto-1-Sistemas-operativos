@@ -29,66 +29,102 @@ public class Pantalla extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         txtDuracion = new javax.swing.JLabel();
+        txtDuracion.setVisible(false);
         fieldCiclos = new javax.swing.JTextField();
         txtCiclo2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JLabel();
         txtCiclo1 = new javax.swing.JLabel();
+        txtCiclo1.setVisible(false);
         fieldNombre = new javax.swing.JTextField();
+        fieldNombre.setVisible(false);
         fieldDuracion = new javax.swing.JTextField();
+        fieldDuracion.setVisible(false);
         txtCrearProceso = new javax.swing.JLabel();
         txtCiclo3 = new javax.swing.JLabel();
         txtCiclo4 = new javax.swing.JLabel();
+        txtCiclo4.setVisible(false);
         fieldCiclos2 = new javax.swing.JTextField();
         opcion1 = new javax.swing.JButton();
         opcion2 = new javax.swing.JButton();
+        botonCrear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setLayout(null);
+
         txtDuracion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtDuracion.setText("Duración:");
+        jPanel1.add(txtDuracion);
+        txtDuracion.setBounds(260, 150, 101, 32);
 
+        fieldCiclos.setVisible(false);
         fieldCiclos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldCiclosActionPerformed(evt);
             }
         });
+        jPanel1.add(fieldCiclos);
+        fieldCiclos.setBounds(380, 220, 251, 36);
 
         txtCiclo2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo2.setText("una interrupción:");
+        txtCiclo2.setVisible(false);
+        jPanel1.add(txtCiclo2);
+        txtCiclo2.setBounds(180, 220, 182, 50);
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtNombre.setText("Nombre:");
+        txtNombre.setVisible(false);
+        jPanel1.add(txtNombre);
+        txtNombre.setBounds(270, 90, 100, 32);
 
         txtCiclo1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo1.setText("Ciclos para generar");
+        jPanel1.add(txtCiclo1);
+        txtCiclo1.setBounds(160, 200, 204, 32);
 
         fieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldNombreActionPerformed(evt);
             }
         });
+        jPanel1.add(fieldNombre);
+        fieldNombre.setBounds(380, 90, 251, 35);
 
         fieldDuracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldDuracionActionPerformed(evt);
             }
         });
+        jPanel1.add(fieldDuracion);
+        fieldDuracion.setBounds(380, 150, 251, 35);
 
         txtCrearProceso.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         txtCrearProceso.setText("Crear un proceso");
+        jPanel1.add(txtCrearProceso);
+        txtCrearProceso.setBounds(260, 0, 390, 64);
 
         txtCiclo3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo3.setText("Ciclos para satisfacer");
+        txtCiclo3.setVisible(false);
+        jPanel1.add(txtCiclo3);
+        txtCiclo3.setBounds(150, 270, 220, 30);
 
         txtCiclo4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo4.setText("una interrupción:");
+        jPanel1.add(txtCiclo4);
+        txtCiclo4.setBounds(180, 300, 182, 32);
 
+        fieldCiclos2.setVisible(false);
         fieldCiclos2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldCiclos2ActionPerformed(evt);
             }
         });
+        jPanel1.add(fieldCiclos2);
+        fieldCiclos2.setBounds(380, 290, 251, 38);
 
         opcion1.setText("CPU Bound");
         opcion1.addActionListener(new java.awt.event.ActionListener() {
@@ -96,6 +132,8 @@ public class Pantalla extends javax.swing.JFrame {
                 opcion1ActionPerformed(evt);
             }
         });
+        jPanel1.add(opcion1);
+        opcion1.setBounds(720, 90, 160, 50);
 
         opcion2.setText("I/O Bound");
         opcion2.addActionListener(new java.awt.event.ActionListener() {
@@ -103,81 +141,17 @@ public class Pantalla extends javax.swing.JFrame {
                 opcion2ActionPerformed(evt);
             }
         });
+        jPanel1.add(opcion2);
+        opcion2.setBounds(720, 170, 160, 50);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(opcion1)
-                    .addComponent(opcion2))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
-                        .addComponent(txtCrearProceso))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCiclo2)
-                                    .addComponent(txtCiclo1)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtDuracion, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(22, 22, 22)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fieldCiclos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fieldNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fieldDuracion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCiclo4)
-                                    .addComponent(txtCiclo3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldCiclos2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(271, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtCrearProceso)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre)
-                    .addComponent(fieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDuracion)
-                    .addComponent(fieldDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(fieldCiclos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtCiclo1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCiclo2, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                        .addGap(28, 28, 28)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(fieldCiclos2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtCiclo3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCiclo4)))
-                .addGap(41, 41, 41))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(opcion1)
-                .addGap(18, 18, 18)
-                .addComponent(opcion2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        botonCrear.setText("Crear");
+        botonCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCrearActionPerformed(evt);
+            }
+        });
+        jPanel1.add(botonCrear);
+        botonCrear.setBounds(550, 350, 76, 27);
 
         jTabbedPane1.addTab("Crear proceso", jPanel1);
 
@@ -193,6 +167,19 @@ public class Pantalla extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 955, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 397, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab3", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -227,17 +214,22 @@ public class Pantalla extends javax.swing.JFrame {
     private void opcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion1ActionPerformed
         txtNombre.setVisible(true);
         txtDuracion.setVisible(true);
+        fieldDuracion.setVisible(true);
+        fieldNombre.setVisible(true);
         txtCiclo1.setVisible(false);
         txtCiclo2.setVisible(false);
         txtCiclo3.setVisible(false);
         txtCiclo4.setVisible(false);
         fieldCiclos.setVisible(false);
         fieldCiclos2.setVisible(false);
+        
     }//GEN-LAST:event_opcion1ActionPerformed
 
     private void opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion2ActionPerformed
         txtNombre.setVisible(true);
         txtDuracion.setVisible(true);
+        fieldDuracion.setVisible(true);
+        fieldNombre.setVisible(true);
         txtCiclo1.setVisible(true);
         txtCiclo2.setVisible(true);
         txtCiclo3.setVisible(true);
@@ -246,14 +238,20 @@ public class Pantalla extends javax.swing.JFrame {
         fieldCiclos2.setVisible(true);
     }//GEN-LAST:event_opcion2ActionPerformed
 
+    private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
+
+    }//GEN-LAST:event_botonCrearActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonCrear;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
     private javax.swing.JTextField fieldDuracion;
     private javax.swing.JTextField fieldNombre;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
