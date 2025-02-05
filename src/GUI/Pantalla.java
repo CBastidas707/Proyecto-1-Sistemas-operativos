@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
+import Logica.java.Process;
 
 /**
  *
@@ -39,6 +40,7 @@ public class Pantalla extends javax.swing.JFrame {
         txtCiclo3 = new javax.swing.JLabel();
         txtCiclo4 = new javax.swing.JLabel();
         fieldCiclos2 = new javax.swing.JTextField();
+        buttonCrearProceso = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -88,6 +90,13 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
 
+        buttonCrearProceso.setText("Crear");
+        buttonCrearProceso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCrearProcesoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -112,12 +121,15 @@ public class Pantalla extends javax.swing.JFrame {
                                     .addComponent(fieldNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(fieldDuracion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCiclo4)
-                                    .addComponent(txtCiclo3))
+                                .addComponent(txtCiclo3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldCiclos2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(fieldCiclos2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCiclo4))))
                 .addContainerGap(298, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(buttonCrearProceso)
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +162,9 @@ public class Pantalla extends javax.swing.JFrame {
                         .addComponent(txtCiclo3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCiclo4)))
-                .addGap(41, 41, 41))
+                .addGap(2, 2, 2)
+                .addComponent(buttonCrearProceso)
+                .addGap(17, 17, 17))
         );
 
         jTabbedPane1.addTab("Crear proceso", jPanel1);
@@ -198,8 +212,41 @@ public class Pantalla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldCiclos2ActionPerformed
 
+    private void buttonCrearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCrearProcesoActionPerformed
+        if (evt.getSource()==buttonCrearProceso){
+            int duracionInt=0;
+                try {
+                    String duracionString = fieldDuracion.getText();
+                    duracionInt = Integer.parseInt(duracionString);
+                    if (fieldCiclos.getText().isBlank() && fieldCiclos2.getText().isBlank()) {
+                        // Es CPU Bound.
+                        Process process_CPUBound = new Process(fieldNombre.getText(),duracionInt);
+                        System.out.println(process_CPUBound);
+                    }else{
+                        // Es I/O Bound.
+                        int ciclosInt = 0;
+                        int ciclos2Int = 0;
+                            try {
+                                String ciclosString = fieldCiclos.getText();
+                                String ciclos2String = fieldCiclos2.getText();
+                                ciclosInt = Integer.parseInt(ciclosString);
+                                ciclos2Int = Integer.parseInt(ciclos2String);
+                                Process process_IOBound = new Process(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
+                                System.out.println(process_IOBound);
+                            } catch (NumberFormatException e) {
+                                fieldCiclos.setText("Llene ambos parámetros finales con números válidos.");
+                                fieldCiclos2.setText("Llene ambos parámetros finales con números válidos.");
+                            }
+                    }
+                } catch (NumberFormatException e) {
+                    fieldDuracion.setText("Ingrese un número válido.");
+                }
+        }
+    }//GEN-LAST:event_buttonCrearProcesoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCrearProceso;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
     private javax.swing.JTextField fieldDuracion;

@@ -1,4 +1,5 @@
 package Logica.java;
+import GUI.Pantalla;
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
 import Logica.java.Process;
@@ -30,7 +31,8 @@ public class Main {
         lista.insert(proceso45,lista.find("Proceso5"));
         
         System.out.println(lista.travel());
-        
+        Pantalla screen = new Pantalla();
+        screen.setVisible(true);
     }
     
 }
