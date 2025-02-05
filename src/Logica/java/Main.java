@@ -1,8 +1,8 @@
 package Logica.java;
 import GUI.Pantalla;
 import Logica.java.Estructuras.List;
-import Logica.java.Process_Image;
-import Logica.java.Process;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class Main {
 
@@ -30,16 +30,20 @@ public class Main {
         
         lista.insert(procesonuevo45,lista.find("Proceso5"));
         
-        Process proceso1 = new Process(lista.findPCB("Proceso1"));
-        Process proceso2 = new Process(lista.findPCB("Proceso5"));
+        AtomicInteger tiempoInstruccion = new AtomicInteger(1000);
         
+        Process proceso1 = new Process(lista.findPCB("Proceso1"), tiempoInstruccion);
+        Process proceso2 = new Process(lista.findPCB("Proceso5"), tiempoInstruccion);
+        
+        proceso1.getPcb().setStatus("Exit");
+        proceso2.getPcb().setStatus("Running");
         proceso1.start();
         proceso2.start();
         
         
         
          Pantalla pantalla = new Pantalla();
-        pantalla.setVisible(true); 
+        pantalla.setVisible(true);
 
     }
     
