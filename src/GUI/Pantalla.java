@@ -225,6 +225,9 @@ public class Pantalla extends javax.swing.JFrame {
         fieldCiclos.setVisible(false);
         fieldCiclos2.setVisible(false);
         
+        fieldCiclos.setText("");
+        fieldCiclos2.setText("");
+        
     }//GEN-LAST:event_opcion1ActionPerformed
 
     private void opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion2ActionPerformed
