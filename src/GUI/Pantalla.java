@@ -241,7 +241,7 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_opcion2ActionPerformed
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-                if (evt.getSource()==botonCrear){
+         if (evt.getSource()==botonCrear){
             int duracionInt=0;
                 try {
                     String duracionString = fieldDuracion.getText();
