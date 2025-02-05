@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Logica.java.Process_Image;
+
 /**
  *
  * @author carlo_7ogoiii
@@ -239,7 +241,35 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_opcion2ActionPerformed
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-
+                if (evt.getSource()==botonCrear){
+            int duracionInt=0;
+                try {
+                    String duracionString = fieldDuracion.getText();
+                    duracionInt = Integer.parseInt(duracionString);
+                    if (fieldCiclos.getText().isBlank() && fieldCiclos2.getText().isBlank()) {
+                        // Es CPU Bound.
+                        Process_Image process_CPUBound = new Process_Image(fieldNombre.getText(),duracionInt);
+                        System.out.println(process_CPUBound);
+                    }else{
+                        // Es I/O Bound.
+                        int ciclosInt = 0;
+                        int ciclos2Int = 0;
+                            try {
+                                String ciclosString = fieldCiclos.getText();
+                                String ciclos2String = fieldCiclos2.getText();
+                                ciclosInt = Integer.parseInt(ciclosString);
+                                ciclos2Int = Integer.parseInt(ciclos2String);
+                                Process_Image process_IOBound = new Process_Image(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
+                                System.out.println(process_IOBound);
+                            } catch (NumberFormatException e) {
+                                fieldCiclos.setText("Llene ambos parámetros finales con números válidos.");
+                                fieldCiclos2.setText("Llene ambos parámetros finales con números válidos.");
+                            }
+                    }
+                } catch (NumberFormatException e) {
+                    fieldDuracion.setText("Ingrese un número válido.");
+                }
+        }
     }//GEN-LAST:event_botonCrearActionPerformed
 
 
