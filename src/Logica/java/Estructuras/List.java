@@ -1,5 +1,6 @@
 package Logica.java.Estructuras;
-import Logica.java.Process;
+import Logica.java.PCB;
+import Logica.java.Process_Image;
 
 
     public class List {
@@ -38,8 +39,8 @@ import Logica.java.Process;
 
     public Object read(Nodo pValor) {
         
-        if (pValor.getData() instanceof Process){
-           Process proceso = (Process) pValor.getData();
+        if (pValor.getData() instanceof Process_Image){
+           Process_Image proceso = (Process_Image) pValor.getData();
            return proceso.getProcess_name();
                    }
         return pValor.getData();
@@ -111,10 +112,25 @@ import Logica.java.Process;
         Nodo current = pFirst;
         while (current != null) {
             Object data = current.getData();
-            if (data instanceof Process) { // Verifica si el objeto es de la clase Proceso
-                Process proceso = (Process) data; // Castea el objeto a Proceso
+            if (data instanceof Process_Image) { // Verifica si el objeto es de la clase Proceso
+                Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
                 if (proceso.getProcess_name() != null && proceso.getProcess_name().equals(targetNombre)) {
                     return current; // Se encontró el nodo con el Proceso buscado
+                }
+            }
+            current = current.getpNext();
+        }
+        return null; // No se encontró ningún nodo con el Proceso buscado
+    }
+    
+        public PCB findPCB(String targetNombre) {
+        Nodo current = pFirst;
+        while (current != null) {
+            Object data = current.getData();
+            if (data instanceof Process_Image) { // Verifica si el objeto es de la clase Proceso
+                Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
+                if (proceso.getProcess_name() != null && proceso.getProcess_name().equals(targetNombre)) {
+                    return proceso.getPcb(); // Se encontró el nodo con el Proceso buscado
                 }
             }
             current = current.getpNext();

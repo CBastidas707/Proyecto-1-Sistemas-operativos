@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
-import Logica.java.Process;
+import Logica.java.Process_Image;
 
 /**
  *
@@ -220,7 +220,7 @@ public class Pantalla extends javax.swing.JFrame {
                     duracionInt = Integer.parseInt(duracionString);
                     if (fieldCiclos.getText().isBlank() && fieldCiclos2.getText().isBlank()) {
                         // Es CPU Bound.
-                        Process process_CPUBound = new Process(fieldNombre.getText(),duracionInt);
+                        Process_Image process_CPUBound = new Process_Image(fieldNombre.getText(),duracionInt);
                         System.out.println(process_CPUBound);
                     }else{
                         // Es I/O Bound.
@@ -231,7 +231,7 @@ public class Pantalla extends javax.swing.JFrame {
                                 String ciclos2String = fieldCiclos2.getText();
                                 ciclosInt = Integer.parseInt(ciclosString);
                                 ciclos2Int = Integer.parseInt(ciclos2String);
-                                Process process_IOBound = new Process(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
+                                Process_Image process_IOBound = new Process_Image(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
                                 System.out.println(process_IOBound);
                             } catch (NumberFormatException e) {
                                 fieldCiclos.setText("Llene ambos parámetros finales con números válidos.");
