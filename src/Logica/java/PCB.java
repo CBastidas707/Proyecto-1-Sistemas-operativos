@@ -1,27 +1,27 @@
 package Logica.java;
 
 public class PCB {
-    private int Process_ID;
+    private String Process_name;
     private String status;
-    private String name;
-    private String PC_Status;
-    private String MAR_Status;
+    private int Length;
+    private int PC_Status;
+    private int MAR_Status;
 
-    public PCB(int Process_ID, String status, String name, String PC_Status, String MAR_Status) {
-        this.Process_ID = Process_ID;
+    public PCB(String Process_name, int length, String status) {
+        this.Process_name = Process_name;
+        this.Length = length;
         this.status = status;
-        this.name = name;
-        this.PC_Status = PC_Status;
-        this.MAR_Status = MAR_Status;
+        this.PC_Status = 1;
+        this.MAR_Status = 0;
     }
 
     // ID del proceso
-    public int getProcess_ID() {
-        return Process_ID;
+    public String getProcess_name() {
+        return Process_name;
     }
 
-    public void setProcess_ID(int Process_ID) {
-        this.Process_ID = Process_ID;
+    public void setProcess_name(String Process_ID) {
+        this.Process_name = Process_ID;
     }
 
     // Estado del proceso
@@ -33,31 +33,30 @@ public class PCB {
         this.status = status;
     }
 
-    // Nombre del proceso
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     // Estado del PC
-    public String getPC_Status() {
+    public int getPC_Status() {
         return PC_Status;
     }
 
-    public void setPC_Status(String PC_Status) {
+    public void setPC_Status(int PC_Status) {
         this.PC_Status = PC_Status;
     }
 
     // Estado del MAR
-    public String getMAR_Status() {
+    public int getMAR_Status() {
         return MAR_Status;
     }
 
-    public void setMAR_Status(String MAR_Status) {
+    public void setMAR_Status(int MAR_Status) {
         this.MAR_Status = MAR_Status;
+    }
+
+    public int getLength() {
+        return Length;
+    }
+
+    public void setLength(int Length) {
+        this.Length = Length;
     }
     
     
