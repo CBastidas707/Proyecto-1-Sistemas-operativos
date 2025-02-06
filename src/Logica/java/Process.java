@@ -30,17 +30,43 @@ public class Process extends Thread {
                 }
                 }
                 
-                
+                try{
+                    if(pcb.getExceptionG() > 0){
+                       System.out.println(
+                        "--------------------------------\n"
+                        + "Proceso: " + pcb.getProcess_name()
+                        + "\n" + "MAR: " + pcb.getMAR_Status()
+                        + "\n" + "PC: " + pcb.getPC_Status()
+                        + "\n" + "Longitud: " + pcb.getLength()
+                        + "\n" + "Tipo: I/O bound"
+                        + "\n--------------------------------\n"); 
+                    }
+                    else{
+                        System.out.println(
+                        "--------------------------------\n"
+                        + "Proceso: " + pcb.getProcess_name()
+                        + "\n" + "MAR: " + pcb.getMAR_Status()
+                        + "\n" + "PC: " + pcb.getPC_Status()
+                        + "\n" + "Longitud: " + pcb.getLength()
+                        + "\n" + "Tipo: CPU bound"
+                        + "\n--------------------------------\n"); 
+                    }
+                    
+                }catch(Exception e){
                 System.out.println(
                         "--------------------------------\n"
                         + "Proceso: " + pcb.getProcess_name()
                         + "\n" + "MAR: " + pcb.getMAR_Status()
                         + "\n" + "PC: " + pcb.getPC_Status()
                         + "\n" + "Longitud: " + pcb.getLength()
-                        + "\n--------------------------------\n");
+                        + "\n" + "Tipo: CPU bound"
+                        + "\n--------------------------------\n"); }
+                
+                
                 pcb.setMAR_Status(pcb.getMAR_Status() + 1);
                 pcb.setPC_Status(pcb.getPC_Status() + 1);
                 sleep(sleepTime.get());
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Process.class.getName()).log(Level.SEVERE, null, ex);
             }
