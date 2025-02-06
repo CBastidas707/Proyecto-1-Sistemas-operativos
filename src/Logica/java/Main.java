@@ -1,5 +1,6 @@
 package Logica.java;
 import GUI.Pantalla;
+import Logica.java.Estructuras.Cola;
 import Logica.java.Estructuras.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,10 +36,17 @@ public class Main {
         Process proceso1 = new Process(lista.findPCB("Proceso1"), tiempoInstruccion);
         Process proceso2 = new Process(lista.findPCB("Proceso5"), tiempoInstruccion);
         
-        proceso1.getPcb().setStatus("Running");
-        proceso2.getPcb().setStatus("Running");
         proceso1.start();
         proceso2.start();
+        
+        Cola cola1 = new Cola("Ready");
+        
+        cola1.encolarProceso(proceso1);
+        cola1.encolarProceso(proceso2);
+        
+        
+        proceso1.getPcb().setStatus("Exit");
+        proceso2.getPcb().setStatus("Running");
         
         
         

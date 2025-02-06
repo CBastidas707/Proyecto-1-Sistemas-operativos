@@ -1,13 +1,16 @@
 
 package Logica.java.Estructuras;
+import Logica.java.Process;
 
 
 public class Cola {
+    private String name;
     private Nodo head;
     private Nodo tail;
     private int size;
 
-    public Cola() {
+    public Cola(String name) {
+        this.head = head;
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -36,6 +39,19 @@ public class Cola {
      */
     
     public void encolar(Object dato){
+        Nodo nuevo = new Nodo(dato);
+        if(isEmpty()){
+            setHead(nuevo);
+            setTail(nuevo);
+        }else{
+            getTail().setpNext(nuevo);
+            setTail(nuevo);
+        }
+        setSize(getSize() + 1);
+    }
+    
+        public void encolarProceso(Process dato){
+        dato.getPcb().setStatus(name);
         Nodo nuevo = new Nodo(dato);
         if(isEmpty()){
             setHead(nuevo);
@@ -118,6 +134,14 @@ public class Cola {
      */
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     
