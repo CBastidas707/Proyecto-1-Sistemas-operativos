@@ -35,7 +35,7 @@ public class Main {
         Process proceso1 = new Process(lista.findPCB("Proceso1"), tiempoInstruccion);
         Process proceso2 = new Process(lista.findPCB("Proceso5"), tiempoInstruccion);
         
-        proceso1.getPcb().setStatus("Exit");
+        proceso1.getPcb().setStatus("Running");
         proceso2.getPcb().setStatus("Running");
         proceso1.start();
         proceso2.start();
