@@ -5,6 +5,7 @@ import Logica.java.Estructuras.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
+
 public class Main {
 
     
@@ -33,24 +34,22 @@ public class Main {
         
         AtomicInteger tiempoInstruccion = new AtomicInteger(1000);
         
-        Process proceso1 = new Process(lista.findPCB("Proceso1"), tiempoInstruccion);
-        Process proceso2 = new Process(lista.findPCB("Proceso5"), tiempoInstruccion);
+        Cola colaR = new Cola("Ready");
+        Cola colaB = new Cola("Blocked");
+        
+        Process proceso1 = new Process(lista.findPCB("Proceso1"), tiempoInstruccion, colaB, colaR);
+        Process proceso5 = new Process(lista.findPCB("Proceso5"), tiempoInstruccion, colaB, colaR);
         
         proceso1.start();
-        proceso2.start();
+        proceso5.start();
         
-        Cola cola1 = new Cola("Ready");
+       proceso1.getPcb().setStatus("Blocked");
+       proceso5.getPcb().setStatus("Ready");
+       proceso1.getPcb().setStatus("Running");
+       proceso1.getPcb().setStatus("Blocked");
+       proceso5.getPcb().setStatus("Running");
         
-        cola1.encolarProceso(proceso1);
-        cola1.encolarProceso(proceso2);
-        
-        
-        proceso1.getPcb().setStatus("Exit");
-        proceso2.getPcb().setStatus("Running");
-        
-        
-        
-         Pantalla pantalla = new Pantalla();
+        Pantalla pantalla = new Pantalla();
         pantalla.setVisible(true);
 
     }

@@ -1,5 +1,6 @@
 package Logica.java;
 
+import Logica.java.Estructuras.Cola;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,10 +12,15 @@ import java.util.logging.Logger;
 public class Process extends Thread {
     private PCB pcb;
     private AtomicInteger sleepTime; // Variable atómica para el tiempo de sleep
+    private Cola blocked;
+    private Cola ready;
 
-    public Process(PCB pcb, AtomicInteger sleepTime) {
+    public Process(PCB pcb, AtomicInteger sleepTime, Cola blocked, Cola ready) {
         this.pcb = pcb;
         this.sleepTime = sleepTime;
+        this.blocked =  blocked;
+        this.ready = ready;
+        
     }
     
     @Override
@@ -22,23 +28,28 @@ public class Process extends Thread {
         while(pcb.getMAR_Status() != pcb.getLength() && pcb.getStatus() != "Exit"){
          
             try {
-                if(pcb.getStatus() == "Ready"){
-                    
-                    System.out.println(pcb.getProcess_name() + "fue transladado a la cola de listos");
-                    
-                while(pcb.getStatus() == "Ready"){
-                    wait();
-                }
-                    System.out.println(pcb.getProcess_name() + "fue despachado");
-                }
                 
-                
-                if(pcb.getStatus() == "Blocked"){
+                if("Blocked".equals(pcb.getStatus())){
                     
-                while(pcb.getStatus() == "Blocked"){
+                    System.out.println(pcb.getProcess_name() + " fue transladado a la cola de bloqueados");
+                    blocked.encolarProceso(this);
+                    
+                while("Blocked".equals(pcb.getStatus())){
                     wait();
                 }
                 }
+                
+                if("Ready".equals(pcb.getStatus())){
+                    
+                    System.out.println(pcb.getProcess_name() + " fue transladado a la cola de listos");
+                    ready.encolarProceso(this);
+                    
+                while("Ready".equals(pcb.getStatus())){
+                    wait();
+                }
+                    System.out.println(pcb.getProcess_name() + " fue despachado");
+                }
+                
                 
                 try{
                     if(pcb.getExceptionG() > 0){
