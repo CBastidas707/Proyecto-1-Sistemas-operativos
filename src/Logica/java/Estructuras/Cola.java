@@ -51,7 +51,6 @@ public class Cola {
     }
     
         public void encolarProceso(Process dato){
-        dato.getPcb().setStatus(name);
         Nodo nuevo = new Nodo(dato);
         if(isEmpty()){
             setHead(nuevo);
@@ -76,6 +75,29 @@ public class Cola {
                 setSize(getSize() - 1);
             }
         }
+    }
+    
+    public Process desencolarProceso(){
+        if (!isEmpty()){
+            
+            if(getSize() == 1){
+                
+                if(getHead().getData() instanceof Process){
+                    Process proceso = (Process) getHead().getData();
+                    Empty();
+                    return proceso;
+                };
+            }else{
+                if(getHead().getData() instanceof Process){
+                    Process proceso = (Process) getHead().getData();                    
+                    setHead(getHead().getpNext());
+                    setSize(getSize() - 1);
+                    return proceso;
+                }
+
+            }
+            
+        } return null;
     }
     
     /**
