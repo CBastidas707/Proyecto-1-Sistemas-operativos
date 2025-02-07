@@ -22,6 +22,16 @@ public class Process extends Thread {
         while(pcb.getMAR_Status() != pcb.getLength() && pcb.getStatus() != "Exit"){
          
             try {
+                if(pcb.getStatus() == "Ready"){
+                    
+                    System.out.println(pcb.getProcess_name() + "fue transladado a la cola de listos");
+                    
+                while(pcb.getStatus() == "Ready"){
+                    wait();
+                }
+                    System.out.println(pcb.getProcess_name() + "fue despachado");
+                }
+                
                 
                 if(pcb.getStatus() == "Blocked"){
                     
