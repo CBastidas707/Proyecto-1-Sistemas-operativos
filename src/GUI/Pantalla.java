@@ -5,18 +5,23 @@
 package GUI;
 
 import Logica.java.Process_Image;
+import Logica.java.Simulation;
+import java.io.File;
+import java.io.FileNotFoundException;
+import javax.swing.JFileChooser;
 
 /**
  *
  * @author carlo_7ogoiii
  */
 public class Pantalla extends javax.swing.JFrame {
-
+    Simulation simulation;
     /**
      * Creates new form Pantalla
      */
-    public Pantalla() {
+    public Pantalla(Simulation simulation) {
         initComponents();
+        this.simulation = simulation;
     }
 
     /**
@@ -29,7 +34,7 @@ public class Pantalla extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        CrearProceso = new javax.swing.JPanel();
         txtDuracion = new javax.swing.JLabel();
         txtDuracion.setVisible(false);
         fieldCiclos = new javax.swing.JTextField();
@@ -50,15 +55,23 @@ public class Pantalla extends javax.swing.JFrame {
         opcion2 = new javax.swing.JButton();
         botonCrear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        button_loadFile = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        fileChooserStateMessage = new javax.swing.JTextPane();
+        fieldinstructionCycle = new javax.swing.JTextField();
+        fieldactiveCPU = new javax.swing.JTextField();
+        txtinstructionCycle = new javax.swing.JLabel();
+        txtActiveCPU = new javax.swing.JLabel();
+        botonConfirmarValores = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(null);
+        CrearProceso.setLayout(null);
 
         txtDuracion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtDuracion.setText("Duración:");
-        jPanel1.add(txtDuracion);
+        CrearProceso.add(txtDuracion);
         txtDuracion.setBounds(260, 150, 101, 32);
 
         fieldCiclos.setVisible(false);
@@ -67,24 +80,24 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldCiclosActionPerformed(evt);
             }
         });
-        jPanel1.add(fieldCiclos);
+        CrearProceso.add(fieldCiclos);
         fieldCiclos.setBounds(380, 220, 251, 36);
 
         txtCiclo2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo2.setText("una interrupción:");
         txtCiclo2.setVisible(false);
-        jPanel1.add(txtCiclo2);
+        CrearProceso.add(txtCiclo2);
         txtCiclo2.setBounds(180, 220, 182, 50);
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtNombre.setText("Nombre:");
         txtNombre.setVisible(false);
-        jPanel1.add(txtNombre);
+        CrearProceso.add(txtNombre);
         txtNombre.setBounds(270, 90, 100, 32);
 
         txtCiclo1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo1.setText("Ciclos para generar");
-        jPanel1.add(txtCiclo1);
+        CrearProceso.add(txtCiclo1);
         txtCiclo1.setBounds(160, 200, 204, 32);
 
         fieldNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +105,7 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(fieldNombre);
+        CrearProceso.add(fieldNombre);
         fieldNombre.setBounds(380, 90, 251, 35);
 
         fieldDuracion.addActionListener(new java.awt.event.ActionListener() {
@@ -100,23 +113,23 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldDuracionActionPerformed(evt);
             }
         });
-        jPanel1.add(fieldDuracion);
+        CrearProceso.add(fieldDuracion);
         fieldDuracion.setBounds(380, 150, 251, 35);
 
         txtCrearProceso.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         txtCrearProceso.setText("Crear un proceso");
-        jPanel1.add(txtCrearProceso);
+        CrearProceso.add(txtCrearProceso);
         txtCrearProceso.setBounds(260, 0, 390, 64);
 
         txtCiclo3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo3.setText("Ciclos para satisfacer");
         txtCiclo3.setVisible(false);
-        jPanel1.add(txtCiclo3);
+        CrearProceso.add(txtCiclo3);
         txtCiclo3.setBounds(150, 270, 220, 30);
 
         txtCiclo4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo4.setText("una interrupción:");
-        jPanel1.add(txtCiclo4);
+        CrearProceso.add(txtCiclo4);
         txtCiclo4.setBounds(180, 300, 182, 32);
 
         fieldCiclos2.setVisible(false);
@@ -125,7 +138,7 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldCiclos2ActionPerformed(evt);
             }
         });
-        jPanel1.add(fieldCiclos2);
+        CrearProceso.add(fieldCiclos2);
         fieldCiclos2.setBounds(380, 290, 251, 38);
 
         opcion1.setText("CPU Bound");
@@ -134,7 +147,7 @@ public class Pantalla extends javax.swing.JFrame {
                 opcion1ActionPerformed(evt);
             }
         });
-        jPanel1.add(opcion1);
+        CrearProceso.add(opcion1);
         opcion1.setBounds(720, 90, 160, 50);
 
         opcion2.setText("I/O Bound");
@@ -143,7 +156,7 @@ public class Pantalla extends javax.swing.JFrame {
                 opcion2ActionPerformed(evt);
             }
         });
-        jPanel1.add(opcion2);
+        CrearProceso.add(opcion2);
         opcion2.setBounds(720, 170, 160, 50);
 
         botonCrear.setText("Crear");
@@ -152,20 +165,90 @@ public class Pantalla extends javax.swing.JFrame {
                 botonCrearActionPerformed(evt);
             }
         });
-        jPanel1.add(botonCrear);
-        botonCrear.setBounds(550, 350, 76, 27);
+        CrearProceso.add(botonCrear);
+        botonCrear.setBounds(550, 350, 72, 22);
 
-        jTabbedPane1.addTab("Crear proceso", jPanel1);
+        jTabbedPane1.addTab("Crear proceso", CrearProceso);
+
+        button_loadFile.setText("Cargar  Archivo");
+        button_loadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_loadFileActionPerformed(evt);
+            }
+        });
+
+        fileChooserStateMessage.setEditable(false);
+        fileChooserStateMessage.setText("Cargue los parámetros iniciales de la simulación.");
+        jScrollPane2.setViewportView(fileChooserStateMessage);
+
+        fieldinstructionCycle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldinstructionCycleActionPerformed(evt);
+            }
+        });
+
+        fieldactiveCPU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldactiveCPUActionPerformed(evt);
+            }
+        });
+
+        txtinstructionCycle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtinstructionCycle.setText("Duración del Ciclo de la Instrucción:");
+
+        txtActiveCPU.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtActiveCPU.setText("Cantidad de Procesadores Activos:");
+
+        botonConfirmarValores.setText("Confirmar Valores");
+        botonConfirmarValores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonConfirmarValoresActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 955, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtActiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fieldinstructionCycle)
+                    .addComponent(fieldactiveCPU))
+                .addGap(232, 232, 232)
+                .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(botonConfirmarValores)
+                        .addGap(81, 81, 81))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtinstructionCycle)
+                    .addComponent(fieldinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtActiveCPU)
+                    .addComponent(fieldactiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addComponent(botonConfirmarValores)
+                .addGap(33, 33, 33))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -174,11 +257,11 @@ public class Pantalla extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 955, Short.MAX_VALUE)
+            .addGap(0, 1025, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGap(0, 419, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab3", jPanel3);
@@ -253,6 +336,7 @@ public class Pantalla extends javax.swing.JFrame {
                         // Es CPU Bound.
                         Process_Image process_CPUBound = new Process_Image(fieldNombre.getText(),duracionInt);
                         System.out.println(process_CPUBound);
+                        this.simulation.addProcessImage(process_CPUBound);
                     }else{
                         // Es I/O Bound.
                         int ciclosInt = 0;
@@ -263,7 +347,8 @@ public class Pantalla extends javax.swing.JFrame {
                                 ciclosInt = Integer.parseInt(ciclosString);
                                 ciclos2Int = Integer.parseInt(ciclos2String);
                                 Process_Image process_IOBound = new Process_Image(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
-                                System.out.println(process_IOBound);
+                                System.out.println(process_IOBound);                // PRINTS TEMPORALES. BORRAR.
+                                this.simulation.addProcessImage(process_IOBound);
                             } catch (NumberFormatException e) {
                                 fieldCiclos.setText("Llene ambos parámetros finales con números válidos.");
                                 fieldCiclos2.setText("Llene ambos parámetros finales con números válidos.");
@@ -275,19 +360,68 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonCrearActionPerformed
 
+    private void button_loadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loadFileActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int selection = fileChooser.showSaveDialog(jTabbedPane1);
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File loadedFile = fileChooser.getSelectedFile();
+            try {
+                String readData = simulation.readFile(loadedFile);
+                String[] initialParams = readData.split("\n");
+                this.fieldinstructionCycle.setText(initialParams[0]);
+                this.fieldactiveCPU.setText(initialParams[1]);
+                
+            } catch (FileNotFoundException ex) {
+                fileChooserStateMessage.setText("Ha ocurrido un error. Cargue de nuevo.");
+            }
+            fileChooserStateMessage.setText("Archivo cargado.");
+        } else if (selection == JFileChooser.CANCEL_OPTION) {
+            fileChooserStateMessage.setText("No se ha seleccionado ningún archivo.");
+        }
+    }//GEN-LAST:event_button_loadFileActionPerformed
+
+    private void fieldinstructionCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldinstructionCycleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldinstructionCycleActionPerformed
+
+    private void fieldactiveCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldactiveCPUActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldactiveCPUActionPerformed
+
+    private void botonConfirmarValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfirmarValoresActionPerformed
+        try{
+            int[] initialParams_int = {(Integer.parseInt(this.fieldinstructionCycle.getText())),(Integer.parseInt(this.fieldactiveCPU.getText()))};
+            this.simulation.setInstructionCycle_duration(initialParams_int[0]);
+            this.simulation.setActiveCPU_ammount(initialParams_int[1]);
+            fileChooserStateMessage.setText("Parámetros iniciales confirmados.");
+        }catch (NumberFormatException e){
+            this.fieldinstructionCycle.setText("❌");
+            this.fieldactiveCPU.setText("❌");
+            fileChooserStateMessage.setText("Valores inválidos. Ingrese valores numéricos.");
+        }
+        this.simulation.createFile();
+    }//GEN-LAST:event_botonConfirmarValoresActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CrearProceso;
+    private javax.swing.JButton botonConfirmarValores;
     private javax.swing.JButton botonCrear;
+    private javax.swing.JButton button_loadFile;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
     private javax.swing.JTextField fieldDuracion;
     private javax.swing.JTextField fieldNombre;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField fieldactiveCPU;
+    private javax.swing.JTextField fieldinstructionCycle;
+    private javax.swing.JTextPane fileChooserStateMessage;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
+    private javax.swing.JLabel txtActiveCPU;
     private javax.swing.JLabel txtCiclo1;
     private javax.swing.JLabel txtCiclo2;
     private javax.swing.JLabel txtCiclo3;
@@ -295,5 +429,6 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel txtCrearProceso;
     private javax.swing.JLabel txtDuracion;
     private javax.swing.JLabel txtNombre;
+    private javax.swing.JLabel txtinstructionCycle;
     // End of variables declaration//GEN-END:variables
 }

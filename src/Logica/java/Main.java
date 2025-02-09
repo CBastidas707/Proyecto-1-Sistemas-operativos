@@ -49,7 +49,8 @@ public class Main {
        proceso1.getPcb().setStatus("Blocked");
        proceso5.getPcb().setStatus("Running");
         
-        Pantalla pantalla = new Pantalla();
+        Simulation simulation = new Simulation();
+        Pantalla pantalla = new Pantalla(simulation);
         pantalla.setVisible(true);
 
     }
