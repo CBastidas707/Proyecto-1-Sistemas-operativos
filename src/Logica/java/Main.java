@@ -41,8 +41,8 @@ public class Main {
         proceso2.start();
         
         
-        
-         Pantalla pantalla = new Pantalla();
+        Simulation simulation = new Simulation();
+        Pantalla pantalla = new Pantalla(simulation);
         pantalla.setVisible(true);
 
     }
