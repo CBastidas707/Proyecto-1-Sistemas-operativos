@@ -39,10 +39,13 @@ public class Main {
         Cola colaR = new Cola("Ready");
         Cola colaB = new Cola("Blocked");
         
-        Semaphore queueSemaphore = new Semaphore(1);
+        Semaphore queueInterrupt = new Semaphore(1);
         
-        Process proceso1 = new Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion, colaB, colaR, queueSemaphore);
-        Process proceso5 = new Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, colaB, colaR, queueSemaphore);
+        Scheduler scheduler = new Scheduler(queueInterrupt, colaB, colaR);
+        
+        
+        Process proceso1 = new Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler );
+        Process proceso5 = new Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler);
         
         Nodo Cpu1 = new Nodo(proceso1);
         Nodo Cpu5 = new Nodo(proceso5);
@@ -52,11 +55,13 @@ public class Main {
         if(Cpu1.getData() instanceof Process){
             Process proceso = (Process) Cpu1.getData();
             proceso.start();
+            proceso.getPcb().setStatus("Running");
         };
         
         if(Cpu5.getData() instanceof Process){
             Process proceso = (Process) Cpu5.getData();
             proceso.start();
+            proceso.getPcb().setStatus("Running");
         };
         
         
