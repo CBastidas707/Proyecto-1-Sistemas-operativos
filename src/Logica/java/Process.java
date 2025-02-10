@@ -1,6 +1,5 @@
 package Logica.java;
 
-import Logica.java.Estructuras.Cola;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,47 +11,73 @@ import java.util.logging.Logger;
 public class Process extends Thread {
     private PCB pcb;
     private AtomicInteger sleepTime; // Variable atómica para el tiempo de sleep
-    private Cola blocked;
-    private Cola ready;
+    private Scheduler scheduler;
 
-    public Process(PCB pcb, AtomicInteger sleepTime, Cola blocked, Cola ready) {
+    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler) {
         this.pcb = pcb;
         this.sleepTime = sleepTime;
-        this.blocked =  blocked;
-        this.ready = ready;
-        
+        this.scheduler = scheduler;
     }
+    
+    
     
     @Override
     public void run(){
+        
+        int ciclosG = 1;
+        
+        if(pcb.getExceptionG() > 0){
+            ciclosG = pcb.getExceptionG(); // Servirá como contador en un proceso I/O bound para saber cuándo realizará una operación entrada salida
+        }
+        
         while(pcb.getMAR_Status() != pcb.getLength() && pcb.getStatus() != "Exit"){
          
             try {
                 
+                // Para que el proceso se encole en bloqueados se tiene que cambiar el estatus de su pcb a Blocked, y se ejecutará esto:
+                
                 if("Blocked".equals(pcb.getStatus())){
                     
+                    scheduler.EncolarBloqueado(this);
                     System.out.println(pcb.getProcess_name() + " fue transladado a la cola de bloqueados");
-                    blocked.encolarProceso(this);
+                    int ciclosT = pcb.getExceptionD(); // Es un contador para medir cuántos ciclos faltan para que se complete la operación entrada salida
                     
                 while("Blocked".equals(pcb.getStatus())){
-                    wait();
+                    
+                    if(ciclosT == 1){
+                        pcb.setStatus("Ready");
+                    }
+                    
+                    System.out.println("Ciclos para completar operacion entrada salida de " + pcb.getProcess_name() + ": " + ciclosT);
+                    sleep(sleepTime.get());
+                    ciclosT --;
                 }
                 }
                 
+                
+                // Para que el proceso se encole en listos se tiene que cambiar el estatus de su pcb a Ready, y se ejecutará esto:
+                
                 if("Ready".equals(pcb.getStatus())){
-                    
+                    scheduler.EncolarListo(this);
                     System.out.println(pcb.getProcess_name() + " fue transladado a la cola de listos");
-                    ready.encolarProceso(this);
                     
                 while("Ready".equals(pcb.getStatus())){
-                    wait();
+                    sleep(10);
                 }
                     System.out.println(pcb.getProcess_name() + " fue despachado");
                 }
                 
+                // Esto es lo que hará el proceso
                 
-                try{
+                //Si el proceso es I/O bound
+                    
                     if(pcb.getExceptionG() > 0){
+                        
+                        if(ciclosG == 1){
+                            
+                           pcb.setStatus("Blocked");
+                        }
+                        
                        System.out.println(
                         "--------------------------------\n"
                         + "Proceso: " + pcb.getProcess_name()
@@ -60,8 +85,13 @@ public class Process extends Thread {
                         + "\n" + "PC: " + pcb.getPC_Status()
                         + "\n" + "Longitud: " + pcb.getLength()
                         + "\n" + "Tipo: I/O bound"
-                        + "\n--------------------------------\n"); 
+                        + "\n--------------------------------\n");
+                       
+                       ciclosG --;
                     }
+                    
+                //Si el proceso es CPU bound
+                    
                     else{
                         System.out.println(
                         "--------------------------------\n"
@@ -72,16 +102,6 @@ public class Process extends Thread {
                         + "\n" + "Tipo: CPU bound"
                         + "\n--------------------------------\n"); 
                     }
-                    
-                }catch(Exception e){
-                System.out.println(
-                        "--------------------------------\n"
-                        + "Proceso: " + pcb.getProcess_name()
-                        + "\n" + "MAR: " + pcb.getMAR_Status()
-                        + "\n" + "PC: " + pcb.getPC_Status()
-                        + "\n" + "Longitud: " + pcb.getLength()
-                        + "\n" + "Tipo: CPU bound"
-                        + "\n--------------------------------\n"); }
                 
                 
                 pcb.setMAR_Status(pcb.getMAR_Status() + 1);
