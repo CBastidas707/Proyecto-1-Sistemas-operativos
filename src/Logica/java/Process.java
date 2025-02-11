@@ -1,5 +1,6 @@
 package Logica.java;
 
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,11 +13,13 @@ public class Process extends Thread {
     private PCB pcb;
     private AtomicInteger sleepTime; // Variable atómica para el tiempo de sleep
     private Scheduler scheduler;
+    Semaphore interruptS;
 
-    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler) {
+    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Semaphore interruptS) {
         this.pcb = pcb;
         this.sleepTime = sleepTime;
         this.scheduler = scheduler;
+        this.interruptS = interruptS;
     }
     
     
@@ -33,12 +36,14 @@ public class Process extends Thread {
         while(pcb.getMAR_Status() != pcb.getLength() && pcb.getStatus() != "Exit"){
          
             try {
-                
+
                 // Para que el proceso se encole en bloqueados se tiene que cambiar el estatus de su pcb a Blocked, y se ejecutará esto:
                 
                 if("Blocked".equals(pcb.getStatus())){
                     
+                    interruptS.acquire();
                     scheduler.EncolarBloqueado(this);
+                    interruptS.release();
                     System.out.println(pcb.getProcess_name() + " fue transladado a la cola de bloqueados");
                     int ciclosT = pcb.getExceptionD(); // Es un contador para medir cuántos ciclos faltan para que se complete la operación entrada salida
                     
@@ -58,10 +63,14 @@ public class Process extends Thread {
                 // Para que el proceso se encole en listos se tiene que cambiar el estatus de su pcb a Ready, y se ejecutará esto:
                 
                 if("Ready".equals(pcb.getStatus())){
+                    
+                    interruptS.acquire();
                     scheduler.EncolarListo(this);
+                    interruptS.release();
                     System.out.println(pcb.getProcess_name() + " fue transladado a la cola de listos");
                     
                 while("Ready".equals(pcb.getStatus())){
+                    
                     sleep(10);
                 }
                     System.out.println(pcb.getProcess_name() + " fue despachado");
@@ -73,9 +82,10 @@ public class Process extends Thread {
                     
                     if(pcb.getExceptionG() > 0){
                         
-                        if(ciclosG == 1){
-                            
+                        if(ciclosG == 1){// Si falta un solo ciclo para generar una interrupción:
+                           
                            pcb.setStatus("Blocked");
+                           ciclosG = pcb.getExceptionG() + 1;
                         }
                         
                        System.out.println(

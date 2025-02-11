@@ -139,7 +139,44 @@ import Logica.java.Process;
         return null; // No se encontró ningún nodo con el Proceso buscado
     }
         
-        public Process findProcessByIndex(int index) {
+        public Nodo findByIndex(int index) {
+            
+        if (index < 0 || index >= this.size()) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
+        }
+
+        Nodo current = this.pFirst;
+        for (int i = 0; i < index; i++) {
+            current = current.getpNext();
+        }
+
+        return current;
+
+    }
+        
+               public Process_Image findProcessImageByIndex(int index) {
+            
+        if (index < 0 || index >= this.size()) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
+        }
+
+        Nodo current = this.pFirst;
+        for (int i = 0; i < index; i++) {
+            current = current.getpNext();
+        }
+
+        Object data = current.getData();
+            if (data instanceof Process_Image) {// Verifica si el objeto es de la clase Proceso
+                Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
+                return proceso;
+                
+            }
+            
+            return null;
+
+    }
+               
+               public Process findProcessByIndex(int index) {
             
         if (index < 0 || index >= this.size()) {
             throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
