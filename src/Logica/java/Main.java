@@ -19,7 +19,7 @@ public class Main {
        List ProcessImagesList = new List("Imágenes de los procesos");
        
         Process_Image procesonuevo1 = new Process_Image("Proceso1", 5);
-        Process_Image procesonuevo2 = new Process_Image("Proceso2", 4);
+        Process_Image procesonuevo2 = new Process_Image("Proceso2", 8,2,3);
         //Process_Image procesonuevo3 = new Process_Image("Proceso3", 3);
         //Process_Image procesonuevo4 = new Process_Image("Proceso4", 2);
         Process_Image procesonuevo5 = new Process_Image("Proceso5", 4, 2, 3);
@@ -39,19 +39,19 @@ public class Main {
         //Estas son las colas de listos y bloqueados
         
         Cola colaR = new Cola("Ready");
-        Cola colaB = new Cola("Blocked");
+        List colaB = new List("Blocked");
         
         
-        Semaphore schedulerS = new Semaphore(1);  // Esto es un semáforo para acceder al scheduler
+        Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder al scheduler
         
-        Scheduler scheduler = new Scheduler(colaB, colaR);  // Esto crea al scheduler
+        Scheduler scheduler = new Scheduler(colaB, colaR, soS);  // Esto crea al scheduler
         
         
         //Esta es la creación de los procesos a partir de sus imágenes
         
-        Process proceso1 = new Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler, schedulerS);
-        Process proceso5 = new Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler, schedulerS);
-        Process proceso2 = new Process(ProcessImagesList.findPCB("Proceso2"), tiempoInstruccion, scheduler, schedulerS);
+        Process proceso1 = new Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler, null);
+        Process proceso5 = new Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler, null);
+        Process proceso2 = new Process(ProcessImagesList.findPCB("Proceso2"), tiempoInstruccion, scheduler, null);
 
         
         //Esta es una lista de los procesos
@@ -88,6 +88,7 @@ public class Main {
             Nodo cpu = listaCPU.findByIndex(i);
             Process proceso = colaR.desencolarProceso();
             cpu.setData(proceso);
+            proceso.setCpu(cpu);
             proceso.getPcb().setStatus("Running");
             
         }

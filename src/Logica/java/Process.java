@@ -1,5 +1,6 @@
 package Logica.java;
 
+import Logica.java.Estructuras.Nodo;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -13,13 +14,13 @@ public class Process extends Thread {
     private PCB pcb;
     private AtomicInteger sleepTime; // Variable atómica para el tiempo de sleep
     private Scheduler scheduler;
-    Semaphore interruptS;
+    Nodo cpu;
 
-    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Semaphore interruptS) {
+    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Nodo cpu) {
         this.pcb = pcb;
         this.sleepTime = sleepTime;
         this.scheduler = scheduler;
-        this.interruptS = interruptS;
+        this.cpu = cpu;
     }
     
     
@@ -41,9 +42,7 @@ public class Process extends Thread {
                 
                 if("Blocked".equals(pcb.getStatus())){
                     
-                    interruptS.acquire();
                     scheduler.EncolarBloqueado(this);
-                    interruptS.release();
                     System.out.println(pcb.getProcess_name() + " fue transladado a la cola de bloqueados");
                     int ciclosT = pcb.getExceptionD(); // Es un contador para medir cuántos ciclos faltan para que se complete la operación entrada salida
                     
@@ -64,9 +63,7 @@ public class Process extends Thread {
                 
                 if("Ready".equals(pcb.getStatus())){
                     
-                    interruptS.acquire();
                     scheduler.EncolarListo(this);
-                    interruptS.release();
                     System.out.println(pcb.getProcess_name() + " fue transladado a la cola de listos");
                     
                 while("Ready".equals(pcb.getStatus())){
@@ -78,7 +75,7 @@ public class Process extends Thread {
                 
                 // Esto es lo que hará el proceso
                 
-                //Si el proceso es I/O bound
+                // Si el proceso es I/O bound
                     
                     if(pcb.getExceptionG() > 0){
                         
@@ -100,7 +97,7 @@ public class Process extends Thread {
                        ciclosG --;
                     }
                     
-                //Si el proceso es CPU bound
+                // Si el proceso es CPU bound
                     
                     else{
                         System.out.println(
@@ -133,6 +130,16 @@ public class Process extends Thread {
     public void setPcb(PCB pcb) {
         this.pcb = pcb;
     }
+
+    public Nodo getCpu() {
+        return cpu;
+    }
+
+    public void setCpu(Nodo cpu) {
+        this.cpu = cpu;
+    }
+    
+    
     
     
     
