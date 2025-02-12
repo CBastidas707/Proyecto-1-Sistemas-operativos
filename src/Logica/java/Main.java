@@ -42,7 +42,7 @@ public class Main {
         List colaB = new List("Blocked");
         
         
-        Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder al scheduler
+        Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
         
         Scheduler scheduler = new Scheduler(colaB, colaR, soS);  // Esto crea al scheduler
         
@@ -77,12 +77,13 @@ public class Main {
                 listaProcesos.findProcessByIndex(j).start();
         }
         
-        // Esto es para que no empiece a asignar
+        // Esto es para que cuando hayan suficientes procesos listos, se asignen
         
-        while(listaCPU.size() > colaR.getSize()){
+        while(colaR.getSize() < listaProcesos.size()){
             ;
         }
         
+        // Acá asignas los procesos a un Cpu
         
         for (int i = 0; i < listaCPU.size(); i++) {
             Nodo cpu = listaCPU.findByIndex(i);
@@ -94,15 +95,7 @@ public class Main {
         }
         
         
-        System.out.println("Procesos encolados en Ready: " + colaR.getSize());
-        
-        // Acá asignas los procesos a un Cpu
-       
-        
-       
-        
 
-        
         Simulation simulation = new Simulation();
         Pantalla pantalla = new Pantalla(simulation);
         pantalla.setVisible(true);
