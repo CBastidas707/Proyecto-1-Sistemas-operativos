@@ -14,7 +14,6 @@ public class Main {
     
     public static void main(String[] args) {
 
-
        // Esto es una prueba para crear listas y verificar que sirve, primero se crea una lista para almacenar las imágenes de los procesos
        List ProcessImagesList = new List("Imágenes de los procesos");
        
@@ -99,11 +98,15 @@ public class Main {
         // Acá asignas los procesos a un Cpu
        
         
-       
-        
-
+// SECCIÓN DE PRUEBA ANDRÉS
         
         Simulation simulation = new Simulation();
+        simulation.procImage_List.insertFirst(procesonuevo1);
+        simulation.procImage_List.insertFirst(procesonuevo2);
+//        simulation.procImage_List.insertFirst(procesonuevo3);           // PROC. IMAGES DE PRUEBA. TODO EL BLOQUE DE lÏNEA 53 A 58 SE PUEDE BORRAR.
+//        simulation.procImage_List.insertFirst(procesonuevo4);
+        simulation.procImage_List.insertFirst(procesonuevo5);
+//        simulation.procImage_List.insertFirst(procesonuevo45);
         Pantalla pantalla = new Pantalla(simulation);
         pantalla.setVisible(true);
 

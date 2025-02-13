@@ -1,7 +1,6 @@
 package Logica.java.Estructuras;
 import Logica.java.PCB;
 import Logica.java.Process_Image;
-import Logica.java.Process;
 
 
     public class List {
@@ -125,76 +124,54 @@ import Logica.java.Process;
     }
     
         public PCB findPCB(String targetNombre) {
-        Nodo current = pFirst;
-        while (current != null) {
-            Object data = current.getData();
-            if (data instanceof Process_Image) { // Verifica si el objeto es de la clase Proceso
-                Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
-                if (proceso.getProcess_name() != null && proceso.getProcess_name().equals(targetNombre)) {
-                    return proceso.getPcb(); // Se encontró el nodo con el Proceso buscado
-                }
-            }
-            current = current.getpNext();
-        }
-        return null; // No se encontró ningún nodo con el Proceso buscado
+          Nodo current = pFirst;
+          while (current != null) {
+              Object data = current.getData();
+              if (data instanceof Process_Image) { // Verifica si el objeto es de la clase Proceso
+                  Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
+                  if (proceso.getProcess_name() != null && proceso.getProcess_name().equals(targetNombre)) {
+                      return proceso.getPcb(); // Se encontró el nodo con el Proceso buscado
+                  }
+              }
+              current = current.getpNext();
+          }
+          return null; // No se encontró ningún nodo con el Proceso buscado
     }
         
         public Nodo findByIndex(int index) {
             
-        if (index < 0 || index >= this.size()) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
-        }
+          if (index < 0 || index >= this.size()) {
+              throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
+          }
 
-        Nodo current = this.pFirst;
-        for (int i = 0; i < index; i++) {
-            current = current.getpNext();
-        }
+          Nodo current = this.pFirst;
+          for (int i = 0; i < index; i++) {
+              current = current.getpNext();
+          }
 
-        return current;
+          return current;
 
     }
         
-               public Process_Image findProcessImageByIndex(int index) {
+        public Process_Image findProcessImageByIndex(int index) {
             
-        if (index < 0 || index >= this.size()) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
-        }
+          if (index < 0 || index >= this.size()) {
+              throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
+          }
 
-        Nodo current = this.pFirst;
-        for (int i = 0; i < index; i++) {
-            current = current.getpNext();
-        }
+          Nodo current = this.pFirst;
+          for (int i = 0; i < index; i++) {
+              current = current.getpNext();
+          }
 
-        Object data = current.getData();
-            if (data instanceof Process_Image) {// Verifica si el objeto es de la clase Proceso
-                Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
-                return proceso;
-                
-            }
-            
-            return null;
+          Object data = current.getData();
+              if (data instanceof Process_Image) {// Verifica si el objeto es de la clase Proceso
+                  Process_Image proceso = (Process_Image) data; // Castea el objeto a Proceso
+                  return proceso;
 
-    }
-               
-               public Process findProcessByIndex(int index) {
-            
-        if (index < 0 || index >= this.size()) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
-        }
+              }
 
-        Nodo current = this.pFirst;
-        for (int i = 0; i < index; i++) {
-            current = current.getpNext();
-        }
-
-        Object data = current.getData();
-            if (data instanceof Process) {// Verifica si el objeto es de la clase Proceso
-                Process proceso = (Process) data; // Castea el objeto a Proceso
-                return proceso;
-                
-            }
-            
-            return null;
+              return null;
 
     }
 
