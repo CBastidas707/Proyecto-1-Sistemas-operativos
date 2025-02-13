@@ -79,7 +79,7 @@ public class Simulation {
     public String showProcessJSON() {      // POR AHORA SOLO GUARDA LOS PROCESOS EN UN STRING PARA IMPRIMIRLO
         String process_string = "[\n";
         for (int i = 0; i < this.procImage_List.size(); i++) {
-            Process_Image proceso_i = this.procImage_List.findProcessByIndex(i);
+            Process_Image proceso_i = this.procImage_List.findProcessImageByIndex(i);
             process_string += "     {\n        \"process_name\": \""+proceso_i.getProcess_name()+"\",\n        \"process_length\": "+proceso_i.getProcess_length()+",\n        \"consumption_category\": \""+proceso_i.getConsumption_category()+"\"";
             if (proceso_i.getConsumption_category().equals("I/O Bound")) {
                 process_string += ",\n        \"exceptionRequirement\": "+proceso_i.getExceptionRequirement()+",\n        \"exceptionCoverage\": "+proceso_i.getExceptionCoverage();
