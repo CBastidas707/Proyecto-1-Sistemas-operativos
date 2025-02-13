@@ -22,6 +22,7 @@ public class Pantalla extends javax.swing.JFrame {
     public Pantalla(Simulation simulation) {
         initComponents();
         this.simulation = simulation;
+        this.textArea_loadedProcesses.setText(this.simulation.showProcessJSON());
     }
 
     /**
@@ -63,6 +64,13 @@ public class Pantalla extends javax.swing.JFrame {
         txtinstructionCycle = new javax.swing.JLabel();
         txtActiveCPU = new javax.swing.JLabel();
         botonConfirmarValores = new javax.swing.JButton();
+        txtLoadFiles = new javax.swing.JLabel();
+        button_loadFile2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        fileChooserStateMessage1 = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea_loadedProcesses = new javax.swing.JTextArea();
+        txtLoadedProcesses = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,7 +178,7 @@ public class Pantalla extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Crear proceso", CrearProceso);
 
-        button_loadFile.setText("Cargar  Archivo");
+        button_loadFile.setText("Cargar  Parámetros");
         button_loadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_loadFileActionPerformed(evt);
@@ -206,58 +214,114 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
 
+        txtLoadFiles.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
+        txtLoadFiles.setText("Carga de Archivos");
+
+        button_loadFile2.setText("Cargar  Procesos");
+        button_loadFile2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_loadFile2ActionPerformed(evt);
+            }
+        });
+
+        fileChooserStateMessage1.setEditable(false);
+        fileChooserStateMessage1.setText("Cargue procesos a ejecutar para la simulación.");
+        jScrollPane3.setViewportView(fileChooserStateMessage1);
+
+        textArea_loadedProcesses.setColumns(20);
+        textArea_loadedProcesses.setRows(5);
+        jScrollPane1.setViewportView(textArea_loadedProcesses);
+
+        txtLoadedProcesses.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtLoadedProcesses.setText("Procesos cargados:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(305, 305, 305)
+                .addComponent(txtLoadFiles)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtActiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fieldinstructionCycle)
-                    .addComponent(fieldactiveCPU))
-                .addGap(232, 232, 232)
-                .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(152, 152, 152))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtActiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fieldinstructionCycle)
+                                    .addComponent(fieldactiveCPU)))
+                            .addComponent(jScrollPane1))
+                        .addGap(210, 210, 210))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtLoadedProcesses, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(140, 140, 140))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(109, 109, 109))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(botonConfirmarValores)
-                        .addGap(81, 81, 81))))
+                        .addGap(81, 81, 81))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(144, 144, 144))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(button_loadFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtinstructionCycle)
-                    .addComponent(fieldinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtActiveCPU)
-                    .addComponent(fieldactiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                .addComponent(botonConfirmarValores)
-                .addGap(33, 33, 33))
+                .addComponent(txtLoadFiles)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtinstructionCycle)
+                            .addComponent(fieldinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22))
+                    .addComponent(button_loadFile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtActiveCPU)
+                            .addComponent(fieldactiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addComponent(txtLoadedProcesses)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(button_loadFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonConfirmarValores)
+                        .addGap(33, 33, 33))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52))))
         );
 
-        jTabbedPane1.addTab("tab2", jPanel2);
+        jTabbedPane1.addTab("Carga de Archivos", jPanel2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
+            .addGap(0, 1047, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,8 +399,8 @@ public class Pantalla extends javax.swing.JFrame {
                     if (fieldCiclos.getText().isBlank() && fieldCiclos2.getText().isBlank()) {
                         // Es CPU Bound.
                         Process_Image process_CPUBound = new Process_Image(fieldNombre.getText(),duracionInt);
-                        System.out.println(process_CPUBound);
                         this.simulation.addProcessImage(process_CPUBound);
+                        this.textArea_loadedProcesses.setText(this.simulation.showProcessJSON());
                     }else{
                         // Es I/O Bound.
                         int ciclosInt = 0;
@@ -347,8 +411,8 @@ public class Pantalla extends javax.swing.JFrame {
                                 ciclosInt = Integer.parseInt(ciclosString);
                                 ciclos2Int = Integer.parseInt(ciclos2String);
                                 Process_Image process_IOBound = new Process_Image(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
-                                System.out.println(process_IOBound);                // PRINTS TEMPORALES. BORRAR.
                                 this.simulation.addProcessImage(process_IOBound);
+                                this.textArea_loadedProcesses.setText(this.simulation.showProcessJSON());
                             } catch (NumberFormatException e) {
                                 fieldCiclos.setText("Llene ambos parámetros finales con números válidos.");
                                 fieldCiclos2.setText("Llene ambos parámetros finales con números válidos.");
@@ -394,13 +458,34 @@ public class Pantalla extends javax.swing.JFrame {
             this.simulation.setInstructionCycle_duration(initialParams_int[0]);
             this.simulation.setActiveCPU_ammount(initialParams_int[1]);
             fileChooserStateMessage.setText("Parámetros iniciales confirmados.");
+            fileChooserStateMessage1.setText("Procesos iniciales confirmados.");
+            this.simulation.createTxt();
+            this.simulation.createJSON();
         }catch (NumberFormatException e){
             this.fieldinstructionCycle.setText("❌");
             this.fieldactiveCPU.setText("❌");
             fileChooserStateMessage.setText("Valores inválidos. Ingrese valores numéricos.");
         }
-        this.simulation.createFile();
     }//GEN-LAST:event_botonConfirmarValoresActionPerformed
+
+    private void button_loadFile2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loadFile2ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int selection = fileChooser.showSaveDialog(jTabbedPane1);
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File loadedFile = fileChooser.getSelectedFile();
+            try {
+                String readData = simulation.readFile(loadedFile);
+                this.simulation.addProcessesFromJSON(readData);
+                this.textArea_loadedProcesses.setText(this.simulation.showProcessJSON());
+                
+            } catch (FileNotFoundException ex) {
+                fileChooserStateMessage1.setText("Ha ocurrido un error. Cargue de nuevo.");
+            }
+            fileChooserStateMessage1.setText("Archivo cargado.");
+        } else if (selection == JFileChooser.CANCEL_OPTION) {
+            fileChooserStateMessage1.setText("No se ha seleccionado ningún archivo.");
+        }
+    }//GEN-LAST:event_button_loadFile2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -408,6 +493,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JButton botonConfirmarValores;
     private javax.swing.JButton botonCrear;
     private javax.swing.JButton button_loadFile;
+    private javax.swing.JButton button_loadFile2;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
     private javax.swing.JTextField fieldDuracion;
@@ -415,12 +501,16 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JTextField fieldactiveCPU;
     private javax.swing.JTextField fieldinstructionCycle;
     private javax.swing.JTextPane fileChooserStateMessage;
+    private javax.swing.JTextPane fileChooserStateMessage1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
+    private javax.swing.JTextArea textArea_loadedProcesses;
     private javax.swing.JLabel txtActiveCPU;
     private javax.swing.JLabel txtCiclo1;
     private javax.swing.JLabel txtCiclo2;
@@ -428,6 +518,8 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel txtCiclo4;
     private javax.swing.JLabel txtCrearProceso;
     private javax.swing.JLabel txtDuracion;
+    private javax.swing.JLabel txtLoadFiles;
+    private javax.swing.JLabel txtLoadedProcesses;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtinstructionCycle;
     // End of variables declaration//GEN-END:variables
