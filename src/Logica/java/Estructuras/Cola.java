@@ -77,28 +77,25 @@ public class Cola {
         }
     }
     
-    public Process desencolarProceso(){
-        if (!isEmpty()){
-            
-            if(getSize() == 1){
-                
-                if(getHead().getData() instanceof Process){
-                    Process proceso = (Process) getHead().getData();
-                    Empty();
-                    return proceso;
-                };
-            }else{
-                if(getHead().getData() instanceof Process){
-                    Process proceso = (Process) getHead().getData();                    
-                    setHead(getHead().getpNext());
-                    setSize(getSize() - 1);
-                    return proceso;
-                }
-
-            }
-            
-        } return null;
+public Process desencolarProceso() {
+    if (isEmpty()) {
+        return null;
     }
+
+    if (getHead().getData() instanceof Process) {
+        Process proceso = (Process) getHead().getData();
+
+        if (getSize() == 1) {
+            Empty();
+        } else {
+            setHead(getHead().getpNext());
+            setSize(getSize() - 1);
+        }
+        return proceso;
+    } else {
+        return null; 
+    }
+}
     
     /**
      * Retorna un string con todos los valores de los nodos encolados por orden desde el primer nodo hasta el ultimo en cola

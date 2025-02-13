@@ -12,7 +12,7 @@ public class Process_Image {
 
     // Constructor proceso CPU Bound
     public Process_Image(String process_name, int process_length) {
-        PCB newpcb = new PCB(process_name, process_length, "New");
+        PCB newpcb = new PCB(process_name, process_length, "Ready");
         this.process_name = process_name;
         this.process_length = process_length;
         this.consumption_category = "CPU Bound";
@@ -22,7 +22,7 @@ public class Process_Image {
     // Constructor proceso I/O Bound
     
         public Process_Image(String process_name, int process_length, int exceptionRequirement, int exceptionCoverage) {
-        PCB newpcb = new PCB(process_name, process_length, "New", exceptionRequirement, exceptionCoverage);
+        PCB newpcb = new PCB(process_name, process_length, "Ready", exceptionRequirement, exceptionCoverage);
         this.process_name = process_name;
         this.process_length = process_length;
         this.consumption_category = "I/O Bound";
