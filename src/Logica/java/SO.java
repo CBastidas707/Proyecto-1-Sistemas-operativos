@@ -45,38 +45,49 @@ public class SO extends Thread {
                     
                     System.out.println("Procesos en la cola de listos: " + readyQueue.getSize());
 
-                    Process nextProceso = readyQueue.desencolarProceso();  // Saca de la cola de listos al siguiente proceso para despacharlo   
+                    Process nextProceso = readyQueue.desencolarProceso();  // Saca de la cola de listos al siguiente proceso para despacharlo
+                    
+                    if(proceso.getPcb().getStatus() == "Exit"){
+                        proceso.getPcb().setStatus("Finish");
+                    }
         
                     if (nextProceso != null) {  // Despacha al proceso en el CPU en el que estaba el proceso que se bloqueó
                         cpu.setData(nextProceso);
                         nextProceso.setCpu(cpu);
                         nextProceso.getPcb().setStatus("Running");
+                        soS.release();
             
                     } else{ // Si no hay procesos en la cola de listos
                           System.out.println("No hay mas procesos en la cola de listos");
-                          while(queueOp != "Exit"){
+                          soS.release();
+                          boolean verificacion = false;
+                          while(verificacion == false){
                               sleep(10);
+                              
                               if(readyQueue.getSize()> 0){
+                              soS.acquire();
                               nextProceso = readyQueue.desencolarProceso();
+                              soS.release();
                               }
                               if(nextProceso != null){
                                   cpu.setData(nextProceso);
                                   nextProceso.setCpu(cpu);
                                   nextProceso.getPcb().setStatus("Running");
-                                  queueOp = "Exit";
+                                  verificacion = true;
                               }
                               
                           }
                             }
                     
+                    
                     queueOp = "Exit";
-                    soS.release();
                     
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SO.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
             }
+           
             
         }
         

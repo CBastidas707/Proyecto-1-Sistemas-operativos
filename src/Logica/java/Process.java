@@ -14,13 +14,15 @@ public class Process extends Thread {
     private PCB pcb;
     private AtomicInteger sleepTime; // Variable atómica para el tiempo de sleep
     private Scheduler scheduler;
-    Nodo cpu;
+    private Nodo cpu;
+    private AtomicInteger planificacion;
 
-    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Nodo cpu) {
+    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Nodo cpu, AtomicInteger planificacion) {
         this.pcb = pcb;
         this.sleepTime = sleepTime;
         this.scheduler = scheduler;
         this.cpu = cpu;
+        this.planificacion = planificacion;
     }
     
     
@@ -29,10 +31,12 @@ public class Process extends Thread {
     public void run(){
         
         int ciclosG = 1;
+        int quantum = 5;
         
         if(pcb.getExceptionG() > 0){
             ciclosG = pcb.getExceptionG(); // Servirá como contador en un proceso I/O bound para saber cuándo realizará una operación entrada salida
         }
+        
         
         while(pcb.getMAR_Status() != pcb.getLength() && pcb.getStatus() != "Exit"){
          
@@ -48,13 +52,15 @@ public class Process extends Thread {
                     
                 while("Blocked".equals(pcb.getStatus())){
                     
-                    if(ciclosT == 1){
-                        pcb.setStatus("Ready");
-                    }
-                    
                     System.out.println("Ciclos para completar operacion entrada salida de " + pcb.getProcess_name() + ": " + ciclosT);
                     sleep(sleepTime.get());
                     ciclosT --;
+                    
+                    if(ciclosT == 0){
+                        scheduler.Interrupt(this);
+                        
+                    }
+                    
                 }
                 }
                 
@@ -73,8 +79,9 @@ public class Process extends Thread {
                     System.out.println(pcb.getProcess_name() + " fue despachado");
                 }
                 
-                // Esto es lo que hará el proceso
                 
+                // Esto es lo que hará el proceso
+                                
                 // Si el proceso es I/O bound
                     
                     if(pcb.getExceptionG() > 0){
@@ -110,11 +117,34 @@ public class Process extends Thread {
                         + "\n--------------------------------\n"); 
                     }
                 
+                   
+                    
+                if(planificacion.get() == 2){
+                    quantum --;
+                    System.out.println("Quantum restante del " + pcb.getProcess_name() + ": " + quantum);
+                }
                 
+                if(quantum == 0){
+                    pcb.setStatus("Ready");
+                    scheduler.Interrupt(this);
+                    quantum = 5;
+                } 
+                    
                 pcb.setMAR_Status(pcb.getMAR_Status() + 1);
                 pcb.setPC_Status(pcb.getPC_Status() + 1);
                 sleep(sleepTime.get());
                 
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Process.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        pcb.setStatus("Exit");
+        scheduler.Finish(this);
+        
+        while(pcb.getStatus() == "Exit"){
+            try {
+                sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Process.class.getName()).log(Level.SEVERE, null, ex);
             }

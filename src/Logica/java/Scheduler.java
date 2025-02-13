@@ -20,10 +20,11 @@ public class Scheduler {
     private Cola ready;
     private AtomicInteger planificacion;
 
-    public Scheduler(List blocked, Cola ready, Semaphore soS) {
+    public Scheduler(List blocked, Cola ready, Semaphore soS, AtomicInteger planificacion) {
         this.blocked = blocked;
         this.ready = ready;
         this.soS = soS;
+        this.planificacion = planificacion;
     }
 
     
@@ -46,9 +47,45 @@ public class Scheduler {
         } catch (InterruptedException ex) {
             Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
 
         ready.encolarProceso(proceso);
         soS.release();
+        
+    }
+    
+    public void Interrupt(Process proceso){
+        
+        switch (planificacion.get()) {
+            case 1:     // FCFS
+                
+                proceso.getPcb().setStatus("Ready");
+                
+                break;
+                
+            case 2:     // Round Robin
+                
+                if(proceso.getPcb().getStatus() == "Ready"){
+                    SO so = new SO(ready, "Next", soS, proceso);
+                    so.start();
+                }
+                proceso.getPcb().setStatus("Ready");
+                
+                
+                break;
+                
+                
+            default:    // No tiene una política
+                    
+                System.out.println("Error, no hay seleccionada una política de planificación válida");
+}
+        
+    }
+    
+    public void Finish(Process proceso){
+        
+        SO so = new SO(ready, "Next", soS, proceso);
+        so.start();
         
     }
     

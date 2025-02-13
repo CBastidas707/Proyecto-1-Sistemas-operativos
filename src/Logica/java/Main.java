@@ -18,11 +18,11 @@ public class Main {
        // Esto es una prueba para crear listas y verificar que sirve, primero se crea una lista para almacenar las imágenes de los procesos
        List ProcessImagesList = new List("Imágenes de los procesos");
        
-        Process_Image procesonuevo1 = new Process_Image("Proceso1", 5);
-        Process_Image procesonuevo2 = new Process_Image("Proceso2", 8,2,3);
+        Process_Image procesonuevo1 = new Process_Image("Proceso 1", 6);
+        Process_Image procesonuevo2 = new Process_Image("Proceso 2", 8,2,3);
         //Process_Image procesonuevo3 = new Process_Image("Proceso3", 3);
         //Process_Image procesonuevo4 = new Process_Image("Proceso4", 2);
-        Process_Image procesonuevo5 = new Process_Image("Proceso5", 4, 2, 3);
+        Process_Image procesonuevo5 = new Process_Image("Proceso 5", 4, 2, 3);
         //Process_Image procesonuevo45 = new Process_Image("Proceso4,5", 0, 6, 7);
         
         
@@ -35,6 +35,7 @@ public class Main {
         //ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso5"));
         
         AtomicInteger tiempoInstruccion = new AtomicInteger(1000); // Esto es el tiempo que tardará cada ciclo de reloj
+        AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
         
         //Estas son las colas de listos y bloqueados
         
@@ -44,14 +45,14 @@ public class Main {
         
         Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
         
-        Scheduler scheduler = new Scheduler(colaB, colaR, soS);  // Esto crea al scheduler
+        Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
         
         
         //Esta es la creación de los procesos a partir de sus imágenes
         
-        Process proceso1 = new Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler, null);
-        Process proceso5 = new Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler, null);
-        Process proceso2 = new Process(ProcessImagesList.findPCB("Proceso2"), tiempoInstruccion, scheduler, null);
+        Process proceso1 = new Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler, null, planificacion);
+        Process proceso5 = new Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler, null, planificacion);
+        Process proceso2 = new Process(ProcessImagesList.findPCB("Proceso2"), tiempoInstruccion, scheduler, null, planificacion);
 
         
         //Esta es una lista de los procesos
