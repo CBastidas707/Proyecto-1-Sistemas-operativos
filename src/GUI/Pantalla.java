@@ -41,93 +41,7 @@ public class Pantalla extends javax.swing.JFrame {
         listCPU2.setModel(cpu2);
         listCPU3.setModel(cpu3);
         
-        // Esto es una prueba para crear listas y verificar que sirve, primero se crea una lista para almacenar las imágenes de los procesos
-       List ProcessImagesList = new List("Imágenes de los procesos");
        
-        Process_Image procesonuevo1 = new Process_Image("Proceso1", 6);
-        Process_Image procesonuevo2 = new Process_Image("Proceso2", 8,2,3);
-        //Process_Image procesonuevo3 = new Process_Image("Proceso3", 3);
-        //Process_Image procesonuevo4 = new Process_Image("Proceso4", 2);
-        Process_Image procesonuevo5 = new Process_Image("Proceso5", 4, 2, 3);
-        //Process_Image procesonuevo45 = new Process_Image("Proceso4,5", 0, 6, 7);
-        
-
-        
-        ProcessImagesList.insertFirst(procesonuevo1);
-        ProcessImagesList.insertFirst(procesonuevo2);
-        //ProcessImagesList.insertFirst(procesonuevo3);
-        //ProcessImagesList.insertFirst(procesonuevo4);
-        ProcessImagesList.insertFirst(procesonuevo5);
-        
-        //ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso5"));
-
-        
-        AtomicInteger tiempoInstruccion = new AtomicInteger(1000); // Esto es el tiempo que tardará cada ciclo de reloj
-        AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
-        
-        //Estas son las colas de listos y bloqueados
-        
-        Cola colaR = new Cola("Ready");
-        List colaB = new List("Blocked");
-        
-        
-        Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
-        
-        Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
-        
-        
-        //Esta es la creación de los procesos a partir de sus imágenes
-        
-        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler, null, planificacion);
-        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso2"), tiempoInstruccion, scheduler, null, planificacion);
-
-        
-        //Esta es una lista de los procesos
-        
-        List listaProcesos = new List("Lista de procesos");
-        listaProcesos.insertFirst(proceso1);
-        listaProcesos.insertFirst(proceso5);
-        listaProcesos.insertFirst(proceso2);
-        
-        
-        // Esta es la creación de la lista de CPU y de cada CPU
-        
-        List listaCPU = new List("Lista CPU");
-        Nodo Cpu1 = new Nodo(null);
-        Nodo Cpu2 = new Nodo(null);
-        Nodo Cpu3 = new Nodo(null);
-        listaCPU.insertFirst(Cpu3);
-        listaCPU.insertFirst(Cpu2);
-        listaCPU.insertFirst(Cpu1);
-        
-        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
-        
-        actualizarPantalla.start();
-        
-        
-        // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
-        
-        for (int j = 0; j < listaProcesos.size(); j++) {
-                listaProcesos.findProcessByIndex(j).start();
-        }
-        
-        // Esto es para que cuando hayan suficientes procesos listos, se asignen
-        
-        while(colaR.getSize() < listaProcesos.size()){
-            ;
-        }
-        
-        // Acá asignas los procesos a un Cpu
-        
-        for (int i = 0; i < listaCPU.size(); i++) {
-            Nodo cpu = listaCPU.findByIndex(i);
-            Logica.java.Process proceso = colaR.desencolarProceso();
-            cpu.setData(proceso);
-            proceso.setCpu(cpu);
-            proceso.getPcb().setStatus("Running");
-            
-        }
     
 
         
@@ -185,6 +99,7 @@ public class Pantalla extends javax.swing.JFrame {
         txtCPU3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         listCPU3 = new javax.swing.JList<>();
+        BtnIniciarSimulacion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -397,6 +312,13 @@ public class Pantalla extends javax.swing.JFrame {
 
         jScrollPane4.setViewportView(listCPU3);
 
+        BtnIniciarSimulacion.setText("Iniciar");
+        BtnIniciarSimulacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnIniciarSimulacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -404,19 +326,25 @@ public class Pantalla extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(88, 88, 88)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(314, Short.MAX_VALUE))
+                            .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(57, 57, 57)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(314, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnIniciarSimulacion)
+                        .addGap(156, 156, 156))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,9 +365,15 @@ public class Pantalla extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(txtCPU3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(81, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnIniciarSimulacion)
+                        .addGap(61, 61, 61))))
         );
 
         jTabbedPane1.addTab("tab3", jPanel3);
@@ -531,8 +465,105 @@ public class Pantalla extends javax.swing.JFrame {
         
     }//GEN-LAST:event_botonConfirmarValoresActionPerformed
 
+    private void BtnIniciarSimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIniciarSimulacionActionPerformed
+        
+        // Esto es una prueba para crear listas y verificar que sirve, primero se crea una lista para almacenar las imágenes de los procesos
+        List ProcessImagesList = new List("Imágenes de los procesos");
+       
+        Process_Image procesonuevo1 = new Process_Image("Proceso 1", 6);
+        Process_Image procesonuevo2 = new Process_Image("Proceso 2", 8,2,3);
+        Process_Image procesonuevo3 = new Process_Image("Proceso 3", 7);
+        Process_Image procesonuevo4 = new Process_Image("Proceso 4", 8);
+        Process_Image procesonuevo5 = new Process_Image("Proceso 5", 4, 2, 3);
+        Process_Image procesonuevo45 = new Process_Image("Proceso 4,5", 9, 6, 7);
+        
+
+        
+        ProcessImagesList.insertFirst(procesonuevo1);
+        ProcessImagesList.insertFirst(procesonuevo2);
+        ProcessImagesList.insertFirst(procesonuevo3);
+        ProcessImagesList.insertFirst(procesonuevo4);
+        ProcessImagesList.insertFirst(procesonuevo5);
+        
+        ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso 5"));
+
+        
+        AtomicInteger tiempoInstruccion = new AtomicInteger(1000); // Esto es el tiempo que tardará cada ciclo de reloj
+        AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
+        
+        //Estas son las colas de listos y bloqueados
+        
+        Cola colaR = new Cola("Ready");
+        List colaB = new List("Blocked");
+        
+        
+        Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
+        
+        Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
+        
+        
+        //Esta es la creación de los procesos a partir de sus imágenes
+        
+        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion);
+        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
+
+        
+        //Esta es una lista de los procesos
+        
+        List listaProcesos = new List("Lista de procesos");
+        listaProcesos.insertFirst(proceso1);
+        listaProcesos.insertFirst(proceso5);
+        listaProcesos.insertFirst(proceso2);
+        listaProcesos.insertFirst(proceso3);
+        listaProcesos.insertFirst(proceso4);
+        listaProcesos.insertFirst(proceso45);
+        
+        
+        // Esta es la creación de la lista de CPU y de cada CPU
+        
+        List listaCPU = new List("Lista CPU");
+        Nodo Cpu1 = new Nodo(null);
+        Nodo Cpu2 = new Nodo(null);
+        Nodo Cpu3 = new Nodo(null);
+        listaCPU.insertFirst(Cpu3);
+        listaCPU.insertFirst(Cpu2);
+        listaCPU.insertFirst(Cpu1);
+        
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
+        
+        
+        // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
+        
+        for (int j = 0; j < listaProcesos.size(); j++) {
+                listaProcesos.findProcessByIndex(j).start();
+        }
+        
+        // Esto es para que cuando hayan suficientes procesos listos, se asignen
+        
+        while(colaR.getSize() < listaProcesos.size()){
+            ;
+        }
+        
+        // Acá asignas los procesos a un Cpu
+        
+        for (int i = 0; i < listaCPU.size(); i++) {
+            Nodo cpu = listaCPU.findByIndex(i);
+            Logica.java.Process proceso = colaR.desencolarProceso();
+            cpu.setData(proceso);
+            proceso.setCpu(cpu);
+            proceso.getPcb().setStatus("Running");
+            
+        }
+        actualizarPantalla.start();
+    }//GEN-LAST:event_BtnIniciarSimulacionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnIniciarSimulacion;
     private javax.swing.JPanel CrearProceso;
     private javax.swing.JButton botonConfirmarValores;
     private javax.swing.JButton botonCrear;

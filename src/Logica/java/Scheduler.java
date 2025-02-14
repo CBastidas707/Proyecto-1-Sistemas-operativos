@@ -67,6 +67,7 @@ public class Scheduler {
                 
                 if(proceso.getPcb().getStatus() == "Ready"){
                     SO so = new SO(ready, "Next", soS, proceso);
+                    proceso.getCpu().setData(so);
                     so.start();
                 }
                 proceso.getPcb().setStatus("Ready");

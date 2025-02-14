@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import Logica.java.Process;
+import java.util.concurrent.Semaphore;
 
 /**
  *
@@ -41,9 +42,7 @@ private AtomicInteger sleepTime;
                 
                 this.Actualizar(cpu1, 0);
                 this.Actualizar(cpu2, 1);
-                
-                if(listaCPU.findByIndex(2) == null){
-                this.Actualizar(cpu3, 3);}
+                this.Actualizar(cpu3, 2);
 
                 sleep(sleepTime.get());
             
@@ -68,33 +67,32 @@ private AtomicInteger sleepTime;
                 // Si es I/O bound
                 
                 String nombre = proceso.getPcb().getProcess_name();
-                String MAR = String.valueOf(proceso.getPcb().getMAR_Status());
-                String PC = String.valueOf(proceso.getPcb().getPC_Status());
-                String Length = String.valueOf(proceso.getPcb().getLength());
-                String Tipo = "I/O bound";
+                String MAR = "MAR: " + String.valueOf(proceso.getPcb().getMAR_Status());
+                String PC = "PC: " +  String.valueOf(proceso.getPcb().getPC_Status());
+                String Length = "Longitud: " +  String.valueOf(proceso.getPcb().getLength());
+                String Tipo = "Tipo: " +  "I/O bound";
                 
                 cpu.addElement(nombre);
                 cpu.addElement(MAR);
                 cpu.addElement(PC);
                 cpu.addElement(Length);
                 cpu.addElement(Tipo);
-                
                 
             } else{
                 // Si es CPU bond
                 
                 String nombre = proceso.getPcb().getProcess_name();
-                String MAR = String.valueOf(proceso.getPcb().getMAR_Status());
-                String PC = String.valueOf(proceso.getPcb().getPC_Status());
-                String Length = String.valueOf(proceso.getPcb().getLength());
-                String Tipo = "CPU bound";
+                String MAR = "MAR: " +  String.valueOf(proceso.getPcb().getMAR_Status());
+                String PC = "PC: " +  String.valueOf(proceso.getPcb().getPC_Status());
+                String Length = "Longitud: " +  String.valueOf(proceso.getPcb().getLength());
+                String Tipo =  "Tipo: " + "CPU bound";
                 
                 cpu.addElement(nombre);
                 cpu.addElement(MAR);
                 cpu.addElement(PC);
                 cpu.addElement(Length);
                 cpu.addElement(Tipo);
-                
+                             
             }
                     
                     
@@ -102,7 +100,7 @@ private AtomicInteger sleepTime;
             
             String so = "SO";
             cpu.addElement(so);
-            
+                 
         }
         
         

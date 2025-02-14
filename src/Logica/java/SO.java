@@ -37,9 +37,11 @@ public class SO extends Thread {
             
             if(queueOp == "Next"){
                 try {
-                    sleep(3000);
                     
+                    sleep(3000);
                     soS.acquire();
+                    
+                    
                     
                     Nodo cpu = proceso.getCpu();
                     
