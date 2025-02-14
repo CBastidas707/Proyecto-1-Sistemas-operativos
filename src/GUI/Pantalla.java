@@ -4,10 +4,18 @@
  */
 package GUI;
 
+import Logica.java.Estructuras.Cola;
+import Logica.java.Estructuras.List;
+import Logica.java.Estructuras.Nodo;
 import Logica.java.Process_Image;
-import Logica.java.Simulation;
+import Logica.java.Scheduler;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 
 /**
@@ -15,14 +23,117 @@ import javax.swing.JFileChooser;
  * @author carlo_7ogoiii
  */
 public class Pantalla extends javax.swing.JFrame {
-    Simulation simulation;
     /**
      * Creates new form Pantalla
      */
-    public Pantalla(Simulation simulation) {
+    
+    private List listaCPU;
+    
+    DefaultListModel cpu1 = new DefaultListModel();
+    DefaultListModel cpu2 = new DefaultListModel();
+    DefaultListModel cpu3 = new DefaultListModel();
+    
+    
+    public Pantalla() {
+        
         initComponents();
-        this.simulation = simulation;
+        listCPU1.setModel(cpu1);
+        listCPU2.setModel(cpu2);
+        listCPU3.setModel(cpu3);
+        
+        // Esto es una prueba para crear listas y verificar que sirve, primero se crea una lista para almacenar las imágenes de los procesos
+       List ProcessImagesList = new List("Imágenes de los procesos");
+       
+        Process_Image procesonuevo1 = new Process_Image("Proceso1", 6);
+        Process_Image procesonuevo2 = new Process_Image("Proceso2", 8,2,3);
+        //Process_Image procesonuevo3 = new Process_Image("Proceso3", 3);
+        //Process_Image procesonuevo4 = new Process_Image("Proceso4", 2);
+        Process_Image procesonuevo5 = new Process_Image("Proceso5", 4, 2, 3);
+        //Process_Image procesonuevo45 = new Process_Image("Proceso4,5", 0, 6, 7);
+        
+
+        
+        ProcessImagesList.insertFirst(procesonuevo1);
+        ProcessImagesList.insertFirst(procesonuevo2);
+        //ProcessImagesList.insertFirst(procesonuevo3);
+        //ProcessImagesList.insertFirst(procesonuevo4);
+        ProcessImagesList.insertFirst(procesonuevo5);
+        
+        //ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso5"));
+
+        
+        AtomicInteger tiempoInstruccion = new AtomicInteger(1000); // Esto es el tiempo que tardará cada ciclo de reloj
+        AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
+        
+        //Estas son las colas de listos y bloqueados
+        
+        Cola colaR = new Cola("Ready");
+        List colaB = new List("Blocked");
+        
+        
+        Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
+        
+        Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
+        
+        
+        //Esta es la creación de los procesos a partir de sus imágenes
+        
+        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso1"), tiempoInstruccion,scheduler, null, planificacion);
+        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso5"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso2"), tiempoInstruccion, scheduler, null, planificacion);
+
+        
+        //Esta es una lista de los procesos
+        
+        List listaProcesos = new List("Lista de procesos");
+        listaProcesos.insertFirst(proceso1);
+        listaProcesos.insertFirst(proceso5);
+        listaProcesos.insertFirst(proceso2);
+        
+        
+        // Esta es la creación de la lista de CPU y de cada CPU
+        
+        List listaCPU = new List("Lista CPU");
+        Nodo Cpu1 = new Nodo(null);
+        Nodo Cpu2 = new Nodo(null);
+        Nodo Cpu3 = new Nodo(null);
+        listaCPU.insertFirst(Cpu3);
+        listaCPU.insertFirst(Cpu2);
+        listaCPU.insertFirst(Cpu1);
+        
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
+        
+        actualizarPantalla.start();
+        
+        
+        // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
+        
+        for (int j = 0; j < listaProcesos.size(); j++) {
+                listaProcesos.findProcessByIndex(j).start();
+        }
+        
+        // Esto es para que cuando hayan suficientes procesos listos, se asignen
+        
+        while(colaR.getSize() < listaProcesos.size()){
+            ;
+        }
+        
+        // Acá asignas los procesos a un Cpu
+        
+        for (int i = 0; i < listaCPU.size(); i++) {
+            Nodo cpu = listaCPU.findByIndex(i);
+            Logica.java.Process proceso = colaR.desencolarProceso();
+            cpu.setData(proceso);
+            proceso.setCpu(cpu);
+            proceso.getPcb().setStatus("Running");
+            
+        }
+    
+
+        
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,6 +175,16 @@ public class Pantalla extends javax.swing.JFrame {
         txtActiveCPU = new javax.swing.JLabel();
         botonConfirmarValores = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listCPU1 = new javax.swing.JList<>();
+        txtCPU1 = new javax.swing.JLabel();
+        txtCPU2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listCPU2 = new javax.swing.JList<>();
+        txtCPU3 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listCPU3 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -166,7 +287,7 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
         CrearProceso.add(botonCrear);
-        botonCrear.setBounds(550, 350, 72, 22);
+        botonCrear.setBounds(550, 350, 76, 27);
 
         jTabbedPane1.addTab("Crear proceso", CrearProceso);
 
@@ -246,22 +367,79 @@ public class Pantalla extends javax.swing.JFrame {
                     .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                 .addComponent(botonConfirmarValores)
                 .addGap(33, 33, 33))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 314, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 150, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(listCPU1);
+
+        txtCPU1.setText("CPU 1");
+
+        txtCPU2.setText("CPU 2");
+
+        jScrollPane3.setViewportView(listCPU2);
+
+        txtCPU3.setText("CPU 3");
+
+        jScrollPane4.setViewportView(listCPU3);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(txtCPU2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(14, 14, 14)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(50, 50, 50)
+                            .addComponent(txtCPU1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(txtCPU3)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab3", jPanel3);
@@ -327,59 +505,18 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_opcion2ActionPerformed
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-         if (evt.getSource()==botonCrear){
-            int duracionInt=0;
-                try {
-                    String duracionString = fieldDuracion.getText();
-                    duracionInt = Integer.parseInt(duracionString);
-                    if (fieldCiclos.getText().isBlank() && fieldCiclos2.getText().isBlank()) {
-                        // Es CPU Bound.
-                        Process_Image process_CPUBound = new Process_Image(fieldNombre.getText(),duracionInt);
-                        System.out.println(process_CPUBound);
-                        this.simulation.addProcessImage(process_CPUBound);
-                    }else{
-                        // Es I/O Bound.
-                        int ciclosInt = 0;
-                        int ciclos2Int = 0;
-                            try {
-                                String ciclosString = fieldCiclos.getText();
-                                String ciclos2String = fieldCiclos2.getText();
-                                ciclosInt = Integer.parseInt(ciclosString);
-                                ciclos2Int = Integer.parseInt(ciclos2String);
-                                Process_Image process_IOBound = new Process_Image(fieldNombre.getText(),duracionInt,ciclosInt,ciclos2Int);
-                                System.out.println(process_IOBound);                // PRINTS TEMPORALES. BORRAR.
-                                this.simulation.addProcessImage(process_IOBound);
-                            } catch (NumberFormatException e) {
-                                fieldCiclos.setText("Llene ambos parámetros finales con números válidos.");
-                                fieldCiclos2.setText("Llene ambos parámetros finales con números válidos.");
-                            }
-                    }
-                } catch (NumberFormatException e) {
-                    fieldDuracion.setText("Ingrese un número válido.");
-                }
-        }
+
+        
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void button_loadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loadFileActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        int selection = fileChooser.showSaveDialog(jTabbedPane1);
-        if (selection == JFileChooser.APPROVE_OPTION) {
-            File loadedFile = fileChooser.getSelectedFile();
-            try {
-                String readData = simulation.readFile(loadedFile);
-                String[] initialParams = readData.split("\n");
-                this.fieldinstructionCycle.setText(initialParams[0]);
-                this.fieldactiveCPU.setText(initialParams[1]);
-                
-            } catch (FileNotFoundException ex) {
-                fileChooserStateMessage.setText("Ha ocurrido un error. Cargue de nuevo.");
-            }
-            fileChooserStateMessage.setText("Archivo cargado.");
-        } else if (selection == JFileChooser.CANCEL_OPTION) {
-            fileChooserStateMessage.setText("No se ha seleccionado ningún archivo.");
-        }
+
+        
+        
     }//GEN-LAST:event_button_loadFileActionPerformed
 
+    
+    
     private void fieldinstructionCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldinstructionCycleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldinstructionCycleActionPerformed
@@ -389,17 +526,9 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldactiveCPUActionPerformed
 
     private void botonConfirmarValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfirmarValoresActionPerformed
-        try{
-            int[] initialParams_int = {(Integer.parseInt(this.fieldinstructionCycle.getText())),(Integer.parseInt(this.fieldactiveCPU.getText()))};
-            this.simulation.setInstructionCycle_duration(initialParams_int[0]);
-            this.simulation.setActiveCPU_ammount(initialParams_int[1]);
-            fileChooserStateMessage.setText("Parámetros iniciales confirmados.");
-        }catch (NumberFormatException e){
-            this.fieldinstructionCycle.setText("❌");
-            this.fieldactiveCPU.setText("❌");
-            fileChooserStateMessage.setText("Valores inválidos. Ingrese valores numéricos.");
-        }
-        this.simulation.createFile();
+
+        
+        
     }//GEN-LAST:event_botonConfirmarValoresActionPerformed
 
 
@@ -415,13 +544,23 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JTextField fieldactiveCPU;
     private javax.swing.JTextField fieldinstructionCycle;
     private javax.swing.JTextPane fileChooserStateMessage;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList<String> listCPU1;
+    private javax.swing.JList<String> listCPU2;
+    private javax.swing.JList<String> listCPU3;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
     private javax.swing.JLabel txtActiveCPU;
+    private javax.swing.JLabel txtCPU1;
+    private javax.swing.JLabel txtCPU2;
+    private javax.swing.JLabel txtCPU3;
     private javax.swing.JLabel txtCiclo1;
     private javax.swing.JLabel txtCiclo2;
     private javax.swing.JLabel txtCiclo3;
