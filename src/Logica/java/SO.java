@@ -38,7 +38,9 @@ public class SO extends Thread {
             if(queueOp == "Next"){
                 try {
                     
-                    sleep(3000);
+                    sleep(proceso.getSleepTime().get());
+                    sleep(proceso.getSleepTime().get());
+                    sleep(proceso.getSleepTime().get());
                     soS.acquire();
                     
                     
@@ -58,10 +60,13 @@ public class SO extends Thread {
                         nextProceso.setCpu(cpu);
                         nextProceso.getPcb().setStatus("Running");
                         soS.release();
+                        nextProceso.getMostrar().Actualizar(cpu);
             
                     } else{ // Si no hay procesos en la cola de listos
                           System.out.println("No hay mas procesos en la cola de listos");
                           soS.release();
+                          proceso.getCpu().setData(this);
+                          proceso.getMostrar().Actualizar(proceso.getCpu());
                           boolean verificacion = false;
                           while(verificacion == false){
                               sleep(10);

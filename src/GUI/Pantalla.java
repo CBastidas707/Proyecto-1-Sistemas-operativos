@@ -9,14 +9,10 @@ import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
 import Logica.java.Process_Image;
 import Logica.java.Scheduler;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -440,7 +436,60 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
 
+        try {
+        // Obtener los valores de los campos
+        String nombre = fieldNombre.getText();
+        String duracionStr = fieldDuracion.getText();
+        String ciclo1Str = fieldCiclos.getText();
+        String ciclo2Str = fieldCiclos2.getText();
+
+        // Validar que los campos obligatorios no estén vacíos
+        if (nombre.isEmpty() || duracionStr.isEmpty()) {
+            throw new IllegalArgumentException("Error, debe llenar los campos Nombre y Duración.");
+        }
+
+        // Validar si se llenaron los campos opcionales
+        boolean ciclosLlenos = !ciclo1Str.isEmpty() && !ciclo2Str.isEmpty();
+
+        // Validar las combinaciones permitidas
+        if (!ciclosLlenos && (nombre.isEmpty() || duracionStr.isEmpty())) {
+            throw new IllegalArgumentException("Error, debe llenar Nombre y Duración, o los.");
+        }
+
+        if ((nombre.isEmpty() || duracionStr.isEmpty()) && (ciclo1Str.isEmpty() || ciclo2Str.isEmpty())) {
+            throw new IllegalArgumentException("Error, debe llenar Nombre y Duración, o .");
+        }
+
+        // Convertir a enteros y validar que sean mayores a 0
+        int duracion = validarEnteroMayorCero(duracionStr, "Duración");
+        int ciclo1 = 0;
+        int ciclo2 = 0;
+
+        if (ciclosLlenos) {
+            ciclo1 = validarEnteroMayorCero(ciclo1Str, "Ciclos para generar una interrupción");
+            ciclo2 = validarEnteroMayorCero(ciclo2Str, "Ciclos para satisfacer una interrupción");
+        }
+
+        // ... (Aquí iría el código para guardar los datos) ...
         
+        
+        
+
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+private int validarEnteroMayorCero(String valor, String nombreCampo) {
+    try {
+        int numero = Integer.parseInt(valor);
+        if (numero <= 0) {
+            throw new IllegalArgumentException("Error, el campo " + nombreCampo + " debe ser un número entero mayor a 0.");
+        }
+        return numero;
+    } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("Error, el campo " + nombreCampo + " debe ser un número entero.");
+    }
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void button_loadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loadFileActionPerformed
@@ -477,6 +526,7 @@ public class Pantalla extends javax.swing.JFrame {
         Process_Image procesonuevo5 = new Process_Image("Proceso 5", 4, 2, 3);
         Process_Image procesonuevo45 = new Process_Image("Proceso 4,5", 9, 6, 7);
         
+        
 
         
         ProcessImagesList.insertFirst(procesonuevo1);
@@ -488,7 +538,7 @@ public class Pantalla extends javax.swing.JFrame {
         ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso 5"));
 
         
-        AtomicInteger tiempoInstruccion = new AtomicInteger(1000); // Esto es el tiempo que tardará cada ciclo de reloj
+        AtomicInteger tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
         AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
         
         //Estas son las colas de listos y bloqueados
@@ -501,15 +551,28 @@ public class Pantalla extends javax.swing.JFrame {
         
         Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
         
+        // Esta es la creación de la lista de CPU y de cada CPU
+        
+        List listaCPU = new List("Lista CPU");
+        Nodo Cpu1 = new Nodo(null);
+        Nodo Cpu2 = new Nodo(null);
+        Nodo Cpu3 = new Nodo(null);
+        listaCPU.insertFirst(Cpu3);
+        listaCPU.insertFirst(Cpu2);
+        listaCPU.insertFirst(Cpu1);
+        
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU);
+        
+        
         
         //Esta es la creación de los procesos a partir de sus imágenes
         
-        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion);
-        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
 
         
         //Esta es una lista de los procesos
@@ -522,18 +585,6 @@ public class Pantalla extends javax.swing.JFrame {
         listaProcesos.insertFirst(proceso4);
         listaProcesos.insertFirst(proceso45);
         
-        
-        // Esta es la creación de la lista de CPU y de cada CPU
-        
-        List listaCPU = new List("Lista CPU");
-        Nodo Cpu1 = new Nodo(null);
-        Nodo Cpu2 = new Nodo(null);
-        Nodo Cpu3 = new Nodo(null);
-        listaCPU.insertFirst(Cpu3);
-        listaCPU.insertFirst(Cpu2);
-        listaCPU.insertFirst(Cpu1);
-        
-        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
         
         
         // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
@@ -558,7 +609,6 @@ public class Pantalla extends javax.swing.JFrame {
             proceso.getPcb().setStatus("Running");
             
         }
-        actualizarPantalla.start();
     }//GEN-LAST:event_BtnIniciarSimulacionActionPerformed
 
 
