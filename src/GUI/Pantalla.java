@@ -488,7 +488,7 @@ public class Pantalla extends javax.swing.JFrame {
         ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso 5"));
 
         
-        AtomicInteger tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
+        AtomicInteger tiempoInstruccion = new AtomicInteger(1000); // Esto es el tiempo que tardará cada ciclo de reloj
         AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
         
         //Estas son las colas de listos y bloqueados
@@ -501,28 +501,15 @@ public class Pantalla extends javax.swing.JFrame {
         
         Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
         
-        // Esta es la creación de la lista de CPU y de cada CPU
-        
-        List listaCPU = new List("Lista CPU");
-        Nodo Cpu1 = new Nodo(null);
-        Nodo Cpu2 = new Nodo(null);
-        Nodo Cpu3 = new Nodo(null);
-        listaCPU.insertFirst(Cpu3);
-        listaCPU.insertFirst(Cpu2);
-        listaCPU.insertFirst(Cpu1);
-        
-        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU);
-        
-        
         
         //Esta es la creación de los procesos a partir de sus imágenes
         
-        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion);
+        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
 
         
         //Esta es una lista de los procesos
@@ -535,6 +522,18 @@ public class Pantalla extends javax.swing.JFrame {
         listaProcesos.insertFirst(proceso4);
         listaProcesos.insertFirst(proceso45);
         
+        
+        // Esta es la creación de la lista de CPU y de cada CPU
+        
+        List listaCPU = new List("Lista CPU");
+        Nodo Cpu1 = new Nodo(null);
+        Nodo Cpu2 = new Nodo(null);
+        Nodo Cpu3 = new Nodo(null);
+        listaCPU.insertFirst(Cpu3);
+        listaCPU.insertFirst(Cpu2);
+        listaCPU.insertFirst(Cpu1);
+        
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
         
         
         // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
@@ -559,6 +558,7 @@ public class Pantalla extends javax.swing.JFrame {
             proceso.getPcb().setStatus("Running");
             
         }
+        actualizarPantalla.start();
     }//GEN-LAST:event_BtnIniciarSimulacionActionPerformed
 
 
