@@ -6,79 +6,68 @@ package GUI;
 
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import Logica.java.Process;
-import java.util.concurrent.Semaphore;
 
 /**
  *
  * @author carlo_7ogoiii
  */
-public class UpdateView extends Thread{
+public class UpdateView{
 
 private DefaultListModel cpu1;
 private DefaultListModel cpu2;
 private DefaultListModel cpu3;
 private List listaCPU;
-private AtomicInteger sleepTime;
 
-    public UpdateView(DefaultListModel cpu1, DefaultListModel cpu2, DefaultListModel cpu3, List listaCPU, AtomicInteger sleepTime) {
+    public UpdateView(DefaultListModel cpu1, DefaultListModel cpu2, DefaultListModel cpu3, List listaCPU) {
         this.cpu1 = cpu1;
         this.cpu2 = cpu2;
         this.cpu3 = cpu3;
         this.listaCPU = listaCPU;
-        this.sleepTime = sleepTime;
     }
 
-
-    @Override
-    public void run(){
-        
-        while(true){
-            try {
-                
-                this.Actualizar(cpu1, 0);
-                this.Actualizar(cpu2, 1);
-                this.Actualizar(cpu3, 2);
-
-                sleep(sleepTime.get());
-            
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UpdateView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
     
-    public void Actualizar(DefaultListModel cpu, int indice){
+    public void Actualizar(Nodo nodoCPU){
         
-        cpu.removeAllElements();
+        DefaultListModel cpu = null;
+
+        // Identificar el DefaultListModel según el Nodo
         
-        Object data = (listaCPU.findByIndex(indice).getData());
-        
-        if(data instanceof Process){
+        if (nodoCPU == listaCPU.findByIndex(0)) {
+            cpu = cpu1;
+        } else if (nodoCPU == listaCPU.findByIndex(1)) {
+            cpu = cpu2;
+        } else if (nodoCPU == listaCPU.findByIndex(2)) {
+            cpu = cpu3;
+        }
+
+        if (cpu != null) { // Si se encontró el DefaultListModel
             
-            Process proceso = (Process) data;
+            cpu.removeAllElements();
+        
+            Object data = nodoCPU.getData();
+        
+            if(data instanceof Process){
             
-            if(proceso.getPcb().getExceptionG() > 0){
-                // Si es I/O bound
+                Process proceso = (Process) data;
+            
+                if(proceso.getPcb().getExceptionG() > 0){
+                    // Si es I/O bound
                 
-                String nombre = proceso.getPcb().getProcess_name();
-                String MAR = "MAR: " + String.valueOf(proceso.getPcb().getMAR_Status());
-                String PC = "PC: " +  String.valueOf(proceso.getPcb().getPC_Status());
-                String Length = "Longitud: " +  String.valueOf(proceso.getPcb().getLength());
-                String Tipo = "Tipo: " +  "I/O bound";
+                    String nombre = proceso.getPcb().getProcess_name();
+                    String MAR = "MAR: " + String.valueOf(proceso.getPcb().getMAR_Status());
+                    String PC = "PC: " +  String.valueOf(proceso.getPcb().getPC_Status());
+                    String Length = "Longitud: " +  String.valueOf(proceso.getPcb().getLength());
+                    String Tipo = "Tipo: " +  "I/O bound";
                 
-                cpu.addElement(nombre);
-                cpu.addElement(MAR);
-                cpu.addElement(PC);
-                cpu.addElement(Length);
-                cpu.addElement(Tipo);
+                    cpu.addElement(nombre);
+                    cpu.addElement(MAR);
+                    cpu.addElement(PC);
+                    cpu.addElement(Length);
+                    cpu.addElement(Tipo);
                 
-            } else{
+                } else{
                 // Si es CPU bond
                 
                 String nombre = proceso.getPcb().getProcess_name();
@@ -101,10 +90,9 @@ private AtomicInteger sleepTime;
             String so = "SO";
             cpu.addElement(so);
                  
-        }
-        
-        
-        
+        }}else{
+            System.out.println("No se encontro el CPU");
+        }   
     }
     
     

@@ -34,6 +34,7 @@ public class Scheduler {
         Nodo cpu = proceso.getCpu();
         SO so = new SO(ready, "Next", soS, proceso);
         cpu.setData(so);
+        proceso.getMostrar().Actualizar(cpu);
         so.start();
 
         blocked.insertFirst(proceso); // Inserta en la cola de bloqueados (que en realidad es una lista) al proceso que se bloqueará
@@ -68,6 +69,7 @@ public class Scheduler {
                 if(proceso.getPcb().getStatus() == "Ready"){
                     SO so = new SO(ready, "Next", soS, proceso);
                     proceso.getCpu().setData(so);
+                    proceso.getMostrar().Actualizar(proceso.getCpu());
                     so.start();
                 }
                 proceso.getPcb().setStatus("Ready");
