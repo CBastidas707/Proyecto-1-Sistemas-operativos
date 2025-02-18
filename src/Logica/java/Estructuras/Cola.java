@@ -1,13 +1,16 @@
 
 package Logica.java.Estructuras;
+import Logica.java.Process;
 
 
 public class Cola {
+    private String name;
     private Nodo head;
     private Nodo tail;
     private int size;
 
-    public Cola() {
+    public Cola(String name) {
+        this.head = head;
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -47,6 +50,18 @@ public class Cola {
         setSize(getSize() + 1);
     }
     
+        public void encolarProceso(Process dato){
+        Nodo nuevo = new Nodo(dato);
+        if(isEmpty()){
+            setHead(nuevo);
+            setTail(nuevo);
+        }else{
+            getTail().setpNext(nuevo);
+            setTail(nuevo);
+        }
+        setSize(getSize() + 1);
+    }
+    
     /**
      * Permite despachar al primero en la cola
      */
@@ -61,6 +76,26 @@ public class Cola {
             }
         }
     }
+    
+public Process desencolarProceso() {
+    if (isEmpty()) {
+        return null;
+    }
+
+    if (getHead().getData() instanceof Process) {
+        Process proceso = (Process) getHead().getData();
+
+        if (getSize() == 1) {
+            Empty();
+        } else {
+            setHead(getHead().getpNext());
+            setSize(getSize() - 1);
+        }
+        return proceso;
+    } else {
+        return null; 
+    }
+}
     
     /**
      * Retorna un string con todos los valores de los nodos encolados por orden desde el primer nodo hasta el ultimo en cola
@@ -118,6 +153,14 @@ public class Cola {
      */
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     
