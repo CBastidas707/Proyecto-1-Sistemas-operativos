@@ -3,11 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
+
 import Logica.java.Estructuras.Cola;
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
 import Logica.java.Process_Image;
 import Logica.java.Scheduler;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Reader;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultListModel;
@@ -18,31 +26,45 @@ import javax.swing.JOptionPane;
  * @author carlo_7ogoiii
  */
 public class Pantalla extends javax.swing.JFrame {
+
     /**
      * Creates new form Pantalla
      */
-    
     private List listaCPU;
-    
+
     DefaultListModel cpu1 = new DefaultListModel();
     DefaultListModel cpu2 = new DefaultListModel();
     DefaultListModel cpu3 = new DefaultListModel();
-    
-    
+    private List lista;
+
     public Pantalla() {
-        
+
         initComponents();
         listCPU1.setModel(cpu1);
         listCPU2.setModel(cpu2);
         listCPU3.setModel(cpu3);
-        
-       
-    
 
+        this.lista = new List("LISTICA");
         
+
     }
-    
-    
+
+    private void llenarLista() {
+        Process_Image procesonuevo1 = new Process_Image("Proceso 1", 6);
+        Process_Image procesonuevo2 = new Process_Image("Proceso 2", 8, 2, 3);
+        Process_Image procesonuevo3 = new Process_Image("Proceso 3", 7);
+        Process_Image procesonuevo4 = new Process_Image("Proceso 4", 8);
+        Process_Image procesonuevo5 = new Process_Image("Proceso 5", 4, 2, 3);
+        Process_Image procesonuevo45 = new Process_Image("Proceso 4,5", 9, 6, 7);
+
+        this.lista.insertFirst(procesonuevo1);
+        this.lista.insertFirst(procesonuevo2);
+        this.lista.insertFirst(procesonuevo3);
+        this.lista.insertFirst(procesonuevo4);
+        this.lista.insertFirst(procesonuevo5);
+
+        this.lista.insert(procesonuevo45, this.lista.find("Proceso 5"));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,8 +103,9 @@ public class Pantalla extends javax.swing.JFrame {
         fieldinstructionCycle = new javax.swing.JTextField();
         fieldactiveCPU = new javax.swing.JTextField();
         txtinstructionCycle = new javax.swing.JLabel();
-        txtActiveCPU = new javax.swing.JLabel();
         botonConfirmarValores = new javax.swing.JButton();
+        txtActiveCPU1 = new javax.swing.JLabel();
+        BtnCargarProcesos = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -201,34 +224,44 @@ public class Pantalla extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Crear proceso", CrearProceso);
 
+        jPanel2.setLayout(null);
+
         button_loadFile.setText("Cargar  Archivo");
         button_loadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_loadFileActionPerformed(evt);
             }
         });
+        jPanel2.add(button_loadFile);
+        button_loadFile.setBounds(738, 118, 139, 44);
 
         fileChooserStateMessage.setEditable(false);
         fileChooserStateMessage.setText("Cargue los parámetros iniciales de la simulación.");
         jScrollPane2.setViewportView(fileChooserStateMessage);
+
+        jPanel2.add(jScrollPane2);
+        jScrollPane2.setBounds(730, 180, 159, 26);
 
         fieldinstructionCycle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldinstructionCycleActionPerformed(evt);
             }
         });
+        jPanel2.add(fieldinstructionCycle);
+        fieldinstructionCycle.setBounds(440, 80, 68, 24);
 
         fieldactiveCPU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldactiveCPUActionPerformed(evt);
             }
         });
+        jPanel2.add(fieldactiveCPU);
+        fieldactiveCPU.setBounds(440, 150, 68, 24);
 
         txtinstructionCycle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtinstructionCycle.setText("Duración del Ciclo de la Instrucción:");
-
-        txtActiveCPU.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtActiveCPU.setText("Cantidad de Procesadores Activos:");
+        jPanel2.add(txtinstructionCycle);
+        txtinstructionCycle.setBounds(40, 70, 387, 32);
 
         botonConfirmarValores.setText("Confirmar Valores");
         botonConfirmarValores.addActionListener(new java.awt.event.ActionListener() {
@@ -236,51 +269,22 @@ public class Pantalla extends javax.swing.JFrame {
                 botonConfirmarValoresActionPerformed(evt);
             }
         });
+        jPanel2.add(botonConfirmarValores);
+        botonConfirmarValores.setBounds(819, 391, 129, 27);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtActiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fieldinstructionCycle)
-                    .addComponent(fieldactiveCPU))
-                .addGap(232, 232, 232)
-                .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(152, 152, 152))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(140, 140, 140))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(botonConfirmarValores)
-                        .addGap(81, 81, 81))))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtinstructionCycle)
-                    .addComponent(fieldinstructionCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtActiveCPU)
-                    .addComponent(fieldactiveCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_loadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                .addComponent(botonConfirmarValores)
-                .addGap(33, 33, 33))
-        );
+        txtActiveCPU1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtActiveCPU1.setText("Cantidad de Procesadores Activos:");
+        jPanel2.add(txtActiveCPU1);
+        txtActiveCPU1.setBounds(40, 140, 387, 32);
+
+        BtnCargarProcesos.setText("Cargar procesos");
+        BtnCargarProcesos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCargarProcesosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(BtnCargarProcesos);
+        BtnCargarProcesos.setBounds(50, 377, 160, 40);
 
         jTabbedPane1.addTab("tab2", jPanel2);
 
@@ -414,10 +418,10 @@ public class Pantalla extends javax.swing.JFrame {
         txtCiclo4.setVisible(false);
         fieldCiclos.setVisible(false);
         fieldCiclos2.setVisible(false);
-        
+
         fieldCiclos.setText("");
         fieldCiclos2.setText("");
-        
+
     }//GEN-LAST:event_opcion1ActionPerformed
 
     private void opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion2ActionPerformed
@@ -436,69 +440,79 @@ public class Pantalla extends javax.swing.JFrame {
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
 
         try {
-        // Obtener los valores de los campos
-        String nombre = fieldNombre.getText();
-        String duracionStr = fieldDuracion.getText();
-        String ciclo1Str = fieldCiclos.getText();
-        String ciclo2Str = fieldCiclos2.getText();
+            // Obtener los valores de los campos
+            String nombre = fieldNombre.getText();
+            String duracionStr = fieldDuracion.getText();
+            String ciclo1Str = fieldCiclos.getText();
+            String ciclo2Str = fieldCiclos2.getText();
 
-        // Validar que los campos obligatorios no estén vacíos
-        if (nombre.isEmpty() || duracionStr.isEmpty()) {
-            throw new IllegalArgumentException("Error, debe llenar los campos Nombre y Duración.");
+            // Validar que los campos obligatorios no estén vacíos
+            if (nombre.isEmpty() || duracionStr.isEmpty()) {
+                throw new IllegalArgumentException("Error, debe llenar los campos Nombre y Duración.");
+            }
+
+            // Validar si se llenaron los campos opcionales
+            boolean ciclosLlenos = !ciclo1Str.isEmpty() && !ciclo2Str.isEmpty();
+
+            // Validar las combinaciones permitidas
+            if (!ciclosLlenos && (nombre.isEmpty() || duracionStr.isEmpty())) {
+                throw new IllegalArgumentException("Error, debe llenar Nombre y Duración, o los.");
+            }
+
+            if ((nombre.isEmpty() || duracionStr.isEmpty()) && (ciclo1Str.isEmpty() || ciclo2Str.isEmpty())) {
+                throw new IllegalArgumentException("Error, debe llenar Nombre y Duración, o .");
+            }
+
+            // Convertir a enteros y validar que sean mayores a 0
+            int duracion = validarEnteroMayorCero(duracionStr, "Duración");
+            int ciclo1 = 0;
+            int ciclo2 = 0;
+
+            if (ciclosLlenos) {
+                ciclo1 = validarEnteroMayorCero(ciclo1Str, "Ciclos para generar una interrupción");
+                ciclo2 = validarEnteroMayorCero(ciclo2Str, "Ciclos para satisfacer una interrupción");
+            }
+
+            // ... (Aquí iría el código para guardar los datos) ...
+            
+            
+            if(ciclo1 > 0 && ciclo2 > 0){
+                Process_Image proceso = new Process_Image(nombre, duracion, ciclo1, ciclo2);
+                lista.insertFirst(proceso);
+                escribirEnJson();
+            }
+            else{
+                Process_Image proceso = new Process_Image(nombre, duracion);
+                lista.insertFirst(proceso);
+                escribirEnJson();
+            }
+            
+            
+            
+            
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Validar si se llenaron los campos opcionales
-        boolean ciclosLlenos = !ciclo1Str.isEmpty() && !ciclo2Str.isEmpty();
-
-        // Validar las combinaciones permitidas
-        if (!ciclosLlenos && (nombre.isEmpty() || duracionStr.isEmpty())) {
-            throw new IllegalArgumentException("Error, debe llenar Nombre y Duración, o los.");
-        }
-
-        if ((nombre.isEmpty() || duracionStr.isEmpty()) && (ciclo1Str.isEmpty() || ciclo2Str.isEmpty())) {
-            throw new IllegalArgumentException("Error, debe llenar Nombre y Duración, o .");
-        }
-
-        // Convertir a enteros y validar que sean mayores a 0
-        int duracion = validarEnteroMayorCero(duracionStr, "Duración");
-        int ciclo1 = 0;
-        int ciclo2 = 0;
-
-        if (ciclosLlenos) {
-            ciclo1 = validarEnteroMayorCero(ciclo1Str, "Ciclos para generar una interrupción");
-            ciclo2 = validarEnteroMayorCero(ciclo2Str, "Ciclos para satisfacer una interrupción");
-        }
-
-        // ... (Aquí iría el código para guardar los datos) ...
-        
-        
-        
-
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
 
-private int validarEnteroMayorCero(String valor, String nombreCampo) {
-    try {
-        int numero = Integer.parseInt(valor);
-        if (numero <= 0) {
-            throw new IllegalArgumentException("Error, el campo " + nombreCampo + " debe ser un número entero mayor a 0.");
+    private int validarEnteroMayorCero(String valor, String nombreCampo) {
+        try {
+            int numero = Integer.parseInt(valor);
+            if (numero <= 0) {
+                throw new IllegalArgumentException("Error, el campo " + nombreCampo + " debe ser un número entero mayor a 0.");
+            }
+            return numero;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Error, el campo " + nombreCampo + " debe ser un número entero.");
         }
-        return numero;
-    } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Error, el campo " + nombreCampo + " debe ser un número entero.");
-    }
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void button_loadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loadFileActionPerformed
 
-        
-        
+
     }//GEN-LAST:event_button_loadFileActionPerformed
 
-    
-    
+
     private void fieldinstructionCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldinstructionCycleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldinstructionCycleActionPerformed
@@ -509,49 +523,107 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
 
     private void botonConfirmarValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfirmarValoresActionPerformed
 
-        
-        
+
     }//GEN-LAST:event_botonConfirmarValoresActionPerformed
 
+    private void escribirEnJson(){
+        
+        /*
+        FALTA GUARDAR LOS ATRIBUTOS DE LA SIMULACION
+        */
+        
+        JsonArray colalistosArray = new JsonArray();
+        List listaJson = this.lista;
+        for (int i = 0; i < listaJson.size(); i++) {
+            Process_Image proceso = listaJson.findProcessImageByIndex(i);
+            
+            JsonObject processJson = new JsonObject();
+            
+            processJson.addProperty("nombre", proceso.getProcess_name());
+            processJson.addProperty("processlenght", proceso.getProcess_length());
+            processJson.addProperty("consumption_category", proceso.getConsumption_category());
+            
+            if (proceso.getConsumption_category().equals("I/O Bound")) {
+                processJson.addProperty("exceptionRequirement", proceso.getExceptionRequirement());
+                processJson.addProperty("exceptionCoverage", proceso.getExceptionCoverage());
+            }
+            
+            colalistosArray.add(processJson);
+            
+        }
+        
+        JsonObject raiz = new JsonObject();
+        raiz.add("colalistos", colalistosArray);
+        
+        try (FileWriter writer = new FileWriter("Simulacion.json")){
+            writer.write(raiz.toString());
+            System.out.println("DATIOSSSSS");
+        } catch (Exception e) {
+        }
+                
+        
+        
+        
+    }
+    
     private void BtnIniciarSimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIniciarSimulacionActionPerformed
-        
-        // Esto es una prueba para crear listas y verificar que sirve, primero se crea una lista para almacenar las imágenes de los procesos
-        List ProcessImagesList = new List("Imágenes de los procesos");
-       
-        Process_Image procesonuevo1 = new Process_Image("Proceso 1", 6);
-        Process_Image procesonuevo2 = new Process_Image("Proceso 2", 8,2,3);
-        Process_Image procesonuevo3 = new Process_Image("Proceso 3", 7);
-        Process_Image procesonuevo4 = new Process_Image("Proceso 4", 8);
-        Process_Image procesonuevo5 = new Process_Image("Proceso 5", 4, 2, 3);
-        Process_Image procesonuevo45 = new Process_Image("Proceso 4,5", 9, 6, 7);
-        
-        
-        
-        
-        ProcessImagesList.insertFirst(procesonuevo1);
-        ProcessImagesList.insertFirst(procesonuevo2);
-        ProcessImagesList.insertFirst(procesonuevo3);
-        ProcessImagesList.insertFirst(procesonuevo4);
-        ProcessImagesList.insertFirst(procesonuevo5);
-        
-        ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso 5"));
 
-             
+
+        Gson gson = new Gson();
+
+        try (Reader lector = new FileReader("Simulacion.json")) {
+            JsonObject root = gson.fromJson(lector, JsonObject.class);
+
+            // GUARDADO COLA DE LISTOS
+            JsonArray colalistosArray = root.getAsJsonArray("colalistos");
+
+            // METODO PARA LIMPIAR LA COLA DE LISTOS falta
+            // LEEMOS CADA OBJETO JSON PARA OBTENER SU VALOR
+            for (JsonElement element : colalistosArray) {
+                JsonObject procesoJson = element.getAsJsonObject();
+                String processName = procesoJson.get("nombre").getAsString();
+                int processLenght = procesoJson.get("processlenght").getAsInt();
+                String consumption_category = procesoJson.get("consumption_category").getAsString();
+                // DATOS PCB
+//                String namePCB = procesoJson.get("NombrePCB").getAsString();
+//                String statusPCB = procesoJson.get("statusPCB").getAsString();
+//                int pcPCB = procesoJson.get("pcPCB").getAsInt();
+//                int marPCB = procesoJson.get("marPCB").getAsInt();
+
+                Process_Image proceso = null;
+
+                if (consumption_category.equals("I/O Bound")) {
+                    // PARA LA PARTE DE CREACION DE PROCESO
+                    int exceptionRequirement = procesoJson.get("exceptionRequirement").getAsInt();
+                    int exceptionCoverage = procesoJson.get("exceptionCoverage").getAsInt();
+
+                    proceso = new Process_Image(processName, processLenght, exceptionRequirement, exceptionCoverage);
+                } else {
+                    proceso = new Process_Image(processName, processLenght);
+                }
+
+                if (proceso != null) {
+                    this.lista.insertFirst(proceso);
+                    System.out.println("PROCESOS LEIDOS!!!");
+                }
+
+            }
+
+        } catch (Exception e) {
+        }
+
         AtomicInteger tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
         AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
-        
+
         //Estas son las colas de listos y bloqueados
-        
         Cola colaR = new Cola("Ready");
         List colaB = new List("Blocked");
-        
-        
+
         Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
-        
+
         Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
-        
+
         // Esta es la creación de la lista de CPU y de cada CPU
-        
         List listaCPU = new List("Lista CPU");
         Nodo Cpu1 = new Nodo(null);
         Nodo Cpu2 = new Nodo(null);
@@ -559,61 +631,58 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
         listaCPU.insertFirst(Cpu3);
         listaCPU.insertFirst(Cpu2);
         listaCPU.insertFirst(Cpu1);
-        
-        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
-        
-        
-        
-        //Esta es la creación de los procesos a partir de sus imágenes
-        
-        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion);
-        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
 
-        
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
+
+        //Esta es la creación de los procesos a partir de sus imágenes
+        Logica.java.Process proceso1 = new Logica.java.Process(lista.findPCB("Proceso 1"), tiempoInstruccion, scheduler, null, planificacion);
+//        Logica.java.Process proceso5 = new Logica.java.Process(lista.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso2 = new Logica.java.Process(lista.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso3 = new Logica.java.Process(lista.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso4 = new Logica.java.Process(lista.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
+//        Logica.java.Process proceso45 = new Logica.java.Process(lista.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
+
         //Esta es una lista de los procesos
-        
         List listaProcesos = new List("Lista de procesos");
         listaProcesos.insertFirst(proceso1);
-        listaProcesos.insertFirst(proceso5);
+//        listaProcesos.insertFirst(proceso5);
         listaProcesos.insertFirst(proceso2);
         listaProcesos.insertFirst(proceso3);
         listaProcesos.insertFirst(proceso4);
-        listaProcesos.insertFirst(proceso45);
-        
-        
-        
+//        listaProcesos.insertFirst(proceso45);
+
         // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
-        
         for (int j = 0; j < listaProcesos.size(); j++) {
-                listaProcesos.findProcessByIndex(j).start();
+            listaProcesos.findProcessByIndex(j).start();
         }
-        
+
         // Esto es para que cuando hayan suficientes procesos listos, se asignen
-        
-        while(colaR.getSize() < listaProcesos.size()){
+        while (colaR.getSize() < listaProcesos.size()) {
             ;
         }
-        
+
         // Acá asignas los procesos a un Cpu
-        
         for (int i = 0; i < listaCPU.size(); i++) {
             Nodo cpu = listaCPU.findByIndex(i);
             Logica.java.Process proceso = colaR.desencolarProceso();
             cpu.setData(proceso);
             proceso.setCpu(cpu);
             proceso.getPcb().setStatus("Running");
-            
+
         }
-        
+
         actualizarPantalla.start();
+
+
     }//GEN-LAST:event_BtnIniciarSimulacionActionPerformed
+
+    private void BtnCargarProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCargarProcesosActionPerformed
+
+    }//GEN-LAST:event_BtnCargarProcesosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnCargarProcesos;
     private javax.swing.JButton BtnIniciarSimulacion;
     private javax.swing.JPanel CrearProceso;
     private javax.swing.JButton botonConfirmarValores;
@@ -639,7 +708,7 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
     private javax.swing.JList<String> listCPU3;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
-    private javax.swing.JLabel txtActiveCPU;
+    private javax.swing.JLabel txtActiveCPU1;
     private javax.swing.JLabel txtCPU1;
     private javax.swing.JLabel txtCPU2;
     private javax.swing.JLabel txtCPU3;
