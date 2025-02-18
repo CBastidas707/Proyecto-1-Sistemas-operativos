@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
-
 import Logica.java.Estructuras.Cola;
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
@@ -527,7 +526,7 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
         Process_Image procesonuevo45 = new Process_Image("Proceso 4,5", 9, 6, 7);
         
         
-
+        
         
         ProcessImagesList.insertFirst(procesonuevo1);
         ProcessImagesList.insertFirst(procesonuevo2);
@@ -537,7 +536,7 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
         
         ProcessImagesList.insert(procesonuevo45,ProcessImagesList.find("Proceso 5"));
 
-        
+             
         AtomicInteger tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
         AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
         
