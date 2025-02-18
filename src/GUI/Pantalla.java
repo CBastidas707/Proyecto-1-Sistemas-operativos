@@ -561,18 +561,18 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
         listaCPU.insertFirst(Cpu2);
         listaCPU.insertFirst(Cpu1);
         
-        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU);
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
         
         
         
         //Esta es la creación de los procesos a partir de sus imágenes
         
-        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
-        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion, actualizarPantalla);
+        Logica.java.Process proceso1 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 1"), tiempoInstruccion,scheduler, null, planificacion);
+        Logica.java.Process proceso5 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso2 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso3 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso4 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
+        Logica.java.Process proceso45 = new Logica.java.Process(ProcessImagesList.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
 
         
         //Esta es una lista de los procesos
@@ -609,6 +609,8 @@ private int validarEnteroMayorCero(String valor, String nombreCampo) {
             proceso.getPcb().setStatus("Running");
             
         }
+        
+        actualizarPantalla.start();
     }//GEN-LAST:event_BtnIniciarSimulacionActionPerformed
 
 

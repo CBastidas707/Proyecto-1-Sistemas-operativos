@@ -18,15 +18,13 @@ public class Process extends Thread {
     private Scheduler scheduler;
     private Nodo cpu;
     private AtomicInteger planificacion;
-    private UpdateView mostrar;
 
-    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Nodo cpu, AtomicInteger planificacion, UpdateView mostrar) {
+    public Process(PCB pcb, AtomicInteger sleepTime, Scheduler scheduler, Nodo cpu, AtomicInteger planificacion) {
         this.pcb = pcb;
         this.sleepTime = sleepTime;
         this.scheduler = scheduler;
         this.cpu = cpu;
         this.planificacion = planificacion;
-        this.mostrar = mostrar;
     }
 
     @Override
@@ -108,8 +106,6 @@ public class Process extends Thread {
                             + "\n" + "Tipo: CPU bound"
                             + "\n--------------------------------\n");
                 }
-                
-                mostrar.Actualizar(cpu);
 
                 if (planificacion.get() == 2) {
                     quantum--;
@@ -161,24 +157,4 @@ public class Process extends Thread {
         this.cpu = cpu;
     }
 
-    public AtomicInteger getSleepTime() {
-        return sleepTime;
-    }
-
-    public void setSleepTime(AtomicInteger sleepTime) {
-        this.sleepTime = sleepTime;
-    }
-
-    public UpdateView getMostrar() {
-        return mostrar;
-    }
-
-    public void setMostrar(UpdateView mostrar) {
-        this.mostrar = mostrar;
-    }
-    
-    
-
-    
-    
 }
