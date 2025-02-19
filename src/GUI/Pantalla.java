@@ -36,6 +36,8 @@ public class Pantalla extends javax.swing.JFrame {
     DefaultListModel cpu2 = new DefaultListModel();
     DefaultListModel cpu3 = new DefaultListModel();
     private List lista;
+    
+    private int numeroCPUs;
 
     public Pantalla() {
 
@@ -45,6 +47,8 @@ public class Pantalla extends javax.swing.JFrame {
         listCPU3.setModel(cpu3);
 
         this.lista = new List("LISTICA");
+        
+        numeroCPUs = 3;
         
 
     }
@@ -579,8 +583,17 @@ public class Pantalla extends javax.swing.JFrame {
         Nodo Cpu1 = new Nodo(null);
         Nodo Cpu2 = new Nodo(null);
         Nodo Cpu3 = new Nodo(null);
-        listaCPU.insertFirst(Cpu3);
-        listaCPU.insertFirst(Cpu2);
+        
+        if(numeroCPUs > 2){
+            listaCPU.insertFirst(Cpu3);
+            listaCPU.insertFirst(Cpu2);
+        }
+        
+        if(numeroCPUs < 3){
+            listaCPU.insertFirst(Cpu2);
+        }
+        
+        
         listaCPU.insertFirst(Cpu1);
 
         UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);

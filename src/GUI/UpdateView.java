@@ -42,9 +42,12 @@ private AtomicInteger sleepTime;
                 
                 this.Actualizar(cpu1, 0);
                 this.Actualizar(cpu2, 1);
+                
+                if(listaCPU.size() == 3){
                 this.Actualizar(cpu3, 2);
+                }
 
-                sleep(sleepTime.get());
+                sleep(sleepTime.get() + 5);
             
 
             } catch (InterruptedException ex) {

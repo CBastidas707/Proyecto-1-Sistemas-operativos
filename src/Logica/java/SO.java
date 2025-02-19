@@ -93,6 +93,8 @@ public class SO extends Thread {
             
         }
         
+        System.out.println("Se dejo de ejecutar el SO");
+        
         
     }
 
