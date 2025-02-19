@@ -76,6 +76,23 @@ public class Pantalla extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listCPU1 = new javax.swing.JList<>();
+        txtCPU1 = new javax.swing.JLabel();
+        txtCPU2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listCPU2 = new javax.swing.JList<>();
+        txtCPU3 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listCPU3 = new javax.swing.JList<>();
+        BtnIniciarSimulacion = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        fieldinstructionCycle = new javax.swing.JTextField();
+        fieldactiveCPU = new javax.swing.JTextField();
+        txtinstructionCycle = new javax.swing.JLabel();
+        txtActiveCPU1 = new javax.swing.JLabel();
         CrearProceso = new javax.swing.JPanel();
         txtDuracion = new javax.swing.JLabel();
         txtDuracion.setVisible(false);
@@ -96,30 +113,127 @@ public class Pantalla extends javax.swing.JFrame {
         opcion1 = new javax.swing.JButton();
         opcion2 = new javax.swing.JButton();
         botonCrear = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        button_loadFile = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        fileChooserStateMessage = new javax.swing.JTextPane();
-        fieldinstructionCycle = new javax.swing.JTextField();
-        fieldactiveCPU = new javax.swing.JTextField();
-        txtinstructionCycle = new javax.swing.JLabel();
-        botonConfirmarValores = new javax.swing.JButton();
-        txtActiveCPU1 = new javax.swing.JLabel();
-        BtnCargarProcesos = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listCPU1 = new javax.swing.JList<>();
-        txtCPU1 = new javax.swing.JLabel();
-        txtCPU2 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listCPU2 = new javax.swing.JList<>();
-        txtCPU3 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listCPU3 = new javax.swing.JList<>();
-        BtnIniciarSimulacion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 314, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 150, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(listCPU1);
+
+        txtCPU1.setText("CPU 1");
+
+        txtCPU2.setText("CPU 2");
+
+        jScrollPane3.setViewportView(listCPU2);
+
+        txtCPU3.setText("CPU 3");
+
+        jScrollPane4.setViewportView(listCPU3);
+
+        BtnIniciarSimulacion.setText("Iniciar");
+        BtnIniciarSimulacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnIniciarSimulacionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(57, 57, 57)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(314, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnIniciarSimulacion)
+                        .addGap(156, 156, 156))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(txtCPU2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(14, 14, 14)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(50, 50, 50)
+                            .addComponent(txtCPU1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(txtCPU3)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(81, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnIniciarSimulacion)
+                        .addGap(61, 61, 61))))
+        );
+
+        jTabbedPane1.addTab("Simulación", jPanel3);
+
+        jPanel2.setLayout(null);
+
+        fieldinstructionCycle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldinstructionCycleActionPerformed(evt);
+            }
+        });
+        jPanel2.add(fieldinstructionCycle);
+        fieldinstructionCycle.setBounds(440, 80, 68, 24);
+
+        fieldactiveCPU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldactiveCPUActionPerformed(evt);
+            }
+        });
+        jPanel2.add(fieldactiveCPU);
+        fieldactiveCPU.setBounds(440, 150, 68, 24);
+
+        txtinstructionCycle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtinstructionCycle.setText("Duración del Ciclo de la Instrucción:");
+        jPanel2.add(txtinstructionCycle);
+        txtinstructionCycle.setBounds(40, 70, 387, 32);
+
+        txtActiveCPU1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtActiveCPU1.setText("Cantidad de Procesadores Activos:");
+        jPanel2.add(txtActiveCPU1);
+        txtActiveCPU1.setBounds(40, 140, 387, 32);
+
+        jTabbedPane1.addTab("Parámatetros generales", jPanel2);
 
         CrearProceso.setLayout(null);
 
@@ -222,160 +336,7 @@ public class Pantalla extends javax.swing.JFrame {
         CrearProceso.add(botonCrear);
         botonCrear.setBounds(550, 350, 76, 27);
 
-        jTabbedPane1.addTab("Crear proceso", CrearProceso);
-
-        jPanel2.setLayout(null);
-
-        button_loadFile.setText("Cargar  Archivo");
-        button_loadFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_loadFileActionPerformed(evt);
-            }
-        });
-        jPanel2.add(button_loadFile);
-        button_loadFile.setBounds(738, 118, 139, 44);
-
-        fileChooserStateMessage.setEditable(false);
-        fileChooserStateMessage.setText("Cargue los parámetros iniciales de la simulación.");
-        jScrollPane2.setViewportView(fileChooserStateMessage);
-
-        jPanel2.add(jScrollPane2);
-        jScrollPane2.setBounds(730, 180, 159, 26);
-
-        fieldinstructionCycle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldinstructionCycleActionPerformed(evt);
-            }
-        });
-        jPanel2.add(fieldinstructionCycle);
-        fieldinstructionCycle.setBounds(440, 80, 68, 24);
-
-        fieldactiveCPU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldactiveCPUActionPerformed(evt);
-            }
-        });
-        jPanel2.add(fieldactiveCPU);
-        fieldactiveCPU.setBounds(440, 150, 68, 24);
-
-        txtinstructionCycle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtinstructionCycle.setText("Duración del Ciclo de la Instrucción:");
-        jPanel2.add(txtinstructionCycle);
-        txtinstructionCycle.setBounds(40, 70, 387, 32);
-
-        botonConfirmarValores.setText("Confirmar Valores");
-        botonConfirmarValores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConfirmarValoresActionPerformed(evt);
-            }
-        });
-        jPanel2.add(botonConfirmarValores);
-        botonConfirmarValores.setBounds(819, 391, 129, 27);
-
-        txtActiveCPU1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtActiveCPU1.setText("Cantidad de Procesadores Activos:");
-        jPanel2.add(txtActiveCPU1);
-        txtActiveCPU1.setBounds(40, 140, 387, 32);
-
-        BtnCargarProcesos.setText("Cargar procesos");
-        BtnCargarProcesos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCargarProcesosActionPerformed(evt);
-            }
-        });
-        jPanel2.add(BtnCargarProcesos);
-        BtnCargarProcesos.setBounds(50, 377, 160, 40);
-
-        jTabbedPane1.addTab("tab2", jPanel2);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 314, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-        );
-
-        jScrollPane1.setViewportView(listCPU1);
-
-        txtCPU1.setText("CPU 1");
-
-        txtCPU2.setText("CPU 2");
-
-        jScrollPane3.setViewportView(listCPU2);
-
-        txtCPU3.setText("CPU 3");
-
-        jScrollPane4.setViewportView(listCPU3);
-
-        BtnIniciarSimulacion.setText("Iniciar");
-        BtnIniciarSimulacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnIniciarSimulacionActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(57, 57, 57)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(314, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnIniciarSimulacion)
-                        .addGap(156, 156, 156))))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtCPU2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(50, 50, 50)
-                            .addComponent(txtCPU1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(txtCPU3)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(81, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnIniciarSimulacion)
-                        .addGap(61, 61, 61))))
-        );
-
-        jTabbedPane1.addTab("tab3", jPanel3);
+        jTabbedPane1.addTab("Cargar procesos nuevos", CrearProceso);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -507,11 +468,6 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonCrearActionPerformed
 
-    private void button_loadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loadFileActionPerformed
-
-
-    }//GEN-LAST:event_button_loadFileActionPerformed
-
 
     private void fieldinstructionCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldinstructionCycleActionPerformed
         // TODO add your handling code here:
@@ -520,11 +476,6 @@ public class Pantalla extends javax.swing.JFrame {
     private void fieldactiveCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldactiveCPUActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldactiveCPUActionPerformed
-
-    private void botonConfirmarValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfirmarValoresActionPerformed
-
-
-    }//GEN-LAST:event_botonConfirmarValoresActionPerformed
 
     private void escribirEnJson(){
         
@@ -676,30 +627,21 @@ public class Pantalla extends javax.swing.JFrame {
 
     }//GEN-LAST:event_BtnIniciarSimulacionActionPerformed
 
-    private void BtnCargarProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCargarProcesosActionPerformed
-
-    }//GEN-LAST:event_BtnCargarProcesosActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnCargarProcesos;
     private javax.swing.JButton BtnIniciarSimulacion;
     private javax.swing.JPanel CrearProceso;
-    private javax.swing.JButton botonConfirmarValores;
     private javax.swing.JButton botonCrear;
-    private javax.swing.JButton button_loadFile;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
     private javax.swing.JTextField fieldDuracion;
     private javax.swing.JTextField fieldNombre;
     private javax.swing.JTextField fieldactiveCPU;
     private javax.swing.JTextField fieldinstructionCycle;
-    private javax.swing.JTextPane fileChooserStateMessage;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
