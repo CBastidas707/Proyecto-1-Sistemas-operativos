@@ -60,6 +60,8 @@ private Cola colaF;
                 if(listaCPU.size() == 3){
                 this.Actualizar(cpu3, 2);
                 }
+                
+                ActualizarColaR();
 
                 sleep(sleepTime.get() + 5);
             
@@ -125,24 +127,21 @@ private Cola colaF;
     }
     
     
-    public void ActualizarColas(){
+    public void ActualizarColaR(){
         
-       
-        
-        
-    }
-    
-    public void procesarStrings(String cadena) {
-      
-        String[] strings = cadena.split(",");
+       ready.removeAllElements();
+       String[] strings = colaR.travelPCB().split(",");
 
         for (int i = 0; i < strings.length; i++) {
             
             String str = strings[i];
             
+            ready.addElement(str);
+            
         }
-        }
-    
+        
+        
+    }
     
     
     

@@ -56,10 +56,32 @@ public class Scheduler {
     
     public void Interrupt(Process proceso){
         
+        
         switch (planificacion.get()) {
             case 1:     // FCFS
                 
-                proceso.getPcb().setStatus("Ready");
+                if(proceso.getPcb().getStatus() != "Ready"){
+                    
+                
+                    Object procesoActualData = proceso.getCpu().getData();
+
+                    if(procesoActualData instanceof Process){
+
+                    Process procesoActual = (Process) procesoActualData;
+                        try {
+                            soS.acquire();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    procesoActual.getPcb().setStatus("Ready");
+                    soS.release();}
+                
+                    SO so = new SO(ready, "Next", soS, proceso);
+                    proceso.getCpu().setData(so);
+                    so.start();
+                    
+                    proceso.getPcb().setStatus("Ready");
+                }
                 
                 break;
                 
@@ -70,7 +92,30 @@ public class Scheduler {
                     proceso.getCpu().setData(so);
                     so.start();
                 }
-                proceso.getPcb().setStatus("Ready");
+                
+                else{
+                    
+                    Object procesoActualData = proceso.getCpu().getData();
+                    
+                    if(procesoActualData instanceof Process){
+                    Process procesoActual = (Process) procesoActualData;
+                        try {
+                            soS.acquire();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    procesoActual.getPcb().setStatus("Ready");
+                    soS.release();
+                    }
+
+                
+                    SO so = new SO(ready, "Next", soS, proceso);
+                    proceso.getCpu().setData(so);
+                    so.start();
+                
+                    proceso.getPcb().setStatus("Ready");
+                }
                 
                 
                 break;

@@ -121,7 +121,7 @@ public Process desencolarProceso() {
                 Nodo actual = head;
                 desencolar();
                 Process data = (Process) actual.getData();
-                toPrint += "\n" + data.getPcb().getProcess_name();
+                toPrint += "," + data.getPcb().getProcess_name();
                 encolar(actual.getData());
             }
         } 
