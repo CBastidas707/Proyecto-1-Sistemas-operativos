@@ -35,20 +35,34 @@ public class Pantalla extends javax.swing.JFrame {
     DefaultListModel cpu1 = new DefaultListModel();
     DefaultListModel cpu2 = new DefaultListModel();
     DefaultListModel cpu3 = new DefaultListModel();
-    private List lista;
     
+    DefaultListModel blocked = new DefaultListModel();
+    DefaultListModel ready = new DefaultListModel();
+    DefaultListModel finished = new DefaultListModel();
+    
+    private List lista;
+    private Cola colaR;
+    private List colaB;
+    private Cola colaF;
     private int numeroCPUs;
+    private AtomicInteger tiempoInstruccion;
+    private AtomicInteger planificacion;
 
     public Pantalla() {
 
         initComponents();
-        listCPU1.setModel(cpu1);
+        listCPU1.setModel(cpu1); // Estos son los Jlist de los CPU (la forma en que se van a nmostrar los atributos)
         listCPU2.setModel(cpu2);
         listCPU3.setModel(cpu3);
-
-        this.lista = new List("LISTICA");
-        
-        numeroCPUs = 3;
+        ListBlocked.setModel(blocked);
+        ListReady.setModel(ready);
+        ListFinished.setModel(finished);
+        this.lista = new List("LISTICA"); // Lista de imágenes de los procesos
+        colaR = new Cola("Ready"); // Cola de listos
+        colaB = new List("Blocked"); // Cola de bloqueados
+        tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
+        planificacion = new AtomicInteger(2);    // Esto es la política de planificación
+        numeroCPUs = 3; // Numero de CPUs activos
         
 
     }
@@ -82,6 +96,9 @@ public class Pantalla extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ListReady = new javax.swing.JList<>();
+        txtListos = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listCPU1 = new javax.swing.JList<>();
         txtCPU1 = new javax.swing.JLabel();
@@ -92,6 +109,12 @@ public class Pantalla extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         listCPU3 = new javax.swing.JList<>();
         BtnIniciarSimulacion = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        ListBlocked = new javax.swing.JList<>();
+        txtBloqueados = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        ListFinished = new javax.swing.JList<>();
+        txtFinished = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         fieldinstructionCycle = new javax.swing.JTextField();
         fieldactiveCPU = new javax.swing.JTextField();
@@ -120,15 +143,27 @@ public class Pantalla extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jScrollPane2.setViewportView(ListReady);
+
+        txtListos.setText("Listos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 314, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtListos, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(txtListos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jScrollPane1.setViewportView(listCPU1);
@@ -150,6 +185,14 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane5.setViewportView(ListBlocked);
+
+        txtBloqueados.setText("Bloqueados");
+
+        jScrollPane6.setViewportView(ListFinished);
+
+        txtFinished.setText("Terminados");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -158,24 +201,35 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGap(88, 88, 88)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(57, 57, 57)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(314, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnIniciarSimulacion)
-                        .addGap(156, 156, 156))))
+                                    .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(57, 57, 57)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(txtBloqueados)
+                                .addGap(73, 73, 73)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BtnIniciarSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFinished, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,26 +239,32 @@ public class Pantalla extends javax.swing.JFrame {
                         .addComponent(txtCPU2)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(50, 50, 50)
-                            .addComponent(txtCPU1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(txtCPU1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(txtCPU3)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(81, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnIniciarSimulacion)
-                        .addGap(61, 61, 61))))
+                        .addComponent(txtFinished)
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(txtBloqueados)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(BtnIniciarSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
 
         jTabbedPane1.addTab("Simulación", jPanel3);
@@ -438,7 +498,7 @@ public class Pantalla extends javax.swing.JFrame {
                 ciclo2 = validarEnteroMayorCero(ciclo2Str, "Ciclos para satisfacer una interrupción");
             }
 
-            // ... (Aquí iría el código para guardar los datos) ...
+            // Guardar la imagen de proceso creada
             
             
             if(ciclo1 > 0 && ciclo2 > 0){
@@ -539,11 +599,6 @@ public class Pantalla extends javax.swing.JFrame {
                 String processName = procesoJson.get("nombre").getAsString();
                 int processLenght = procesoJson.get("processlenght").getAsInt();
                 String consumption_category = procesoJson.get("consumption_category").getAsString();
-                // DATOS PCB
-//                String namePCB = procesoJson.get("NombrePCB").getAsString();
-//                String statusPCB = procesoJson.get("statusPCB").getAsString();
-//                int pcPCB = procesoJson.get("pcPCB").getAsInt();
-//                int marPCB = procesoJson.get("marPCB").getAsInt();
 
                 Process_Image proceso = null;
 
@@ -567,12 +622,6 @@ public class Pantalla extends javax.swing.JFrame {
         } catch (Exception e) {
         }
 
-        AtomicInteger tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
-        AtomicInteger planificacion = new AtomicInteger(2);    // Esto es la política de planificación
-
-        //Estas son las colas de listos y bloqueados
-        Cola colaR = new Cola("Ready");
-        List colaB = new List("Blocked");
 
         Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
 
@@ -596,7 +645,8 @@ public class Pantalla extends javax.swing.JFrame {
         
         listaCPU.insertFirst(Cpu1);
 
-        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion);
+        UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion, blocked, ready, finished,
+         colaB, colaR, colaF);
 
         //Esta es la creación de los procesos a partir de sus imágenes
         Logica.java.Process proceso1 = new Logica.java.Process(lista.findPCB("Proceso 1"), tiempoInstruccion, scheduler, null, planificacion);
@@ -644,6 +694,9 @@ public class Pantalla extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnIniciarSimulacion;
     private javax.swing.JPanel CrearProceso;
+    private javax.swing.JList<String> ListBlocked;
+    private javax.swing.JList<String> ListFinished;
+    private javax.swing.JList<String> ListReady;
     private javax.swing.JButton botonCrear;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
@@ -655,8 +708,11 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> listCPU1;
     private javax.swing.JList<String> listCPU2;
@@ -664,6 +720,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
     private javax.swing.JLabel txtActiveCPU1;
+    private javax.swing.JLabel txtBloqueados;
     private javax.swing.JLabel txtCPU1;
     private javax.swing.JLabel txtCPU2;
     private javax.swing.JLabel txtCPU3;
@@ -673,6 +730,8 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel txtCiclo4;
     private javax.swing.JLabel txtCrearProceso;
     private javax.swing.JLabel txtDuracion;
+    private javax.swing.JLabel txtFinished;
+    private javax.swing.JLabel txtListos;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtinstructionCycle;
     // End of variables declaration//GEN-END:variables

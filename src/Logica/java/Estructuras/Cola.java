@@ -113,6 +113,20 @@ public Process desencolarProceso() {
         } 
         return toPrint;
     }
+    
+        public String travelPCB(){
+        String toPrint = "";
+        if(!isEmpty()){
+            for (int i = 0; i < getSize(); i++) {
+                Nodo actual = head;
+                desencolar();
+                Process data = (Process) actual.getData();
+                toPrint += "\n" + data.getPcb().getProcess_name();
+                encolar(actual.getData());
+            }
+        } 
+        return toPrint;
+    }
     /**
      * Retorna el primer nodo en la cola
      */

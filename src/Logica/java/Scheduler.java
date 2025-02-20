@@ -87,6 +87,7 @@ public class Scheduler {
         
         SO so = new SO(ready, "Next", soS, proceso);
         proceso.getCpu().setData(so);
+        
         so.start();
         
     }
