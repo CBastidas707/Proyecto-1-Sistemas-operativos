@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Logica.java.Estructuras.Cola;
 import Logica.java.Estructuras.List;
 import Logica.java.Estructuras.Nodo;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,13 +25,26 @@ private DefaultListModel cpu2;
 private DefaultListModel cpu3;
 private List listaCPU;
 private AtomicInteger sleepTime;
+private DefaultListModel blocked;
+private DefaultListModel ready;
+private DefaultListModel finished;
+private Cola colaR;
+private List colaB;
+private Cola colaF;
 
-    public UpdateView(DefaultListModel cpu1, DefaultListModel cpu2, DefaultListModel cpu3, List listaCPU, AtomicInteger sleepTime) {
+    public UpdateView(DefaultListModel cpu1, DefaultListModel cpu2, DefaultListModel cpu3, List listaCPU,
+            AtomicInteger sleepTime, DefaultListModel blocked, DefaultListModel ready, DefaultListModel finished, List colaB, Cola colaR, Cola colaF) {
         this.cpu1 = cpu1;
         this.cpu2 = cpu2;
         this.cpu3 = cpu3;
         this.listaCPU = listaCPU;
         this.sleepTime = sleepTime;
+        this.blocked = blocked;
+        this.ready = ready;
+        this.finished = finished;
+        this.colaB = colaB;
+        this.colaR = colaR;
+        this.colaF = colaF;
     }
 
 
@@ -42,9 +56,12 @@ private AtomicInteger sleepTime;
                 
                 this.Actualizar(cpu1, 0);
                 this.Actualizar(cpu2, 1);
+                
+                if(listaCPU.size() == 3){
                 this.Actualizar(cpu3, 2);
+                }
 
-                sleep(sleepTime.get());
+                sleep(sleepTime.get() + 5);
             
 
             } catch (InterruptedException ex) {
@@ -106,6 +123,25 @@ private AtomicInteger sleepTime;
         
         
     }
+    
+    
+    public void ActualizarColas(){
+        
+       
+        
+        
+    }
+    
+    public void procesarStrings(String cadena) {
+      
+        String[] strings = cadena.split(",");
+
+        for (int i = 0; i < strings.length; i++) {
+            
+            String str = strings[i];
+            
+        }
+        }
     
     
     

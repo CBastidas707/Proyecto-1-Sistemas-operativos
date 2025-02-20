@@ -86,6 +86,8 @@ public class Scheduler {
     public void Finish(Process proceso){
         
         SO so = new SO(ready, "Next", soS, proceso);
+        proceso.getCpu().setData(so);
+        
         so.start();
         
     }
