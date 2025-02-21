@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import Logica.java.Process;
 import java.util.concurrent.Semaphore;
+import javax.swing.JLabel;
 
 /**
  *
@@ -31,9 +32,11 @@ private DefaultListModel finished;
 private Cola colaR;
 private List colaB;
 private Cola colaF;
+private int contadorReloj;
+private JLabel labelsito;
 
     public UpdateView(DefaultListModel cpu1, DefaultListModel cpu2, DefaultListModel cpu3, List listaCPU,
-            AtomicInteger sleepTime, DefaultListModel blocked, DefaultListModel ready, DefaultListModel finished, List colaB, Cola colaR, Cola colaF) {
+            AtomicInteger sleepTime, DefaultListModel blocked, DefaultListModel ready, DefaultListModel finished, List colaB, Cola colaR, Cola colaF, JLabel labelsito) {
         this.cpu1 = cpu1;
         this.cpu2 = cpu2;
         this.cpu3 = cpu3;
@@ -45,6 +48,9 @@ private Cola colaF;
         this.colaB = colaB;
         this.colaR = colaR;
         this.colaF = colaF;
+        this.contadorReloj = 0;
+        
+        this.labelsito = labelsito;
     }
 
 
@@ -53,15 +59,19 @@ private Cola colaF;
         
         while(true){
             try {
-                
+                updateLabel(labelsito);
                 this.Actualizar(cpu1, 0);
                 this.Actualizar(cpu2, 1);
                 
                 if(listaCPU.size() == 3){
                 this.Actualizar(cpu3, 2);
                 }
+                
+                ActualizarColaR();
 
                 sleep(sleepTime.get() + 5);
+                
+                this.contadorReloj ++;
             
 
             } catch (InterruptedException ex) {
@@ -124,25 +134,29 @@ private Cola colaF;
         
     }
     
-    
-    public void ActualizarColas(){
+    private void updateLabel(JLabel labelsito){
         
-       
+        
+        labelsito.setText("Ciclo de Reloj: " + contadorReloj);
         
         
     }
     
-    public void procesarStrings(String cadena) {
-      
-        String[] strings = cadena.split(",");
+    public void ActualizarColaR(){
+        
+       ready.removeAllElements();
+       String[] strings = colaR.travelPCB().split(",");
 
         for (int i = 0; i < strings.length; i++) {
             
             String str = strings[i];
             
+            ready.addElement(str);
+            
         }
-        }
-    
+        
+        
+    }
     
     
     

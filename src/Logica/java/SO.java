@@ -31,7 +31,7 @@ public class SO extends Thread {
     @Override
     public void run(){
         
-        System.out.println("Se esta ejecutando el SO");
+        System.out.println("Se esta ejecutando el SO. Previo a el se estaba ejecutando el proceso " + proceso.getPcb().getProcess_name());
         
         while(queueOp != "Exit"){
             
