@@ -38,7 +38,7 @@ public class Scheduler {
         cpu.setData(so);
         so.start();
 
-        this.blocked.insertFirst(proceso); // Inserta en la cola de bloqueados (que en realidad es una lista) al proceso que se bloqueará
+        this.blocked.insertFirst(proceso); // Inserta en la cola de bloqueados (que en realidad es una lista)
        }
     
     public void EncolarListo(Process proceso){
@@ -133,6 +133,46 @@ public class Scheduler {
                 
                 
                 break;
+                
+            case 3:     // SPN
+                
+                if(proceso.getPcb().getStatus() != "Ready"){
+                        
+            try {
+                soS.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    blocked.deleteByProcess(proceso);
+                    soS.release();
+                    Object procesoActualData = proceso.getCpu().getData();
+
+                    if(procesoActualData instanceof Process){
+
+                    Process procesoActual = (Process) procesoActualData;
+                        try {
+                            soS.acquire();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    procesoActual.getPcb().setStatus("Ready");
+                    soS.release();}
+                
+                    SO so = new SO(ready, "SPN", soS, proceso);
+                    proceso.getCpu().setData(so);
+                    so.start();
+                    
+                    proceso.getPcb().setStatus("Ready");
+                }
+                
+                
+            case 4:     // SRT
+                
+                
+                
+            case 5:     // HRRN
+                
+                
                 
                 
             default:    // No tiene una política
