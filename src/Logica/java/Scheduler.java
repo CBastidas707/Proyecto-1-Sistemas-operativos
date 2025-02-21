@@ -38,8 +38,7 @@ public class Scheduler {
         cpu.setData(so);
         so.start();
 
-        blocked.insertFirst(proceso); // Inserta en la cola de bloqueados (que en realidad es una lista) al proceso que se bloqueará
-   
+        this.blocked.insertFirst(proceso); // Inserta en la cola de bloqueados (que en realidad es una lista) al proceso que se bloqueará
        }
     
     public void EncolarListo(Process proceso){
@@ -64,7 +63,13 @@ public class Scheduler {
                 
                 if(proceso.getPcb().getStatus() != "Ready"){
                     
-                
+            try {
+                soS.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    blocked.deleteByProcess(proceso);
+                    soS.release();
                     Object procesoActualData = proceso.getCpu().getData();
 
                     if(procesoActualData instanceof Process){
@@ -97,6 +102,13 @@ public class Scheduler {
                 
                 else{
                     
+            try {
+                soS.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    blocked.deleteByProcess(proceso);
+                    soS.release();
                     Object procesoActualData = proceso.getCpu().getData();
                     
                     if(procesoActualData instanceof Process){

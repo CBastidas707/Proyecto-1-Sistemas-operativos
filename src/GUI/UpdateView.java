@@ -36,7 +36,8 @@ private int contadorReloj;
 private JLabel labelsito;
 
     public UpdateView(DefaultListModel cpu1, DefaultListModel cpu2, DefaultListModel cpu3, List listaCPU,
-            AtomicInteger sleepTime, DefaultListModel blocked, DefaultListModel ready, DefaultListModel finished, List colaB, Cola colaR, Cola colaF, JLabel labelsito) {
+            AtomicInteger sleepTime, DefaultListModel blocked, DefaultListModel ready, DefaultListModel finished,
+            List colaB, Cola colaR, Cola colaF, JLabel labelsito) {
         this.cpu1 = cpu1;
         this.cpu2 = cpu2;
         this.cpu3 = cpu3;
@@ -59,6 +60,7 @@ private JLabel labelsito;
         
         while(true){
             try {
+                
                 updateLabel(labelsito);
                 this.Actualizar(cpu1, 0);
                 this.Actualizar(cpu2, 1);
@@ -68,6 +70,8 @@ private JLabel labelsito;
                 }
                 
                 ActualizarColaR();
+                ActualizarColaF();
+                ActualizarListaB();
 
                 sleep(sleepTime.get() + 5);
                 
@@ -136,10 +140,8 @@ private JLabel labelsito;
     
     private void updateLabel(JLabel labelsito){
         
-        
         labelsito.setText("Ciclo de Reloj: " + contadorReloj);
-        
-        
+   
     }
     
     public void ActualizarColaR(){
@@ -155,6 +157,35 @@ private JLabel labelsito;
             
         }
         
+        
+    }
+    
+    public void ActualizarColaF(){
+        
+       finished.removeAllElements();
+       String[] strings = colaF.travelPCB().split(",");
+
+        for (int i = 0; i < strings.length; i++) {
+            
+            String str = strings[i];
+            
+            finished.addElement(str);
+            
+        }
+        
+        
+    }
+    
+    
+    public void ActualizarListaB(){
+        
+        blocked.removeAllElements();
+        
+        for (int i = 0; i < colaB.size(); i++) {
+            if(colaB.findProcessByIndex(i) != null){
+            String proceso = colaB.findProcessByIndex(i).getPcb().getProcess_name();
+            blocked.addElement(proceso);}
+        }
         
     }
     

@@ -8,6 +8,7 @@ public class PCB {
     private int MAR_Status;
     private int exceptionG = 0;     // ¿Cuántos ciclos se requieren para generar una excepción?
     private int exceptionD = 0;     // Ciclos para satisfacerla
+    private int id;
 
     // CPU Bound
     
@@ -90,6 +91,16 @@ public class PCB {
     public void setExceptionD(int exceptionD) {
         this.exceptionD = exceptionD;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
     
     
