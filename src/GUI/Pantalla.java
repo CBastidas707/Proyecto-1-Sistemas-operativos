@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import java.awt.BorderLayout;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -86,6 +87,8 @@ public class Pantalla extends javax.swing.JFrame {
         Chart1.add(chartPanel, BorderLayout.CENTER);
         Chart1.validate();
         
+        leerDatosSimulacion();
+        
     }
 
     private void llenarLista() {
@@ -145,6 +148,7 @@ public class Pantalla extends javax.swing.JFrame {
         fieldactiveCPU = new javax.swing.JTextField();
         txtinstructionCycle = new javax.swing.JLabel();
         txtActiveCPU1 = new javax.swing.JLabel();
+        btnGuardarParametrosIniciales = new javax.swing.JButton();
         tabCrearProceso = new javax.swing.JPanel();
         txtDuracion = new javax.swing.JLabel();
         txtDuracion.setVisible(false);
@@ -242,23 +246,28 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
         tabSimulacion.add(jComboBoxPolitica);
-        jComboBoxPolitica.setBounds(204, 267, 108, 26);
+        jComboBoxPolitica.setBounds(190, 270, 109, 26);
 
         cycleLabel.setText("Ciclo de Reloj:");
         tabSimulacion.add(cycleLabel);
-        cycleLabel.setBounds(204, 311, 100, 16);
+        cycleLabel.setBounds(190, 310, 100, 16);
 
         SpinnerTiempoInstruccion.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        SpinnerTiempoInstruccion.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                SpinnerTiempoInstruccionStateChanged(evt);
+            }
+        });
         tabSimulacion.add(SpinnerTiempoInstruccion);
-        SpinnerTiempoInstruccion.setBounds(204, 367, 68, 26);
+        SpinnerTiempoInstruccion.setBounds(190, 370, 68, 26);
 
         jLabel1.setText("Duración de un ciclo (segundos)");
         tabSimulacion.add(jLabel1);
-        jLabel1.setBounds(204, 339, 170, 16);
+        jLabel1.setBounds(190, 340, 190, 16);
 
         jLabel2.setText("Política de planificación");
         tabSimulacion.add(jLabel2);
-        jLabel2.setBounds(204, 245, 140, 16);
+        jLabel2.setBounds(190, 250, 140, 16);
 
         jTabbedPane1.addTab("Simulación", tabSimulacion);
 
@@ -289,6 +298,16 @@ public class Pantalla extends javax.swing.JFrame {
         txtActiveCPU1.setText("Cantidad de Procesadores Activos:");
         tabParámetros.add(txtActiveCPU1);
         txtActiveCPU1.setBounds(40, 140, 387, 32);
+
+        btnGuardarParametrosIniciales.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnGuardarParametrosIniciales.setText("Guardar ");
+        btnGuardarParametrosIniciales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarParametrosInicialesActionPerformed(evt);
+            }
+        });
+        tabParámetros.add(btnGuardarParametrosIniciales);
+        btnGuardarParametrosIniciales.setBounds(650, 300, 210, 60);
 
         jTabbedPane1.addTab("Parámatetros generales", tabParámetros);
 
@@ -605,8 +624,12 @@ public class Pantalla extends javax.swing.JFrame {
         
     }
     
+    
+    
     private void BtnIniciarSimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIniciarSimulacionActionPerformed
 
+        
+        btnGuardarParametrosIniciales.setVisible(false);
 
         Gson gson = new Gson();
 
@@ -747,6 +770,90 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxPoliticaActionPerformed
 
+    private void btnGuardarParametrosInicialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarParametrosInicialesActionPerformed
+        
+        try {
+
+        java.nio.file.Path path = java.nio.file.Paths.get("Simulacion.json");
+        String jsonString = "";
+        if (java.nio.file.Files.exists(path)) {
+            jsonString = java.nio.file.Files.readString(path);
+        } else {
+            // Manejar el caso donde el archivo no existe.
+            jsonString = "{}"; // JSON vacío si no existe.
+        }
+
+        com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
+        JsonObject raiz = parser.parse(jsonString).getAsJsonObject();
+
+ 
+        JsonArray datosSimulacionArray = new JsonArray();
+        JsonObject datosSimulacion = new JsonObject();
+         
+        datosSimulacion.addProperty("tiempoInstruccion", Integer.parseInt(fieldinstructionCycle.getText())*1000);
+        datosSimulacion.addProperty("CPUS", Integer.parseInt(fieldactiveCPU.getText()));
+        datosSimulacionArray.add(datosSimulacion);
+
+
+
+        raiz.add("datosSimulacion", datosSimulacionArray);
+
+   
+        try (FileWriter writer = new FileWriter("Simulacion.json")) {
+            writer.write(raiz.toString());
+            System.out.println("Datos de simulación agregados.");
+        } catch (IOException e) {
+            System.err.println("Error al escribir datos de simulación en JSON: " + e.getMessage());
+        }
+
+    } catch (IOException e) {
+        System.err.println("Error al leer o parsear el archivo JSON: " + e.getMessage());
+    }
+        
+        leerDatosSimulacion();
+
+        
+    }//GEN-LAST:event_btnGuardarParametrosInicialesActionPerformed
+
+    private void SpinnerTiempoInstruccionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SpinnerTiempoInstruccionStateChanged
+        int numero = (int) SpinnerTiempoInstruccion.getValue();
+        tiempoInstruccion.set(numero * 1000);
+        System.out.println("Duración de un ciclo: " + tiempoInstruccion.get() + " milisegundos");
+    }//GEN-LAST:event_SpinnerTiempoInstruccionStateChanged
+
+    
+    private void leerDatosSimulacion() {
+    try (FileReader reader = new FileReader("Simulacion.json")) {
+        com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
+        JsonObject raiz = parser.parse(reader).getAsJsonObject();
+
+        // Obtener el array de datos de simulación
+        JsonArray datosSimulacionArray = raiz.getAsJsonArray("datosSimulacion");
+
+        if (datosSimulacionArray != null && datosSimulacionArray.size() > 0) {
+            JsonObject datosSimulacion = datosSimulacionArray.get(0).getAsJsonObject();
+
+            // Obtener los valores de las variables
+            int tiempoInstruccion = datosSimulacion.get("tiempoInstruccion").getAsInt();
+            int cpus = datosSimulacion.get("CPUS").getAsInt();
+            
+            this.tiempoInstruccion.set(tiempoInstruccion);
+            this.numeroCPUs = cpus;
+
+            System.out.println("Tiempo de Instrucción: " + tiempoInstruccion + " milisegundos");
+            System.out.println("Número de CPUs activos: " + planificacion);
+        } else {
+            System.out.println("No se encontraron datos de simulación en el archivo JSON.");
+        }
+
+    } catch (IOException e) {
+        System.err.println("Error al leer el archivo JSON: " + e.getMessage());
+    } catch (Exception e) {
+        System.err.println("Error al parsear el archivo JSON o acceder a los datos: " + e.getMessage());
+    }
+}
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnIniciarSimulacion;
@@ -756,6 +863,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JList<String> ListReady;
     private javax.swing.JSpinner SpinnerTiempoInstruccion;
     private javax.swing.JButton botonCrear;
+    private javax.swing.JButton btnGuardarParametrosIniciales;
     private javax.swing.JLabel cycleLabel;
     private javax.swing.JTextField fieldCiclos;
     private javax.swing.JTextField fieldCiclos2;
