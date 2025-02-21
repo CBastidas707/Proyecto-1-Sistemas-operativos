@@ -13,14 +13,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.awt.BorderLayout;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYSeries;
+
 
 /**
  *
@@ -48,6 +53,12 @@ public class Pantalla extends javax.swing.JFrame {
     private int numeroCPUs;
     private AtomicInteger tiempoInstruccion;
     private AtomicInteger planificacion;
+    
+    
+    // ESTADISTICAS 
+    private XYSeries seriesCpuBound;
+    private XYSeries seriesIoBound;
+    private Timer updateTimer;
 
     public Pantalla() {
 
@@ -61,11 +72,20 @@ public class Pantalla extends javax.swing.JFrame {
         this.lista = new List("LISTICA"); // Lista de imágenes de los procesos
         colaR = new Cola("Ready"); // Cola de listos
         colaB = new List("Blocked"); // Cola de bloqueados
+        colaF = new Cola("Finished"); // Cola de terminados
         tiempoInstruccion = new AtomicInteger(1500); // Esto es el tiempo que tardará cada ciclo de reloj
         planificacion = new AtomicInteger(2);    // Esto es la política de planificación
         numeroCPUs = 3; // Numero de CPUs activos
         
-
+        Chart charsito = new Chart(0, colaF);
+        
+        JFreeChart chart = charsito.getChart();
+        ChartPanel chartPanel = new ChartPanel(chart);
+        
+        Chart1.setLayout(new java.awt.BorderLayout());
+        Chart1.add(chartPanel, BorderLayout.CENTER);
+        Chart1.validate();
+        
     }
 
     private void llenarLista() {
@@ -95,8 +115,7 @@ public class Pantalla extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        tabSimulacion = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ListReady = new javax.swing.JList<>();
         txtListos = new javax.swing.JLabel();
@@ -121,12 +140,12 @@ public class Pantalla extends javax.swing.JFrame {
         SpinnerTiempoInstruccion = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        tabParámetros = new javax.swing.JPanel();
         fieldinstructionCycle = new javax.swing.JTextField();
         fieldactiveCPU = new javax.swing.JTextField();
         txtinstructionCycle = new javax.swing.JLabel();
         txtActiveCPU1 = new javax.swing.JLabel();
-        CrearProceso = new javax.swing.JPanel();
+        tabCrearProceso = new javax.swing.JPanel();
         txtDuracion = new javax.swing.JLabel();
         txtDuracion.setVisible(false);
         fieldCiclos = new javax.swing.JTextField();
@@ -146,43 +165,48 @@ public class Pantalla extends javax.swing.JFrame {
         opcion1 = new javax.swing.JButton();
         opcion2 = new javax.swing.JButton();
         botonCrear = new javax.swing.JButton();
+        tabEstadística = new javax.swing.JPanel();
+        Chart1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        tabSimulacion.setLayout(null);
+
         jScrollPane2.setViewportView(ListReady);
 
-        txtListos.setText("Listos");
+        tabSimulacion.add(jScrollPane2);
+        jScrollPane2.setBounds(559, 56, 138, 287);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtListos, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(txtListos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        txtListos.setText("Listos");
+        tabSimulacion.add(txtListos);
+        txtListos.setBounds(559, 14, 45, 16);
 
         jScrollPane1.setViewportView(listCPU1);
 
+        tabSimulacion.add(jScrollPane1);
+        jScrollPane1.setBounds(31, 84, 125, 109);
+
         txtCPU1.setText("CPU 1");
+        tabSimulacion.add(txtCPU1);
+        txtCPU1.setBounds(31, 50, 37, 16);
 
         txtCPU2.setText("CPU 2");
+        tabSimulacion.add(txtCPU2);
+        txtCPU2.setBounds(213, 50, 37, 16);
 
         jScrollPane3.setViewportView(listCPU2);
 
+        tabSimulacion.add(jScrollPane3);
+        jScrollPane3.setBounds(213, 84, 125, 109);
+
         txtCPU3.setText("CPU 3");
+        tabSimulacion.add(txtCPU3);
+        txtCPU3.setBounds(31, 211, 37, 16);
 
         jScrollPane4.setViewportView(listCPU3);
+
+        tabSimulacion.add(jScrollPane4);
+        jScrollPane4.setBounds(31, 245, 125, 109);
 
         BtnIniciarSimulacion.setText("Iniciar");
         BtnIniciarSimulacion.addActionListener(new java.awt.event.ActionListener() {
@@ -190,14 +214,26 @@ public class Pantalla extends javax.swing.JFrame {
                 BtnIniciarSimulacionActionPerformed(evt);
             }
         });
+        tabSimulacion.add(BtnIniciarSimulacion);
+        BtnIniciarSimulacion.setBounds(781, 352, 118, 41);
 
         jScrollPane5.setViewportView(ListBlocked);
 
+        tabSimulacion.add(jScrollPane5);
+        jScrollPane5.setBounds(386, 56, 138, 288);
+
         txtBloqueados.setText("Bloqueados");
+        tabSimulacion.add(txtBloqueados);
+        txtBloqueados.setBounds(388, 14, 70, 16);
 
         jScrollPane6.setViewportView(ListFinished);
 
+        tabSimulacion.add(jScrollPane6);
+        jScrollPane6.setBounds(781, 56, 138, 232);
+
         txtFinished.setText("Terminados");
+        tabSimulacion.add(txtFinished);
+        txtFinished.setBounds(781, 14, 93, 16);
 
         jComboBoxPolitica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FCFS", "Round-Robin", "SPN", "SRT", "HRRN" }));
         jComboBoxPolitica.addActionListener(new java.awt.event.ActionListener() {
@@ -205,119 +241,35 @@ public class Pantalla extends javax.swing.JFrame {
                 jComboBoxPoliticaActionPerformed(evt);
             }
         });
+        tabSimulacion.add(jComboBoxPolitica);
+        jComboBoxPolitica.setBounds(204, 267, 108, 26);
 
         cycleLabel.setText("Ciclo de Reloj:");
+        tabSimulacion.add(cycleLabel);
+        cycleLabel.setBounds(204, 311, 100, 16);
 
         SpinnerTiempoInstruccion.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        tabSimulacion.add(SpinnerTiempoInstruccion);
+        SpinnerTiempoInstruccion.setBounds(204, 367, 68, 26);
 
         jLabel1.setText("Duración de un ciclo (segundos)");
+        tabSimulacion.add(jLabel1);
+        jLabel1.setBounds(204, 339, 170, 16);
 
         jLabel2.setText("Política de planificación");
+        tabSimulacion.add(jLabel2);
+        jLabel2.setBounds(204, 245, 140, 16);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(txtBloqueados)
-                        .addGap(73, 73, 73))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cycleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(SpinnerTiempoInstruccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBoxPolitica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addComponent(txtCPU3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPU1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(57, 57, 57)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPU2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BtnIniciarSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFinished, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtFinished)
-                                .addGap(30, 30, 30)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(txtBloqueados)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                        .addComponent(BtnIniciarSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtCPU2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(txtCPU1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCPU3)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBoxPolitica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cycleLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SpinnerTiempoInstruccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(41, 41, 41))
-        );
+        jTabbedPane1.addTab("Simulación", tabSimulacion);
 
-        jTabbedPane1.addTab("Simulación", jPanel3);
-
-        jPanel2.setLayout(null);
+        tabParámetros.setLayout(null);
 
         fieldinstructionCycle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldinstructionCycleActionPerformed(evt);
             }
         });
-        jPanel2.add(fieldinstructionCycle);
+        tabParámetros.add(fieldinstructionCycle);
         fieldinstructionCycle.setBounds(440, 80, 68, 24);
 
         fieldactiveCPU.addActionListener(new java.awt.event.ActionListener() {
@@ -325,26 +277,26 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldactiveCPUActionPerformed(evt);
             }
         });
-        jPanel2.add(fieldactiveCPU);
+        tabParámetros.add(fieldactiveCPU);
         fieldactiveCPU.setBounds(440, 150, 68, 24);
 
         txtinstructionCycle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtinstructionCycle.setText("Duración del Ciclo de la Instrucción:");
-        jPanel2.add(txtinstructionCycle);
+        tabParámetros.add(txtinstructionCycle);
         txtinstructionCycle.setBounds(40, 70, 387, 32);
 
         txtActiveCPU1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtActiveCPU1.setText("Cantidad de Procesadores Activos:");
-        jPanel2.add(txtActiveCPU1);
+        tabParámetros.add(txtActiveCPU1);
         txtActiveCPU1.setBounds(40, 140, 387, 32);
 
-        jTabbedPane1.addTab("Parámatetros generales", jPanel2);
+        jTabbedPane1.addTab("Parámatetros generales", tabParámetros);
 
-        CrearProceso.setLayout(null);
+        tabCrearProceso.setLayout(null);
 
         txtDuracion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtDuracion.setText("Duración:");
-        CrearProceso.add(txtDuracion);
+        tabCrearProceso.add(txtDuracion);
         txtDuracion.setBounds(260, 150, 101, 32);
 
         fieldCiclos.setVisible(false);
@@ -353,24 +305,24 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldCiclosActionPerformed(evt);
             }
         });
-        CrearProceso.add(fieldCiclos);
+        tabCrearProceso.add(fieldCiclos);
         fieldCiclos.setBounds(380, 220, 251, 36);
 
         txtCiclo2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo2.setText("una interrupción:");
         txtCiclo2.setVisible(false);
-        CrearProceso.add(txtCiclo2);
+        tabCrearProceso.add(txtCiclo2);
         txtCiclo2.setBounds(180, 220, 182, 50);
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtNombre.setText("Nombre:");
         txtNombre.setVisible(false);
-        CrearProceso.add(txtNombre);
+        tabCrearProceso.add(txtNombre);
         txtNombre.setBounds(270, 90, 100, 32);
 
         txtCiclo1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo1.setText("Ciclos para generar");
-        CrearProceso.add(txtCiclo1);
+        tabCrearProceso.add(txtCiclo1);
         txtCiclo1.setBounds(160, 200, 204, 32);
 
         fieldNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -378,7 +330,7 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldNombreActionPerformed(evt);
             }
         });
-        CrearProceso.add(fieldNombre);
+        tabCrearProceso.add(fieldNombre);
         fieldNombre.setBounds(380, 90, 251, 35);
 
         fieldDuracion.addActionListener(new java.awt.event.ActionListener() {
@@ -386,23 +338,23 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldDuracionActionPerformed(evt);
             }
         });
-        CrearProceso.add(fieldDuracion);
+        tabCrearProceso.add(fieldDuracion);
         fieldDuracion.setBounds(380, 150, 251, 35);
 
         txtCrearProceso.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         txtCrearProceso.setText("Crear un proceso");
-        CrearProceso.add(txtCrearProceso);
+        tabCrearProceso.add(txtCrearProceso);
         txtCrearProceso.setBounds(260, 0, 390, 64);
 
         txtCiclo3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo3.setText("Ciclos para satisfacer");
         txtCiclo3.setVisible(false);
-        CrearProceso.add(txtCiclo3);
+        tabCrearProceso.add(txtCiclo3);
         txtCiclo3.setBounds(150, 270, 220, 30);
 
         txtCiclo4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         txtCiclo4.setText("una interrupción:");
-        CrearProceso.add(txtCiclo4);
+        tabCrearProceso.add(txtCiclo4);
         txtCiclo4.setBounds(180, 300, 182, 32);
 
         fieldCiclos2.setVisible(false);
@@ -411,7 +363,7 @@ public class Pantalla extends javax.swing.JFrame {
                 fieldCiclos2ActionPerformed(evt);
             }
         });
-        CrearProceso.add(fieldCiclos2);
+        tabCrearProceso.add(fieldCiclos2);
         fieldCiclos2.setBounds(380, 290, 251, 38);
 
         opcion1.setText("CPU Bound");
@@ -420,7 +372,7 @@ public class Pantalla extends javax.swing.JFrame {
                 opcion1ActionPerformed(evt);
             }
         });
-        CrearProceso.add(opcion1);
+        tabCrearProceso.add(opcion1);
         opcion1.setBounds(720, 90, 160, 50);
 
         opcion2.setText("I/O Bound");
@@ -429,7 +381,7 @@ public class Pantalla extends javax.swing.JFrame {
                 opcion2ActionPerformed(evt);
             }
         });
-        CrearProceso.add(opcion2);
+        tabCrearProceso.add(opcion2);
         opcion2.setBounds(720, 170, 160, 50);
 
         botonCrear.setText("Crear");
@@ -438,10 +390,40 @@ public class Pantalla extends javax.swing.JFrame {
                 botonCrearActionPerformed(evt);
             }
         });
-        CrearProceso.add(botonCrear);
+        tabCrearProceso.add(botonCrear);
         botonCrear.setBounds(550, 350, 76, 27);
 
-        jTabbedPane1.addTab("Cargar procesos nuevos", CrearProceso);
+        jTabbedPane1.addTab("Cargar procesos nuevos", tabCrearProceso);
+
+        javax.swing.GroupLayout Chart1Layout = new javax.swing.GroupLayout(Chart1);
+        Chart1.setLayout(Chart1Layout);
+        Chart1Layout.setHorizontalGroup(
+            Chart1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 759, Short.MAX_VALUE)
+        );
+        Chart1Layout.setVerticalGroup(
+            Chart1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout tabEstadísticaLayout = new javax.swing.GroupLayout(tabEstadística);
+        tabEstadística.setLayout(tabEstadísticaLayout);
+        tabEstadísticaLayout.setHorizontalGroup(
+            tabEstadísticaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabEstadísticaLayout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addComponent(Chart1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+        tabEstadísticaLayout.setVerticalGroup(
+            tabEstadísticaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabEstadísticaLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(Chart1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Estadística", tabEstadística);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -667,7 +649,7 @@ public class Pantalla extends javax.swing.JFrame {
 
         Semaphore soS = new Semaphore(1);  // Esto es un semáforo para acceder a la sección crítica del SO
 
-        Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion);  // Esto crea al scheduler
+        Scheduler scheduler = new Scheduler(colaB, colaR, soS, planificacion, colaF);  // Esto crea al scheduler
 
         // Esta es la creación de la lista de CPU y de cada CPU
         List listaCPU = new List("Lista CPU");
@@ -768,7 +750,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnIniciarSimulacion;
-    private javax.swing.JPanel CrearProceso;
+    private javax.swing.JPanel Chart1;
     private javax.swing.JList<String> ListBlocked;
     private javax.swing.JList<String> ListFinished;
     private javax.swing.JList<String> ListReady;
@@ -784,9 +766,6 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBoxPolitica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -799,6 +778,10 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JList<String> listCPU3;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
+    private javax.swing.JPanel tabCrearProceso;
+    private javax.swing.JPanel tabEstadística;
+    private javax.swing.JPanel tabParámetros;
+    private javax.swing.JPanel tabSimulacion;
     private javax.swing.JLabel txtActiveCPU1;
     private javax.swing.JLabel txtBloqueados;
     private javax.swing.JLabel txtCPU1;

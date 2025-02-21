@@ -19,12 +19,14 @@ public class Scheduler {
     private List blocked;
     private Cola ready;
     private AtomicInteger planificacion;
+    private Cola finished;
 
-    public Scheduler(List blocked, Cola ready, Semaphore soS, AtomicInteger planificacion) {
+    public Scheduler(List blocked, Cola ready, Semaphore soS, AtomicInteger planificacion, Cola finished) {
         this.blocked = blocked;
         this.ready = ready;
         this.soS = soS;
         this.planificacion = planificacion;
+        this.finished = finished;
     }
 
     
@@ -129,6 +131,7 @@ public class Scheduler {
     }
     
     public void Finish(Process proceso){
+        finished.encolar(proceso);
         
         SO so = new SO(ready, "Next", soS, proceso);
         proceso.getCpu().setData(so);

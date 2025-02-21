@@ -1,5 +1,6 @@
 
 package Logica.java.Estructuras;
+import Logica.java.PCB;
 import Logica.java.Process;
 
 
@@ -175,6 +176,40 @@ public Process desencolarProceso() {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Process getProcessAtIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+        }
+
+        Nodo current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.getpNext();
+        }
+
+        if (current.getData() instanceof Process) {
+            return (Process) current.getData();
+        } else {
+            return null; // Or throw an exception if you expect only Process objects
+        }
+    }
+    
+    public PCB getPCBAtIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+        }
+
+        Nodo current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.getpNext();
+        }
+
+        if (current.getData() instanceof PCB) {
+            return (PCB) current.getData();
+        } else {
+            return null; // Or throw an exception if you expect only Process objects
+        }
     }
     
     

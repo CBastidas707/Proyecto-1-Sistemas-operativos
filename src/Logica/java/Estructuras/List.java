@@ -197,5 +197,32 @@ import Logica.java.Process;
             return null;
 
     }
+               
+               
+        public void deleteByProcess(Process process) {
+                       
+                       
+        Nodo current = this.pFirst;
+        Nodo previous = null;
+
+        while (current != null) {
+            Object data = current.getData();
+            if (data instanceof Process) {
+                Process proceso = (Process) data;
+                if (proceso.getPcb().getProcess_name().equals(process.getPcb().getProcess_name())) {
+                    if (previous == null) {
+                        this.pFirst = current.getpNext();
+                    } else {
+                        previous.setpNext(current.getpNext());
+                    }
+                    iN--;
+                    return;
+                }
+            }
+            previous = current;
+            current = current.getpNext();
+        }
+
+    }
 
 }
