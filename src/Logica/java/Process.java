@@ -88,6 +88,7 @@ public class Process extends Thread {
                     System.out.println(
                             "--------------------------------\n"
                             + "Proceso: " + pcb.getProcess_name()
+                            + "\n" + "ID: " + pcb.getId()
                             + "\n" + "MAR: " + pcb.getMAR_Status()
                             + "\n" + "PC: " + pcb.getPC_Status()
                             + "\n" + "Longitud: " + pcb.getLength()
@@ -100,6 +101,7 @@ public class Process extends Thread {
                     System.out.println(
                             "--------------------------------\n"
                             + "Proceso: " + pcb.getProcess_name()
+                            + "\n" + "ID: " + pcb.getId()
                             + "\n" + "MAR: " + pcb.getMAR_Status()
                             + "\n" + "PC: " + pcb.getPC_Status()
                             + "\n" + "Longitud: " + pcb.getLength()

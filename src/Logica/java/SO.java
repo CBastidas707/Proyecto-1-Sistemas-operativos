@@ -35,6 +35,17 @@ public class SO extends Thread {
         
         while(queueOp != "Exit"){
             
+            if(queueOp == "SPN"){
+                try {
+                    soS.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                reordenarSPN();
+                soS.release();
+                this.setQueueOp("Next");
+            }
+            
             if(queueOp == "Next"){
                 try {
                     
@@ -104,6 +115,61 @@ public class SO extends Thread {
 
     public void setQueueOp(String queueOp) {
         this.queueOp = queueOp;
+    }
+    
+    
+    public void reordenarSPN(){
+        
+        
+        List buffer = new List("Buffer");
+        int size = readyQueue.getSize();
+
+        // Pasar todos los procesos de la cola a la lista buffer
+        
+        for (int i = 0; i < size; i++) {
+            Process proceso = readyQueue.desencolarProceso();
+            if (proceso != null) {
+                buffer.insertFirst(proceso);
+            }
+        }
+
+        // Ordenar la lista buffer usando el algoritmo de selección
+        
+        Nodo current = buffer.first();
+        while (current != null) {
+            Nodo minNode = current;
+            Nodo next = current.getpNext();
+            while (next != null) {
+                Process currentProcess = (Process) current.getData();
+                Process nextProcess = (Process) next.getData();
+                Process minProcess = (Process) minNode.getData();
+
+                if (nextProcess.getPcb().getLength() < minProcess.getPcb().getLength()) {
+                    minNode = next;
+                }
+                next = next.getpNext();
+            }
+
+            // Intercambiar datos si es necesario
+            if (minNode != current) {
+                Object temp = current.getData();
+                current.setData(minNode.getData());
+                minNode.setData(temp);
+            }
+            current = current.getpNext();
+        }
+
+
+        // 3. Devolver los procesos ordenados a la cola readyQueue
+        
+        current = buffer.first();
+        while (current != null) {
+            Process proceso = (Process) current.getData();
+            readyQueue.encolarProceso(proceso);
+            current = current.getpNext();
+        }
+        
+        
     }
     
     

@@ -98,12 +98,14 @@ private JLabel labelsito;
                 // Si es I/O bound
                 
                 String nombre = proceso.getPcb().getProcess_name();
+                String id = "ID: " + String.valueOf(proceso.getPcb().getId());
                 String MAR = "MAR: " + String.valueOf(proceso.getPcb().getMAR_Status());
                 String PC = "PC: " +  String.valueOf(proceso.getPcb().getPC_Status());
                 String Length = "Longitud: " +  String.valueOf(proceso.getPcb().getLength());
                 String Tipo = "Tipo: " +  "I/O bound";
                 
                 cpu.addElement(nombre);
+                cpu.addElement(id);
                 cpu.addElement(MAR);
                 cpu.addElement(PC);
                 cpu.addElement(Length);
@@ -113,12 +115,14 @@ private JLabel labelsito;
                 // Si es CPU bond
                 
                 String nombre = proceso.getPcb().getProcess_name();
+                String id = "ID: " + String.valueOf(proceso.getPcb().getId());
                 String MAR = "MAR: " +  String.valueOf(proceso.getPcb().getMAR_Status());
                 String PC = "PC: " +  String.valueOf(proceso.getPcb().getPC_Status());
                 String Length = "Longitud: " +  String.valueOf(proceso.getPcb().getLength());
                 String Tipo =  "Tipo: " + "CPU bound";
                 
                 cpu.addElement(nombre);
+                cpu.addElement(id);
                 cpu.addElement(MAR);
                 cpu.addElement(PC);
                 cpu.addElement(Length);

@@ -630,6 +630,8 @@ public class Pantalla extends javax.swing.JFrame {
 
         
         btnGuardarParametrosIniciales.setVisible(false);
+        botonCrear.setVisible(false);
+        BtnIniciarSimulacion.setVisible(false);
 
         Gson gson = new Gson();
 
@@ -695,22 +697,27 @@ public class Pantalla extends javax.swing.JFrame {
         UpdateView actualizarPantalla = new UpdateView(cpu1, cpu2, cpu3, listaCPU, tiempoInstruccion, blocked, ready, finished,
          colaB, colaR, colaF, cycleLabel);
 
-        //Esta es la creación de los procesos a partir de sus imágenes
-        Logica.java.Process proceso1 = new Logica.java.Process(lista.findPCB("Proceso 1"), tiempoInstruccion, scheduler, null, planificacion);
-//        Logica.java.Process proceso5 = new Logica.java.Process(lista.findPCB("Proceso 5"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso2 = new Logica.java.Process(lista.findPCB("Proceso 2"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso3 = new Logica.java.Process(lista.findPCB("Proceso 3"), tiempoInstruccion, scheduler, null, planificacion);
-        Logica.java.Process proceso4 = new Logica.java.Process(lista.findPCB("Proceso 4"), tiempoInstruccion, scheduler, null, planificacion);
-//        Logica.java.Process proceso45 = new Logica.java.Process(lista.findPCB("Proceso 4,5"), tiempoInstruccion, scheduler, null, planificacion);
 
         //Esta es una lista de los procesos
+        
         List listaProcesos = new List("Lista de procesos");
-        listaProcesos.insertFirst(proceso1);
-//        listaProcesos.insertFirst(proceso5);
-        listaProcesos.insertFirst(proceso2);
-        listaProcesos.insertFirst(proceso3);
-        listaProcesos.insertFirst(proceso4);
-//        listaProcesos.insertFirst(proceso45);
+
+
+        //Esta es la creación de los procesos a partir de sus imágenes
+        
+        for (int i = 0; i < lista.size(); i++) {
+            
+            Logica.java.Process proceso = new Logica.java.Process(lista.findProcessImageByIndex(i).getPcb(), tiempoInstruccion, scheduler, null, planificacion);
+            
+            proceso.getPcb().setId(i);
+            
+            listaProcesos.insertFirst(proceso);
+        }
+
+
+
+
+
 
         // Esto es un for para iniciar cada proceso, se encolaran automaticamente porque se inicializan en "ready"
         for (int j = 0; j < listaProcesos.size(); j++) {
